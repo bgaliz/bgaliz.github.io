@@ -10,7 +10,7 @@
   <meta name="title" content="Bruno Galiz de Oliveira - Desenvolvedor Full Stack - Portfolio">
   <meta name="keywords"
 	content="Bruno Galiz de Oliveira, desenvolvedor, desenvolvedor full-stack, fullstack, portfolio, front-end, back-end">
-  <meta name="copyright" content="© 2026 Bruno Galiz de Oliveira">
+  <meta name="copyright" id="meta-copyright" content="">
   <!-- Meta http-equiv -->
   <meta http-equiv="content-language" content="pt-br">
   <meta http-equiv="cache-control" content="no-cache">
@@ -219,6 +219,22 @@
       50%  { transform: scaleY(1); transform-origin: top; }
       51%  { transform: scaleY(1); transform-origin: bottom; }
       100% { transform: scaleY(0); transform-origin: bottom; }
+    }
+
+    /* ── FLOATING DOTS ── */
+    .h-dot {
+      position: absolute; border-radius: 50%; pointer-events: none;
+      animation: hdot ease-in-out infinite;
+    }
+    @keyframes hdot {
+      0%,100% { transform: translateY(0) scale(1);    opacity: var(--op,0.2); }
+      50%      { transform: translateY(-24px) scale(1.2); opacity: calc(var(--op,0.2) * 2); }
+    }
+    .orb-3 {
+      width: 480px; height: 480px; top: 15%; right: 20%;
+      background: rgba(91,115,245,0.07);
+      animation: float1 14s ease-in-out infinite;
+      animation-delay: -5s;
     }
 
     /* ── MARQUEE ── */
@@ -496,6 +512,17 @@
   <div class="hero-grid"></div>
   <div class="orb orb-1"></div>
   <div class="orb orb-2"></div>
+  <div class="orb orb-3"></div>
+
+  <!-- Floating dots -->
+  <div class="h-dot" style="top:14%;right:10%;width:5px;height:5px;background:var(--accent);--op:0.22;animation-duration:9s;animation-delay:0s;box-shadow:0 0 10px var(--accent)"></div>
+  <div class="h-dot" style="top:28%;right:25%;width:3px;height:3px;background:var(--accent2);--op:0.18;animation-duration:12s;animation-delay:-3s;box-shadow:0 0 7px var(--accent2)"></div>
+  <div class="h-dot" style="top:42%;right:14%;width:4px;height:4px;background:var(--accent);--op:0.15;animation-duration:10s;animation-delay:-6s;box-shadow:0 0 9px var(--accent)"></div>
+  <div class="h-dot" style="top:20%;right:40%;width:2px;height:2px;background:var(--accent2);--op:0.20;animation-duration:14s;animation-delay:-2s;box-shadow:0 0 6px var(--accent2)"></div>
+  <div class="h-dot" style="top:58%;right:32%;width:4px;height:4px;background:var(--accent);--op:0.12;animation-duration:11s;animation-delay:-8s;box-shadow:0 0 8px var(--accent)"></div>
+  <div class="h-dot" style="top:10%;right:52%;width:3px;height:3px;background:var(--accent);--op:0.14;animation-duration:13s;animation-delay:-4s;box-shadow:0 0 7px var(--accent)"></div>
+  <div class="h-dot" style="top:35%;right:5%;width:2px;height:2px;background:var(--accent2);--op:0.22;animation-duration:8s;animation-delay:-1s;box-shadow:0 0 6px var(--accent2)"></div>
+  <div class="h-dot" style="top:65%;right:18%;width:5px;height:5px;background:var(--accent2);--op:0.13;animation-duration:15s;animation-delay:-7s;box-shadow:0 0 10px var(--accent2)"></div>
 
   <div class="hero-tag hero-anim" data-i="hero.tag">Desenvolvedor Full-Stack · Brasil</div>
 
@@ -561,7 +588,7 @@
         <div class="mini-card">
           <div class="mini-label" data-i="card.loc">Localização</div>
           <div class="mini-val">Campo Grande, MS</div>
-          <div class="mini-sub">Brasil 🇧🇷</div>
+          <div class="mini-sub"><span data-i="country">Brasil</span> 🇧🇷</div>
         </div>
         <div class="mini-card">
           <div class="mini-label" data-i="card.eng">Inglês</div>
@@ -777,7 +804,7 @@
 
 <!-- FOOTER -->
 <footer>
-  <span>© 2026 Bruno Galiz de Oliveira</span>
+  <span>© <span id="footer-year"></span> Bruno Galiz de Oliveira</span>
   <span data-i="footer.txt">Feito com código, café ☕ e dedicação.</span>
 </footer>
 
@@ -812,6 +839,7 @@ const T = {
     "exp.label":"Carreira","exp.title":"Onde <em>construí</em> coisas",
     "role.fullstack":"Desenvolvedor Full-Stack","role.frontend":"Desenvolvedor Front-End","role.freelance":"Desenvolvedor Front-End Freelancer",
     "now":"Presente",
+    "country": "Brasil",
     "az.1":"Desenvolveu módulo de exportação de relatórios em PDF e Excel para o sistema Controle Veicular (Governo de Tocantins).",
     "az.2":"Implementou colunas dinâmicas com inserção/remoção em tempo real, integrando filtros personalizados ao relatório.",
     "az.3":"Otimização geral de performance e responsividade das páginas do sistema governamental.",
@@ -833,7 +861,8 @@ const T = {
     "p5.name":"Easy Imóveis","p5.desc":"Plataforma de busca de imóveis com mapas interativos, filtros avançados e UI responsiva. Redução de 10% no tempo de busca.",
     "p6.name":"Reduza — Price Comparison","p6.desc":"Comparação de preços em tempo real entre e-commerces com crawlers automatizados. Melhoria de SEO de ~30%.",
     "contact.cta":"Vamos <em>trabalhar</em> juntos?","contact.sub":"Aberto a oportunidades remotas e presenciais. Entre em contato!",
-    "footer.txt":"Feito com código, café ☕ e dedicação."
+    "footer.txt":"Feito com código, café ☕ e dedicação.",
+    "year": (new Date).getFullYear(),
   },
   en: {
     "nav.about":"About","nav.skills":"Skills","nav.experience":"Experience","nav.projects":"Projects","nav.contact":"Contact",
@@ -851,6 +880,7 @@ const T = {
     "exp.label":"Career","exp.title":"Where I <em>built</em> things",
     "role.fullstack":"Full-Stack Developer","role.frontend":"Front-End Developer","role.freelance":"Front-End Developer Freelancer",
     "now":"Present",
+    "country": "Brazil",
     "az.1":"Built PDF and Excel report export module for the Controle Veicular system (Tocantins State Government).",
     "az.2":"Implemented dynamic columns with real-time insert/remove, integrated with custom report filters.",
     "az.3":"General performance and responsiveness optimization across the government management system.",
@@ -872,7 +902,8 @@ const T = {
     "p5.name":"Easy Imóveis — Property Search","p5.desc":"Property search platform with interactive maps, advanced filters and responsive UI. 10% reduction in search time.",
     "p6.name":"Reduza — Price Comparison","p6.desc":"Real-time price comparison and coupon platform across e-commerce stores. ~30% SEO improvement.",
     "contact.cta":"Let's <em>work</em> together?","contact.sub":"Open to remote and on-site opportunities. Get in touch!",
-    "footer.txt":"Made with code, coffee ☕ and dedication."
+    "footer.txt":"Made with code, coffee ☕ and dedication.",
+    "year": (new Date).getFullYear(),
   }
 };
 
@@ -944,6 +975,11 @@ const barObs = new IntersectionObserver(entries => {
   });
 }, { threshold: 0.2 });
 document.querySelectorAll('.bars-card').forEach(c => barObs.observe(c));
+
+/* ── COPYRIGHT YEAR ── */
+const yr = new Date().getFullYear();
+document.getElementById('footer-year').textContent = yr;
+document.getElementById('meta-copyright').content = '© ' + yr + ' Bruno Galiz de Oliveira';
 </script>
 </body>
 </html>
