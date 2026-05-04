@@ -88,4 +88,4 @@ Jan 2019 – Jul 2020  │ Reduza                     │ Full-Stack    │ Angu
 
 ---
 
-© 2026 Bruno Galiz de Oliveira — Feito com código, café ☕ e dedicação.
+© Bruno Galiz de Oliveira — Feito com código, café ☕ e dedicação.
