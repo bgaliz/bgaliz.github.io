@@ -1,416 +1,949 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 <head>
-    <title>Bruno Galiz de Oliveira - Desenvolvedor Full Stack - Portfolio</title>
-    <!-- Standard Meta -->
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <meta name="author" content="Bruno Galiz de Oliveira">
-    <meta name="description" content="Desenvolvedor Full Stack">
-    <meta name="title" content="Bruno Galiz de Oliveira - Desenvolvedor Full Stack - Portfolio">
-    <meta name="keywords"
-        content="Bruno Galiz de Oliveira, desenvolvedor, desenvolvedor full-stack, fullstack, portfolio, front-end, back-end">
-    <meta name="copyright" content="© 2020 Bruno Galiz de Oliveira">
-    <meta name="robots" content="index, follow">
+  <!-- Meta's -->
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta name="author" content="Bruno Galiz de Oliveira">
+  <meta name="description" content="Desenvolvedor Full Stack">
+  <meta name="title" content="Bruno Galiz de Oliveira - Desenvolvedor Full Stack - Portfolio">
+  <meta name="keywords"
+	content="Bruno Galiz de Oliveira, desenvolvedor, desenvolvedor full-stack, fullstack, portfolio, front-end, back-end">
+  <meta name="copyright" content="© 2026 Bruno Galiz de Oliveira">
+  <!-- Meta http-equiv -->
+  <meta http-equiv="content-language" content="pt-br">
+  <meta http-equiv="cache-control" content="no-cache">
+  <meta name="robots" content="index, follow">
+  <!-- Meta share -->
+  <meta name="og:url" content="https://bgaliz.github.io">
+  <meta name="og:title" content="Portfolio - Bruno Galiz de Oliveira">
+  <meta name="og:site_name" content="Portfolio - Bruno Galiz de Oliveira">
+  <meta name="og:description" content="Desenvolvedor Full Stack">
+  
+  <title>Bruno Galiz — Desenvolvedor Full-Stack</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg:      #09090b;
+      --bg2:     #0f0f12;
+      --bg3:     #141418;
+      --surface: rgba(255,255,255,0.04);
+      --border:  rgba(255,255,255,0.09);
+      --text:    #f0eff4;
+      --muted:   rgba(240,239,244,0.48);
+      --accent:  #5b73f5;
+      --accent2: #e6a832;
+      --glow:    rgba(91,115,245,0.28);
+      --r: 12px;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Inter', sans-serif;
+      font-size: 16px;
+      line-height: 1.6;
+      overflow-x: hidden;
+      cursor: none;
+    }
+    a { color: inherit; text-decoration: none; }
 
-    <!-- Meta http-equiv -->
-    <meta http-equiv="content-language" content="pt-br">
-    <meta http-equiv="cache-control" content="no-cache">
+    /* ── CURSOR ── */
+    #cursor {
+      position: fixed; z-index: 9999; pointer-events: none;
+      width: 10px; height: 10px; border-radius: 50%;
+      background: var(--accent);
+      transform: translate(-50%,-50%);
+      transition: width .25s, height .25s, background .2s;
+      mix-blend-mode: screen;
+    }
+    #cursor-ring {
+      position: fixed; z-index: 9998; pointer-events: none;
+      width: 38px; height: 38px; border-radius: 50%;
+      border: 1.5px solid rgba(91,115,245,0.6);
+      transform: translate(-50%,-50%);
+      transition: width .3s, height .3s, opacity .3s;
+      opacity: 0.5;
+    }
+    body.ch #cursor { width: 18px; height: 18px; }
+    body.ch #cursor-ring { width: 56px; height: 56px; opacity: 0.25; }
 
-    <!-- Meta share -->
-    <meta name="og:url" content="https://bgaliz.github.io">
-    <meta name="og:title" content="Portfolio - Bruno Galiz de Oliveira">
-    <meta name="og:site_name" content="Portfolio - Bruno Galiz de Oliveira">
-    <meta name="og:description" content="Desenvolvedor Full Stack">
+    /* ── PROGRESS ── */
+    #progress {
+      position: fixed; top: 0; left: 0; height: 2px; z-index: 500;
+      background: linear-gradient(90deg, var(--accent), var(--accent2));
+      width: 0%; transition: width .1s linear;
+    }
 
-    <!-- JS import -->
-    <script src="./js/loading.js"></script>
-    <script src="./js/scroll.js"></script>
+    /* ── NAV ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 22px 56px;
+      transition: background .4s, backdrop-filter .4s, border-color .4s;
+      border-bottom: 1px solid transparent;
+    }
+    nav.scrolled {
+      background: rgba(9,9,11,0.85);
+      backdrop-filter: blur(24px);
+      border-bottom-color: var(--border);
+    }
+    .nav-logo {
+      font-family: 'Syne', sans-serif;
+      font-weight: 800; font-size: 1.15rem; letter-spacing: -0.02em;
+    }
+    .nav-logo span { color: var(--accent); }
+    .nav-links { display: flex; align-items: center; gap: 36px; }
+    .nav-links a {
+      font-size: 0.84rem; font-weight: 500; color: var(--muted);
+      transition: color .2s; position: relative;
+    }
+    .nav-links a::after {
+      content: ''; position: absolute; bottom: -3px; left: 0; right: 0;
+      height: 1px; background: var(--accent);
+      transform: scaleX(0); transform-origin: right;
+      transition: transform .3s ease;
+    }
+    .nav-links a:hover { color: var(--text); }
+    .nav-links a:hover::after { transform: scaleX(1); transform-origin: left; }
+    .lang-toggle {
+      display: flex; gap: 2px; align-items: center;
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 20px; padding: 4px;
+    }
+    .lang-btn {
+      padding: 4px 13px; border-radius: 16px;
+      font-size: 0.75rem; font-weight: 700; cursor: pointer;
+      color: var(--muted); user-select: none; transition: background .2s, color .2s;
+    }
+    .lang-btn.active { background: var(--accent); color: #fff; }
 
-    <!-- JQuery import -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
+    /* ── HERO ── */
+    .hero {
+      min-height: 100vh;
+      display: flex; flex-direction: column; justify-content: flex-end;
+      padding: 0 56px 88px;
+      position: relative; overflow: hidden;
+    }
+    .hero-grid {
+      position: absolute; inset: 0; pointer-events: none;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.022) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.022) 1px, transparent 1px);
+      background-size: 64px 64px;
+      -webkit-mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 40%, transparent 100%);
+      mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 40%, transparent 100%);
+    }
+    .orb {
+      position: absolute; border-radius: 50%; pointer-events: none;
+      filter: blur(110px);
+    }
+    .orb-1 {
+      width: 640px; height: 640px; top: -120px; right: -80px;
+      background: rgba(91,115,245,0.18);
+      animation: float1 9s ease-in-out infinite;
+    }
+    .orb-2 {
+      width: 440px; height: 440px; bottom: 80px; left: -80px;
+      background: rgba(230,168,50,0.12);
+      animation: float2 11s ease-in-out infinite;
+    }
+    @keyframes float1 { 0%,100%{transform:translate(0,0)} 50%{transform:translate(-28px,36px)} }
+    @keyframes float2 { 0%,100%{transform:translate(0,0)} 50%{transform:translate(20px,-28px)} }
 
-    <!-- Slider JS -->
-    <script src="js/lightslider.js"></script>
-    <script src="js/slider.js"></script>
+    .hero-tag {
+      position: relative; z-index: 1;
+      font-size: 0.8rem; font-weight: 600; letter-spacing: 0.12em;
+      color: var(--accent); text-transform: uppercase;
+      margin-bottom: 22px;
+      display: flex; align-items: center; gap: 12px;
+    }
+    .hero-tag::before { content: ''; width: 30px; height: 1px; background: var(--accent); }
 
-    <!-- CSS/icon-svg import  -->
-    <link rel="stylesheet" href="./css/loading.css">
-    <link rel="stylesheet" href="./css/keyframes.css">
-    <link rel="stylesheet" href="./css/global.css">
-    <link rel="stylesheet" href="./css/page-intro/intro.css">
-    <link rel="stylesheet" href="./css/about-me/about-me.css">
-    <link rel="stylesheet" href="./css/about-me/card.css">
-    <link rel="stylesheet" href="./css/contact-me/contact-me.css">
-    <link rel="stylesheet" href="./css//page-intro/header.css">
-    <link rel="stylesheet" href="./css/jobs/jobs.css">
-    <link rel="icon" type="image/svg" href="./image/web-programming.svg">
+    .hero-name {
+      position: relative; z-index: 1;
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      font-size: clamp(4rem, 11vw, 11rem);
+      line-height: 0.88;
+      letter-spacing: -0.045em;
+      margin-bottom: 36px;
+    }
+    .hero-name .line { display: block; overflow: hidden; }
+    .hero-name .line span { display: block; }
+    .hero-name .acc { color: var(--accent); }
 
-    <!-- Fonts -->
-    <link rel="stylesheet" href="css/fonts.css">
+    .hero-bottom {
+      position: relative; z-index: 1;
+      display: flex; align-items: flex-end; justify-content: space-between; gap: 24px;
+    }
+    .hero-desc {
+      max-width: 400px; color: var(--muted);
+      font-size: 1rem; line-height: 1.75;
+    }
+    .hero-desc strong { color: var(--text); }
+    .hero-actions { display: flex; gap: 14px; }
+    .btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 13px 28px; border-radius: var(--r);
+      font-size: 0.875rem; font-weight: 600; cursor: pointer;
+      transition: all .25s;
+    }
+    .btn-primary {
+      background: var(--accent); color: #fff;
+      box-shadow: 0 0 40px rgba(91,115,245,0.3);
+    }
+    .btn-primary:hover { transform: translateY(-3px); box-shadow: 0 8px 40px rgba(91,115,245,0.45); }
+    .btn-outline {
+      border: 1px solid var(--border); color: var(--text);
+      background: rgba(255,255,255,0.04); backdrop-filter: blur(8px);
+    }
+    .btn-outline:hover { border-color: var(--accent); color: var(--accent); transform: translateY(-3px); }
 
-    <!-- Slider -->
-    <link rel="stylesheet" href="css//lightslider.css">
+    .scroll-hint {
+      position: absolute; bottom: 88px; right: 56px;
+      display: flex; flex-direction: column; align-items: center; gap: 10px;
+      font-size: 0.68rem; letter-spacing: 0.1em; color: var(--muted); text-transform: uppercase;
+    }
+    .scroll-line {
+      width: 1px; height: 56px;
+      background: linear-gradient(to bottom, var(--accent), transparent);
+      animation: sline 1.8s ease-in-out infinite;
+    }
+    @keyframes sline {
+      0%   { transform: scaleY(0); transform-origin: top; }
+      50%  { transform: scaleY(1); transform-origin: top; }
+      51%  { transform: scaleY(1); transform-origin: bottom; }
+      100% { transform: scaleY(0); transform-origin: bottom; }
+    }
 
+    /* ── MARQUEE ── */
+    .marquee-wrap {
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      background: var(--bg2); padding: 18px 0; overflow: hidden;
+    }
+    .marquee-track {
+      display: flex; gap: 56px; width: max-content;
+      animation: mq 28s linear infinite;
+    }
+    @keyframes mq { from{transform:translateX(0)} to{transform:translateX(-50%)} }
+    .mq-item {
+      display: flex; align-items: center; gap: 20px; white-space: nowrap;
+      font-family: 'Syne', sans-serif;
+      font-size: 0.8rem; font-weight: 700; letter-spacing: 0.07em;
+      text-transform: uppercase; color: var(--muted);
+    }
+    .mq-dot { width: 4px; height: 4px; border-radius: 50%; background: var(--accent); flex-shrink: 0; }
+
+    /* ── SECTION BASE ── */
+    section { padding: 120px 56px; }
+    .sec-label {
+      display: flex; align-items: center; gap: 10px;
+      font-size: 0.74rem; font-weight: 700; letter-spacing: 0.14em;
+      text-transform: uppercase; color: var(--accent); margin-bottom: 14px;
+    }
+    .sec-label::before { content: ''; width: 22px; height: 1px; background: var(--accent); }
+    .sec-title {
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(2rem, 5vw, 3.8rem);
+      font-weight: 800; line-height: 1.02; letter-spacing: -0.035em;
+    }
+    .sec-title em { font-style: normal; color: var(--accent); }
+    .sec-head { margin-bottom: 72px; }
+
+    /* ── ABOUT ── */
+    #about { background: var(--bg2); }
+    .about-grid {
+      display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 80px; align-items: start;
+    }
+    .about-text p {
+      color: var(--muted); font-size: 1.05rem; line-height: 1.8; margin-bottom: 22px;
+    }
+    .about-text p strong { color: var(--text); font-weight: 600; }
+    .stats-grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 2px; margin-top: 48px;
+    }
+    .stat {
+      background: var(--bg3); border: 1px solid var(--border);
+      padding: 28px 22px;
+    }
+    .stat:nth-child(1) { border-radius: 12px 0 0 0; }
+    .stat:nth-child(2) { border-radius: 0 12px 0 0; }
+    .stat:nth-child(3) { border-radius: 0 0 0 12px; }
+    .stat:nth-child(4) { border-radius: 0 0 12px 0; }
+    .stat-n {
+      font-family: 'Syne', sans-serif;
+      font-size: 2.8rem; font-weight: 800; color: var(--accent);
+      line-height: 1; letter-spacing: -0.03em;
+    }
+    .stat-l { font-size: 0.78rem; color: var(--muted); margin-top: 6px; }
+
+    .profile-card {
+      background: var(--bg3); border: 1px solid var(--border);
+      border-radius: 20px; padding: 28px; position: relative; overflow: hidden;
+      margin-bottom: 16px;
+    }
+    .profile-card::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+      background: linear-gradient(90deg, var(--accent), var(--accent2));
+    }
+    .p-avatar {
+      width: 68px; height: 68px; border-radius: 50%;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Syne', sans-serif; font-size: 1.6rem; font-weight: 800;
+      color: #fff; margin-bottom: 16px;
+    }
+    .p-name { font-family: 'Syne', sans-serif; font-size: 1.1rem; font-weight: 700; margin-bottom: 4px; }
+    .p-role { font-size: 0.83rem; color: var(--muted); margin-bottom: 14px; }
+    .status-row { display: flex; align-items: center; gap: 8px; font-size: 0.8rem; color: var(--muted); margin-bottom: 18px; }
+    .s-dot {
+      width: 8px; height: 8px; border-radius: 50%; background: #22c55e;
+      box-shadow: 0 0 8px rgba(34,197,94,0.7); animation: pls 2s infinite;
+    }
+    @keyframes pls { 0%,100%{opacity:1} 50%{opacity:0.35} }
+    .badge-row { display: flex; flex-wrap: wrap; gap: 7px; }
+    .badge {
+      font-size: 0.72rem; font-weight: 600; padding: 4px 11px; border-radius: 20px;
+      background: var(--surface); border: 1px solid var(--border); color: var(--muted);
+    }
+    .badge.a {
+      background: rgba(91,115,245,0.14); border-color: rgba(91,115,245,0.4); color: var(--accent);
+    }
+    .mini-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+    .mini-card {
+      background: var(--bg3); border: 1px solid var(--border);
+      border-radius: 14px; padding: 18px 16px;
+    }
+    .mini-label { font-size: 0.68rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 6px; }
+    .mini-val { font-weight: 700; font-size: 0.92rem; }
+    .mini-sub { font-size: 0.72rem; color: var(--muted); margin-top: 2px; }
+
+    /* ── SKILLS ── */
+    #skills { background: var(--bg); }
+    .skills-grid { display: grid; grid-template-columns: 1fr 1.4fr; gap: 80px; }
+    .sk-cat { margin-bottom: 36px; }
+    .sk-cat-label { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); margin-bottom: 14px; }
+    .sk-tags { display: flex; flex-wrap: wrap; gap: 8px; }
+    .sk-tag {
+      font-size: 0.82rem; font-weight: 500; padding: 7px 15px;
+      border-radius: 8px; background: var(--bg3); border: 1px solid var(--border);
+      color: var(--text); transition: all .2s; cursor: default;
+    }
+    .sk-tag:hover { border-color: var(--accent); color: var(--accent); background: rgba(91,115,245,0.08); transform: translateY(-2px); }
+    .sk-tag.f { border-color: rgba(91,115,245,0.45); color: var(--accent); background: rgba(91,115,245,0.09); }
+
+    .bars-card {
+      background: var(--bg3); border: 1px solid var(--border);
+      border-radius: 20px; padding: 28px 28px 24px;
+    }
+    .bars-title { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); margin-bottom: 24px; }
+    .bar-row { margin-bottom: 18px; }
+    .bar-meta { display: flex; justify-content: space-between; margin-bottom: 7px; }
+    .bar-name { font-size: 0.83rem; font-weight: 500; }
+    .bar-pct { font-size: 0.75rem; color: var(--muted); }
+    .bar-bg { height: 4px; background: rgba(255,255,255,0.07); border-radius: 2px; overflow: hidden; }
+    .bar-fill {
+      height: 100%; width: 0; border-radius: 2px;
+      background: linear-gradient(90deg, var(--accent), var(--accent2));
+      transition: width 1.3s cubic-bezier(0.16,1,0.3,1);
+    }
+
+    /* ── EXPERIENCE ── */
+    #experience { background: var(--bg2); }
+    .exp-list { display: flex; flex-direction: column; gap: 3px; }
+    .exp-item {
+      border: 1px solid var(--border); border-radius: var(--r);
+      background: var(--bg3); padding: 28px 32px; cursor: pointer;
+      transition: border-color .25s, background .25s;
+      position: relative; overflow: hidden;
+    }
+    .exp-item::before {
+      content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 3px;
+      background: var(--accent);
+      transform: scaleY(0); transform-origin: bottom;
+      transition: transform .4s cubic-bezier(0.16,1,0.3,1);
+    }
+    .exp-item:hover, .exp-item.open {
+      border-color: rgba(91,115,245,0.38);
+      background: rgba(91,115,245,0.04);
+    }
+    .exp-item:hover::before, .exp-item.open::before { transform: scaleY(1); }
+    .exp-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; }
+    .exp-co { font-family: 'Syne', sans-serif; font-size: 1.05rem; font-weight: 700; margin-bottom: 3px; }
+    .exp-role-label { font-size: 0.87rem; color: var(--accent); font-weight: 500; }
+    .exp-meta { text-align: right; flex-shrink: 0; }
+    .exp-period { font-size: 0.77rem; color: var(--muted); margin-bottom: 3px; }
+    .exp-loc { font-size: 0.73rem; color: var(--muted); }
+    .exp-body { max-height: 0; overflow: hidden; transition: max-height .5s cubic-bezier(0.16,1,0.3,1), padding-top .3s; }
+    .exp-item.open .exp-body { max-height: 320px; padding-top: 20px; }
+    .exp-ul { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+    .exp-ul li { font-size: 0.87rem; color: var(--muted); line-height: 1.65; padding-left: 18px; position: relative; }
+    .exp-ul li::before { content: '→'; position: absolute; left: 0; color: var(--accent); font-size: 0.75rem; top: 2px; }
+    .exp-stack-row { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 16px; }
+    .exp-chip { font-size: 0.7rem; font-weight: 600; padding: 3px 10px; border-radius: 6px; background: var(--surface); border: 1px solid var(--border); color: var(--muted); }
+
+    /* ── PROJECTS ── */
+    #projects { background: var(--bg); }
+    .proj-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+    .proj-card {
+      background: var(--bg3); border: 1px solid var(--border);
+      border-radius: 20px; padding: 30px;
+      position: relative; overflow: hidden;
+      transition: transform .3s, border-color .3s;
+    }
+    .proj-card:hover { transform: translateY(-5px); border-color: rgba(91,115,245,0.38); }
+    .proj-num { font-size: 0.7rem; font-weight: 700; letter-spacing: 0.1em; color: var(--muted); margin-bottom: 28px; }
+    .proj-name { font-family: 'Syne', sans-serif; font-size: 1.2rem; font-weight: 700; line-height: 1.25; margin-bottom: 10px; }
+    .proj-desc { font-size: 0.86rem; color: var(--muted); line-height: 1.65; margin-bottom: 22px; }
+    .proj-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 26px; }
+    .proj-tag { font-size: 0.7rem; font-weight: 600; padding: 3px 9px; border-radius: 6px; background: var(--surface); border: 1px solid var(--border); color: var(--muted); }
+    .proj-link { display: inline-flex; align-items: center; gap: 6px; font-size: 0.8rem; font-weight: 600; color: var(--accent); transition: gap .2s; }
+    .proj-link:hover { gap: 10px; }
+    .proj-card.feat { background: rgba(91,115,245,0.07); border-color: rgba(91,115,245,0.28); }
+    .proj-card.feat::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+      background: linear-gradient(90deg, var(--accent), var(--accent2));
+    }
+
+    /* ── CONTACT ── */
+    #contact { background: var(--bg2); text-align: center; }
+    .contact-inner { max-width: 580px; margin: 0 auto; }
+    .contact-h {
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(2.4rem, 6vw, 5rem);
+      font-weight: 800; line-height: 1; letter-spacing: -0.04em; margin-bottom: 22px;
+    }
+    .contact-h em { font-style: normal; color: var(--accent); }
+    .contact-sub { color: var(--muted); font-size: 1rem; margin-bottom: 44px; }
+    .contact-links { display: flex; justify-content: center; flex-wrap: wrap; gap: 12px; }
+    .c-link {
+      display: flex; align-items: center; gap: 8px;
+      font-size: 0.85rem; font-weight: 500;
+      padding: 12px 22px; border-radius: 100px;
+      border: 1px solid var(--border); background: var(--surface);
+      color: var(--muted); transition: all .25s;
+    }
+    .c-link:hover { border-color: var(--accent); color: var(--accent); transform: translateY(-2px); }
+    .c-link svg { width: 15px; height: 15px; flex-shrink: 0; }
+
+    /* ── FOOTER ── */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 28px 56px; display: flex;
+      align-items: center; justify-content: space-between;
+      font-size: 0.8rem; color: var(--muted);
+    }
+
+    /* ── REVEAL ── */
+    .rv { opacity: 0; transform: translateY(36px); transition: opacity .85s cubic-bezier(0.16,1,0.3,1), transform .85s cubic-bezier(0.16,1,0.3,1); }
+    .rv.d1 { transition-delay: 0.1s; }
+    .rv.d2 { transition-delay: 0.22s; }
+    .rv.d3 { transition-delay: 0.34s; }
+    .rv.vis { opacity: 1; transform: none; }
+
+    /* ── HERO ANIM ── */
+    .hero-anim { opacity: 0; transform: translateY(20px); transition: opacity .7s ease, transform .7s ease; }
+    .hero-anim.in { opacity: 1; transform: none; }
+    .hero-name .line { overflow: hidden; padding-bottom: 0.1em; }
+    .hero-name .line span { display: block; transform: translateY(108%); transition: transform .9s cubic-bezier(0.16,1,0.3,1); }
+    .hero-name .line span.in { transform: translateY(0); }
+    @keyframes fadeU { from{opacity:0;transform:translateY(22px)} to{opacity:1;transform:none} }
+    @keyframes slideU { from{transform:translateY(108%)} to{transform:none} }
+
+    /* ── RESPONSIVE ── */
+    @media(max-width:960px) {
+      nav { padding: 16px 24px; }
+      .nav-links { display: none; }
+      section { padding: 80px 24px; }
+      .hero { padding: 0 24px 72px; }
+      .about-grid, .skills-grid { grid-template-columns: 1fr; gap: 48px; }
+      .proj-grid { grid-template-columns: 1fr; }
+      .hero-bottom { flex-direction: column; align-items: flex-start; gap: 24px; }
+      .scroll-hint { display: none; }
+      footer { flex-direction: column; gap: 10px; text-align: center; }
+    }
+  </style>
 </head>
+<body>
+<div id="progress"></div>
+<div id="cursor"></div>
+<div id="cursor-ring"></div>
 
-<body onload="Loading()" class="">
-    <!-- Intro section -->
-    <header class="toolbar">
-        <div class="wrap">
-            <ul>
-                <li class="contact" onclick="GoDowntoContactMe()">Contato</li>
-                <li class="about" onclick="GoDownToAboutMe()">Sobre</li>
-            </ul>
+<!-- NAV -->
+<nav id="nav">
+  <div class="nav-logo">Bruno<span>.</span></div>
+  <div class="nav-links">
+    <a href="#about"      data-i="nav.about">Sobre</a>
+    <a href="#skills"     data-i="nav.skills">Skills</a>
+    <a href="#experience" data-i="nav.experience">Experiência</a>
+    <a href="#projects"   data-i="nav.projects">Projetos</a>
+    <a href="#contact"    data-i="nav.contact">Contato</a>
+  </div>
+  <div class="lang-toggle">
+    <div class="lang-btn active" data-lang="pt">PT</div>
+    <div class="lang-btn" data-lang="en">EN</div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-grid"></div>
+  <div class="orb orb-1"></div>
+  <div class="orb orb-2"></div>
+
+  <div class="hero-tag hero-anim" data-i="hero.tag">Desenvolvedor Full-Stack · Brasil</div>
+
+  <h1 class="hero-name">
+    <span class="line"><span>Bruno</span></span>
+    <span class="line"><span>Galiz<span class="acc">.</span></span></span>
+  </h1>
+
+  <div class="hero-bottom hero-anim">
+    <p class="hero-desc" data-i="hero.desc">
+      Mais de <strong>5 anos</strong> criando aplicações web escaláveis e experiências digitais de alto impacto. Especialista em React, Next.js e Vue.js.
+    </p>
+    <div class="hero-actions">
+      <a href="#experience" class="btn btn-primary" data-i="hero.cta1">Ver Experiência</a>
+      <a href="#contact"    class="btn btn-outline" data-i="hero.cta2">Contato</a>
+    </div>
+  </div>
+
+  <div class="scroll-hint hero-anim" id="scroll-hint">
+    <div class="scroll-line"></div>
+    <span data-i="hero.scroll">scroll</span>
+  </div>
+</section>
+
+<!-- MARQUEE -->
+<div class="marquee-wrap">
+  <div class="marquee-track" id="mq-track"></div>
+</div>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="sec-head rv">
+    <div class="sec-label" data-i="about.label">Sobre mim</div>
+    <h2 class="sec-title" data-i="about.title">Código com <em>propósito</em></h2>
+  </div>
+  <div class="about-grid">
+    <div class="about-text rv d1">
+      <p data-i="about.p1">Sou um <strong>Desenvolvedor Full-Stack</strong> com formação em Engenharia da Computação pela UCDB e mais de 5 anos construindo soluções digitais que impactam pessoas reais.</p>
+      <p data-i="about.p2">Trabalhei em setores como <strong>saúde digital, governo, e-commerce e Web3</strong>, sempre com foco em performance, acessibilidade e experiência do usuário.</p>
+      <p data-i="about.p3">Atualmente na AZ Tecnologia, desenvolvo plataformas de gestão pública integrando Vue.js, Java e Spring Boot em soluções de alta disponibilidade.</p>
+      <div class="stats-grid">
+        <div class="stat"><div class="stat-n">5+</div><div class="stat-l" data-i="stat.years">anos de experiência</div></div>
+        <div class="stat"><div class="stat-n">10k+</div><div class="stat-l" data-i="stat.users">usuários impactados</div></div>
+        <div class="stat"><div class="stat-n">6</div><div class="stat-l" data-i="stat.companies">empresas</div></div>
+        <div class="stat"><div class="stat-n">2</div><div class="stat-l" data-i="stat.lang">idiomas</div></div>
+      </div>
+    </div>
+    <div class="rv d2">
+      <div class="profile-card">
+        <div class="p-avatar" style="padding:0;overflow:hidden;background:none;">
+          <img src="avatar.jpg" alt="Bruno Galiz" style="width:100%;height:100%;object-fit:cover;border-radius:50%;display:block;" />
         </div>
-    </header>
-    <main>
-        <section id="intro">
-            <div class="container">
-                <div class="content">
-                    <div class="presentation">
-                        <h1>Bruno Galiz de Oliveira</h1>
-                        <p>
-                            <span>Full-Stack Developer</span>
-                        </p>
-                    </div>
-                </div>
-            </div>
-            <div class="low-down" onclick="GoDownToAboutMe()">
-                <img src="./icons/multimedia-option.svg">
-            </div>
-        </section>
+        <div class="p-name">Bruno Galiz de Oliveira</div>
+        <div class="p-role" data-i="profile.role">Desenvolvedor Full-Stack · AZ Tecnologia</div>
+        <div class="status-row"><div class="s-dot"></div><span data-i="profile.status">Disponível para oportunidades</span></div>
+        <div class="badge-row">
+          <span class="badge a">React</span><span class="badge a">Next.js</span><span class="badge a">Node.js</span>
+          <span class="badge">TypeScript</span><span class="badge">Node.js</span><span class="badge">Docker</span>
+          <span class="badge">Figma</span><span class="badge">PostgreSQL</span>
+        </div>
+      </div>
+      <div class="mini-grid">
+        <div class="mini-card">
+          <div class="mini-label" data-i="card.loc">Localização</div>
+          <div class="mini-val">Campo Grande, MS</div>
+          <div class="mini-sub">Brasil 🇧🇷</div>
+        </div>
+        <div class="mini-card">
+          <div class="mini-label" data-i="card.eng">Inglês</div>
+          <div class="mini-val" data-i="card.engLevel">Intermediário - B2</div>
+          <div class="mini-sub">inFlux · Wizard</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
 
-        <!-- This section tells about my profissional information -->
-        <section id="about-me">
-            <div class="wrap">
-                <div class="container">
-                    <div class="photo">
-                        <img src="./image/photo.jpeg" alt="perfil.jpg">
-                    </div>
-                    <div class="description">
-                        <h2>Sobre</h2>
-                        <table>
-                            <tr>
-                                <th>Formação</th>
-                            </tr>
-                            <tr>
-                                <td>Bacharelado em Engenharia da Computação na Universidade Católica Dom Bosco(UCDB).
-                                </td>
-                            </tr>
-                            <tr>
-                                <th>Cargo</th>
-                            </tr>
-                            <tr>
-                                <td>Desenvolvedor Full-Stack(Full-Stack Developer) e Freelancer.</td>
-                            </tr>
-                        </table>
-                    </div>
-                    <div class="field">
-                        <h2 class="field-title">Habilidades</h2>
-                        <div class="container front-end">
-                            <p class="field-description">Front-end</p>
-                            <div class="cs-hidden" id="front-end">
-                                <li class="item-a card">
-                                    <div class="face-icon angular">
-                                        <img src="./icons/skills-icons/angular.svg" alt="angular.svg" class="icon">
-                                    </div>
-                                    <div class="face-skills"></div>
-                                </li>
-                                <li class="item-b card">
-                                    <div class="face-icon react">
-                                        <img src="./icons/skills-icons/React-icon.svg" alt="react.svg" class="icon">
-                                    </div>
-                                    <div class="face-skills"></div>
-                                </li>
-                                <li class="item-c card">
-                                    <div class="face-icon vue">
-                                        <img src="./icons/skills-icons/vuejs.svg" alt="vuejs.svg" class="icon">
-                                    </div>
-                                    <div class="face-skills"></div>
-                                </li>
-                                <li class="item-d card">
-                                    <div class="face-icon html5">
-                                        <img src="./icons/skills-icons/html5.svg" alt="html5.svg" class="icon">
-                                    </div>
-                                    <div class="face-skills"></div>
-                                </li>
-                                <li class="item-e card">
-                                    <div class="face-icon js">
-                                        <img src="./icons/skills-icons/javascript.svg" alt="js.svg" class="icon">
-                                    </div>
-                                    <div class="face-skills"></div>
-                                </li>
-                                <li class="item-f card">
-                                    <div class="face-icon css">
-                                        <img src="./icons/skills-icons/icon css 3.svg" alt="css.svg" class="icon">
-                                    </div>
-                                    <div class="face-skills"></div>
-                                </li>
-                                <li class="item-g card">
-                                    <div class="face-icon gulp">
-                                        <img src="./icons/skills-icons/gulp.svg" alt="gulp.svg" class="icon">
-                                    </div>
-                                    <div class="face-skills"></div>
-                                </li>
-                                <li class="item-h card">
-                                    <div class="face-icon sass">
-                                        <img src="./icons/skills-icons/sass-1.svg" alt="sass.svg" class="icon">
-                                    </div>
-                                    <div class="face-skills"></div>
-                                </li>
-                            </div>
-                        </div>
-                        <div class="container back-end">
-                            <p class="field-description">Back-end</p>
-                            <div class="cs-hidden" id="back-end">
-                                <div class="card">
-                                    <div class="face-icon nodejs">
-                                        <img src="./icons/skills-icons/nodejs.svg" alt="nodejs.svg" class="icon">
-                                    </div>
-                                    <div class="face-skills"></div>
-                                </div>
-                                <div class="card">
-                                    <div class="face-icon typescript">
-                                        <img src="./icons/skills-icons/typescript.svg" alt="typescript.svg"
-                                            class="icon">
-                                    </div>
-                                    <div class="face-skills"></div>
-                                </div>
-                                <div class="card">
-                                    <div class="face-icon npm">
-                                        <img src="./icons/skills-icons/Npm-01.svg" alt="npm.svg"
-                                            class="icon">
-                                    </div>
-                                    <div class="face-skills"></div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="container database">
-                            <p class="field-description">Database</p>
-                            <div class="cs-hidden" id="database">
-                                <div class="card">
-                                    <div class="face-icon mongodb">
-                                        <img src="./icons/skills-icons/mongodb.svg" alt="mongodb.svg" class="icon">
-                                    </div>
-                                    <div class="face-skills"></div>
-                                </div>
-                                <div class="card">
-                                    <div class="face-icon mysql">
-                                        <img src="./icons/skills-icons/mysql.svg" alt="mysql.svg" class="icon">
-                                    </div>
-                                    <div class="face-skills"></div>
-                                </div>
-                                <div class="card">
-                                    <div class="face-icon redis">
-                                        <img src="./icons/skills-icons/redis.svg" alt="redis.svg" class="icon">
-                                    </div>
-                                    <div class="face-skills"></div>
-                                </div>
-                                <div class="card">
-                                    <div class="face-icon sqlite">
-                                        <img src="./icons/skills-icons/SQLite.svg" alt="sqlite.svg" class="icon">
-                                    </div>
-                                    <div class="face-skills"></div>
-                                </div>
-                                <div class="card">
-                                    <div class="face-icon postgresql">
-                                        <img src="./icons/skills-icons/postgresql.svg" alt="postgresql.svg"
-                                            class="icon">
-                                    </div>
-                                    <div class="face-skills"></div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="container knowlage">
-                            <p class="field-description">Outros</p>
-                            <div class="cs-hidden" id="knowlage">
-                                <div class="card">
-                                    <div class="face-icon linux">
-                                        <img src="./icons/skills-icons/linux.svg" alt="linux.svg" class="icon">
-                                    </div>
-                                    <div class="face-skills"></div>
-                                </div>
-                                <div class="card">
-                                    <div class="face-icon git">
-                                        <img src="./icons/skills-icons/Git_icon.svg" alt="git.svg" class="icon">
-                                    </div>
-                                    <div class="face-skills"></div>
-                                </div>
-                                <div class="card">
-                                    <div class="face-icon google-cloud">
-                                        <img src="./icons/skills-icons/google-cloud.svg" alt="google-cloud.svg"
-                                            class="icon">
-                                    </div>
-                                    <div class="face-skills"></div>
-                                </div>
-                                <div class="card">
-                                    <div class="face-icon heroku">
-                                        <img src="./icons/skills-icons/heroku.svg" alt="heroku.svg" class="icon"
-                                            style="width: 50%;">
-                                    </div>
-                                    <div class="face-skills"></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
+<!-- SKILLS -->
+<section id="skills">
+  <div class="sec-head rv">
+    <div class="sec-label" data-i="skills.label">Tecnologias</div>
+    <h2 class="sec-title" data-i="skills.title">Stack <em>completo</em></h2>
+  </div>
+  <div class="skills-grid">
+    <div class="rv d1">
+      <div class="sk-cat">
+        <div class="sk-cat-label">Front-End</div>
+        <div class="sk-tags">
+          <span class="sk-tag f">React</span><span class="sk-tag f">Next.js</span><span class="sk-tag f">Vue.js</span>
+          <span class="sk-tag">Nuxt.js</span><span class="sk-tag">Angular</span><span class="sk-tag">TypeScript</span>
+          <span class="sk-tag">Tailwind CSS</span><span class="sk-tag">Sass</span><span class="sk-tag">shadcn/ui</span>
+        </div>
+      </div>
+      <div class="sk-cat">
+        <div class="sk-cat-label">Back-End</div>
+        <div class="sk-tags">
+          <span class="sk-tag">Node.js</span><span class="sk-tag">Express.js</span><span class="sk-tag">Spring Boot</span>
+          <span class="sk-tag">Java</span><span class="sk-tag">PostgreSQL</span><span class="sk-tag">MongoDB</span>
+          <span class="sk-tag">SQL Server</span><span class="sk-tag">Redis</span>
+        </div>
+      </div>
+      <div class="sk-cat">
+        <div class="sk-cat-label" data-i="skills.tools">Ferramentas</div>
+        <div class="sk-tags">
+          <span class="sk-tag">Docker</span><span class="sk-tag">Git / GitHub</span><span class="sk-tag">CI/CD</span>
+          <span class="sk-tag">Figma</span><span class="sk-tag">Web3.js</span><span class="sk-tag">Scrum</span>
+        </div>
+      </div>
+    </div>
+    <div class="rv d2">
+      <div class="bars-card">
+        <div class="bars-title" data-i="skills.proficiency">Proficiência</div>
+        <div class="bar-row"><div class="bar-meta"><span class="bar-name">React / Next.js</span><span class="bar-pct">95%</span></div><div class="bar-bg"><div class="bar-fill" data-pct="95"></div></div></div>
+        <div class="bar-row"><div class="bar-meta"><span class="bar-name">Node.js</span><span class="bar-pct">90%</span></div><div class="bar-bg"><div class="bar-fill" data-pct="90"></div></div></div>
+        <div class="bar-row"><div class="bar-meta"><span class="bar-name">TypeScript</span><span class="bar-pct">88%</span></div><div class="bar-bg"><div class="bar-fill" data-pct="88"></div></div></div>
+        <div class="bar-row"><div class="bar-meta"><span class="bar-name">Node.js</span><span class="bar-pct">82%</span></div><div class="bar-bg"><div class="bar-fill" data-pct="82"></div></div></div>
+        <div class="bar-row"><div class="bar-meta"><span class="bar-name">Docker / DevOps</span><span class="bar-pct">70%</span></div><div class="bar-bg"><div class="bar-fill" data-pct="70"></div></div></div>
+        <div class="bar-row"><div class="bar-meta"><span class="bar-name">Scrum / Git / AI Automation / Agent AI</span><span class="bar-pct">74%</span></div><div class="bar-bg"><div class="bar-fill" data-pct="74"></div></div></div>
+      </div>
+    </div>
+  </div>
+</section>
 
-        <!-- This section shows all places that i've worked -->
-        <section id="job">
-            <div class="wrap">
-                <div class="container">
-                    <div class="content">
-                        <h2>Experiência</h2>
-                        <div class="table">
-                            <div class="card">
-                                <div class="work">
-                                    <div class="container">
-                                        <div class="title-year-work">
-                                            <h3>Unisys Corp.</h3>
-                                            <p>2018</p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="work-details">
-                                    <img src="./icons/jobs-icon/work.svg" alt="work.svg">
-                                    <div class="container">
-                                        <h4>Analista de Suporte Técnico - Help Desk</h4>
-                                        <p>Realizava suporte para empresas via acesso remoto,
-                                            solucionando qualquer tipo de problemas relacionados na área de TI.</p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="card">
-                                <div class="work">
-                                    <div class="container">
-                                        <div class="title-year-work">
-                                            <h3>Reduza</h3>
-                                            <p>2019-2020</p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="work-details">
-                                    <img src="./icons/jobs-icon/work.svg" alt="work.svg">
-                                    <div class="container">
-                                        <h4>Desenvolvedor Full-Stack</h4>
-                                        <p>Desenvolvedor Full-Stack no site <a
-                                                href="https://www.reduza.com.br">Reduza</a>,
-                                            o site que ajuda seus consumidores a pagarem mais barato na internet
-                                            utilizando robôs como recurso
-                                            para encontrar descontos em produtos de compra pela internet. Obtive
-                                            experiência nesta área utilizando as técnologias:
-                                            AngularJS, NodeJS usando Typescript, MongoDB, Gulp, Sass, EJS e dentre
-                                            outros serviços.
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="card">
-                                <div class="work">
-                                    <div class="container">
-                                        <div class="title-year-work">
-                                            <h3>SGI - Superintendência de Gestão da Informação</h3>
-                                            <p>2020</p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="work-details">
-                                    <img src="./icons/jobs-icon/work.svg" alt="work.svg">
-                                    <div class="container">
-                                        <h4>Desenvolvedor Full-Stack - Presente atualmente na empresa</h4>
-                                        <p>Desenvolvedor Full-Stack da empresa <a
-                                                href="http://www.sgi.ms.gov.br">SGI</a>,
-                                            empresa prestadora de serviços para o governo do estado de Mato Grosso do Sul.
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
+<!-- EXPERIENCE -->
+<section id="experience">
+  <div class="sec-head rv">
+    <div class="sec-label" data-i="exp.label">Carreira</div>
+    <h2 class="sec-title" data-i="exp.title">Onde <em>construí</em> coisas</h2>
+  </div>
+  <div class="exp-list rv d1">
+    <div class="exp-item open">
+      <div class="exp-head">
+        <div><div class="exp-co">AZ Tecnologia em Gestão</div><div class="exp-role-label" data-i="role.fullstack">Desenvolvedor Full-Stack</div></div>
+        <div class="exp-meta"><div class="exp-period">Ago 2024 – <span data-i="now">Presente</span></div><div class="exp-loc">Remoto</div></div>
+      </div>
+      <div class="exp-body">
+        <ul class="exp-ul">
+          <li data-i="az.1">Desenvolveu módulo de exportação de relatórios em PDF e Excel para o sistema Controle Veicular (Governo de Tocantins).</li>
+          <li data-i="az.2">Implementou colunas dinâmicas com inserção/remoção em tempo real, integrando filtros personalizados ao relatório.</li>
+          <li data-i="az.3">Otimização geral de performance e responsividade das páginas do sistema governamental.</li>
+        </ul>
+        <div class="exp-stack-row"><span class="exp-chip">Vue.js</span><span class="exp-chip">Java 11</span><span class="exp-chip">Spring Boot</span><span class="exp-chip">PostgreSQL</span><span class="exp-chip">Docker</span><span class="exp-chip">JPAQuery</span></div>
+      </div>
+    </div>
+    <div class="exp-item">
+      <div class="exp-head">
+        <div><div class="exp-co">Conexa Saúde</div><div class="exp-role-label" data-i="role.frontend">Desenvolvedor Front-End</div></div>
+        <div class="exp-meta"><div class="exp-period">Set 2022 – Jun 2024</div><div class="exp-loc">Remoto · RJ</div></div>
+      </div>
+      <div class="exp-body">
+        <ul class="exp-ul">
+          <li data-i="cx.1">Migração de módulos legados JSP para React, reduzindo tempo de carregamento em 32%.</li>
+          <li data-i="cx.2">Desenvolveu prontuários médicos customizáveis por clínicas, economizando ~4 min por atendimento.</li>
+          <li data-i="cx.3">Plataforma de telemedicina com milhares de usuários ativos diariamente.</li>
+        </ul>
+        <div class="exp-stack-row"><span class="exp-chip">Vue.js</span><span class="exp-chip">React</span><span class="exp-chip">TypeScript</span><span class="exp-chip">JSP</span><span class="exp-chip">Scrum</span></div>
+      </div>
+    </div>
+    <div class="exp-item">
+      <div class="exp-head">
+        <div><div class="exp-co">Calango Doido NFT</div><div class="exp-role-label" data-i="role.freelance">Desenvolvedor Front-End Freelancer</div></div>
+        <div class="exp-meta"><div class="exp-period">Fev 2022 – Jan 2023</div><div class="exp-loc">Campo Grande</div></div>
+      </div>
+      <div class="exp-body">
+        <ul class="exp-ul">
+          <li data-i="cd.1">Criou jogo da memória integrado a carteiras NFT com Web3.js, atingindo 5.000+ usuários pelo Brasil.</li>
+          <li data-i="cd.2">Desenvolveu landing page com alto desempenho em SEO utilizando Next.js e SSR.</li>
+        </ul>
+        <div class="exp-stack-row"><span class="exp-chip">Next.js</span><span class="exp-chip">TypeScript</span><span class="exp-chip">Web3.js</span><span class="exp-chip">Vercel</span><span class="exp-chip">Figma</span></div>
+      </div>
+    </div>
+    <div class="exp-item">
+      <div class="exp-head">
+        <div><div class="exp-co">SGI – Governo de MS</div><div class="exp-role-label" data-i="role.fullstack">Desenvolvedor Full-Stack</div></div>
+        <div class="exp-meta"><div class="exp-period">Ago 2020 – Jun 2022</div><div class="exp-loc">Campo Grande</div></div>
+      </div>
+      <div class="exp-body">
+        <ul class="exp-ul">
+          <li data-i="sgi.1">Apps mobile para Cartão SUS, Vacinação e Passe Livre durante a pandemia — 10.000+ usuários no MS.</li>
+          <li data-i="sgi.2">Publicou APKs na Apple Store e Play Store com Android Studio e Xcode.</li>
+          <li data-i="sgi.3">Portal MS Digital com React, AngularJS, Ionic e Node.js.</li>
+        </ul>
+        <div class="exp-stack-row"><span class="exp-chip">React</span><span class="exp-chip">Angular</span><span class="exp-chip">Ionic</span><span class="exp-chip">Node.js</span><span class="exp-chip">SQL Server</span></div>
+      </div>
+    </div>
+    <div class="exp-item">
+      <div class="exp-head">
+        <div><div class="exp-co">Reduza</div><div class="exp-role-label" data-i="role.fullstack">Desenvolvedor Full-Stack</div></div>
+        <div class="exp-meta"><div class="exp-period">Jan 2019 – Jul 2020</div><div class="exp-loc">Campo Grande</div></div>
+      </div>
+      <div class="exp-body">
+        <ul class="exp-ul">
+          <li data-i="rz.1">Crawlers de comparação de preços em tempo real com Node.js, MongoDB e Redis.</li>
+          <li data-i="rz.2">Elevou score de SEO em ~30% com interfaces Angular otimizadas.</li>
+        </ul>
+        <div class="exp-stack-row"><span class="exp-chip">Angular</span><span class="exp-chip">Node.js</span><span class="exp-chip">MongoDB</span><span class="exp-chip">Redis</span><span class="exp-chip">TypeScript</span></div>
+      </div>
+    </div>
+  </div>
+</section>
 
-        <!-- This section shows how to contact me -->
-        <section id="contact-me">
-            <div class="wrap">
-                <div class="container">
-                    <div class="content">
-                        <div class="field">
-                            <div class="contact">
-                                <div class="container">
-                                    <div class="description">
-                                        <h2>Contato</h2>
-                                    </div>
-                                    <ul class="list-contacts">
-                                        <li class="location">
-                                            <img src="./icons/contact-icons/location (1).svg" alt="location.svg">
-                                            <h5>Localização</h5>
-                                            <p>Campo Grande - MS</p>
-                                        </li>
-                                        <li class="email">
-                                            <a href="mailto:brunogaliz2@gmail.com">
-                                                <img src="./icons/contact-icons/mail.svg" alt="email.svg">
-                                                <h5>Envie um E-mail</h5>
-                                                <p>brunogaliz2@gmail.com</p>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="https://api.whatsapp.com/send?phone=5567981657817">
-                                                <img src="./icons/contact-icons/whatsapp.svg" alt="whatsapp.svg">
-                                                <h5>Chamada ou WhatsApp</h5>
-                                                <p>+55(67)98165-7817</p>
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                        <footer>
-                            <div class="copyright">
-                                <span>© 2020 Bruno Galiz de Oliveira</span><br>
-                                <span>Designed by:
-                                    <a href="mailto:brunogaliz2@gmail.com">brunogaliz2@gmail.com</a>
-                                </span>
-                            </div>
-                            <div class="social-media">
-                                <ul>
-                                    <li>
-                                        <a href="https://twitter.com/galiz_developer">
-                                            <img src="./icons/contact-icons/twitter.svg" alt="twitter.svg">
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="mailto:brunogaliz2@gmail.com">
-                                            <img src="./icons/contact-icons/mail(1).svg" alt="email.svg">
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="https://www.instagram.com/dev_galiz/">
-                                            <img src="./icons/contact-icons/instagram.svg" alt="instagram.svg">
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="https://github.com/bgaliz">
-                                            <img src="./icons/contact-icons/github-logo.svg" alt="github.svg">
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="https://www.linkedin.com/in/brunogaliz/">
-                                            <img src="./icons/contact-icons/linkedin.svg" alt="linkedin.svg">
-                                        </a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </footer>
-                    </div>
-                </div>
-            </div>
-        </section>
-    </main>
+<!-- PROJECTS -->
+<section id="projects">
+  <div class="sec-head rv">
+    <div class="sec-label" data-i="proj.label">Projetos</div>
+    <h2 class="sec-title" data-i="proj.title">Trabalhos em <em>destaque</em></h2>
+  </div>
+  <div class="proj-grid">
+    <div class="proj-card feat rv">
+      <div class="proj-num">01</div>
+      <div class="proj-name" data-i="p1.name">MS Digital — Portal Governamental</div>
+      <div class="proj-desc" data-i="p1.desc">Portal do Governo de MS com apps para Cartão SUS, Vacinação e Passe Livre. +10.000 usuários ativos durante a pandemia.</div>
+      <div class="proj-tags"><span class="proj-tag">React</span><span class="proj-tag">Ionic</span><span class="proj-tag">Node.js</span><span class="proj-tag">Android</span><span class="proj-tag">iOS</span></div>
+      <a href="https://www.msdigital.ms.gov.br" target="_blank" class="proj-link"><span data-i="proj.visit">Visitar</span> →</a>
+    </div>
+    <div class="proj-card rv d1">
+      <div class="proj-num">02</div>
+      <div class="proj-name" data-i="p2.name">Conexa Saúde — Prontuário Digital</div>
+      <div class="proj-desc" data-i="p2.desc">Migração JSP→React em plataforma de telemedicina. Redução de 32% no carregamento. Formulários customizáveis por clínica.</div>
+      <div class="proj-tags"><span class="proj-tag">React</span><span class="proj-tag">Vue.js</span><span class="proj-tag">TypeScript</span></div>
+      <span class="proj-link" style="opacity:.4;cursor:default" data-i="proj.private">Projeto privado</span>
+    </div>
+    <div class="proj-card rv d2">
+      <div class="proj-num">03</div>
+      <div class="proj-name" data-i="p3.name">Calango Doido — Web3 NFT Game</div>
+      <div class="proj-desc" data-i="p3.desc">Memory game com integração de carteiras Web3. +5.000 usuários pelo Brasil. Landing page SSR de alto desempenho.</div>
+      <div class="proj-tags"><span class="proj-tag">Next.js</span><span class="proj-tag">Web3.js</span><span class="proj-tag">Vercel</span></div>
+      <span class="proj-link" style="opacity:.4;cursor:default" data-i="proj.private">Projeto privado</span>
+    </div>
+    <div class="proj-card rv">
+      <div class="proj-num">04</div>
+      <div class="proj-name" data-i="p4.name">Controle Veicular TO</div>
+      <div class="proj-desc" data-i="p4.desc">Sistema de gestão veicular para o Governo de Tocantins. Relatórios PDF/Excel com colunas dinâmicas e filtragem em tempo real.</div>
+      <div class="proj-tags"><span class="proj-tag">Vue.js</span><span class="proj-tag">Java</span><span class="proj-tag">Spring Boot</span><span class="proj-tag">Docker</span></div>
+      <span class="proj-link" style="opacity:.4;cursor:default" data-i="proj.private">Projeto privado</span>
+    </div>
+    <div class="proj-card rv d1">
+      <div class="proj-num">05</div>
+      <div class="proj-name" data-i="p5.name">Easy Imóveis</div>
+      <div class="proj-desc" data-i="p5.desc">Plataforma de busca de imóveis com mapas interativos, filtros avançados e UI responsiva. Redução de 10% no tempo de busca.</div>
+      <div class="proj-tags"><span class="proj-tag">Nuxt.js</span><span class="proj-tag">shadcn/ui</span><span class="proj-tag">Docker</span></div>
+      <span class="proj-link" style="opacity:.4;cursor:default" data-i="proj.private">Projeto privado</span>
+    </div>
+    <div class="proj-card rv d2">
+      <div class="proj-num">06</div>
+      <div class="proj-name" data-i="p6.name">Reduza — Price Comparison</div>
+      <div class="proj-desc" data-i="p6.desc">Comparação de preços em tempo real entre e-commerces com crawlers automatizados. Melhoria de SEO de ~30%.</div>
+      <div class="proj-tags"><span class="proj-tag">Angular</span><span class="proj-tag">Node.js</span><span class="proj-tag">MongoDB</span><span class="proj-tag">Redis</span></div>
+      <span class="proj-link" style="opacity:.4;cursor:default" data-i="proj.private">Projeto privado</span>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="contact-inner rv">
+    <h2 class="contact-h" data-i="contact.cta">Vamos <em>trabalhar</em> juntos?</h2>
+    <p class="contact-sub" data-i="contact.sub">Aberto a oportunidades remotas e presenciais. Entre em contato!</p>
+    <div class="contact-links">
+      <a href="mailto:brunogaliz2@gmail.com" class="c-link">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m2 7 10 7 10-7"/></svg>
+        brunogaliz2@gmail.com
+      </a>
+      <a href="https://linkedin.com/in/brunogaliz" target="_blank" class="c-link">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6zM2 9h4v12H2z"/><circle cx="4" cy="4" r="2"/></svg>
+        LinkedIn
+      </a>
+      <a href="https://github.com/bgaliz" target="_blank" class="c-link">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/></svg>
+        GitHub
+      </a>
+      <a href="https://wa.me/5567981142011" target="_blank" class="c-link">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+        WhatsApp
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <span>© 2026 Bruno Galiz de Oliveira</span>
+  <span data-i="footer.txt">Feito com código, café ☕ e dedicação.</span>
+</footer>
+
+<script>
+/* ── HERO ENTRANCE ── */
+(function triggerHero() {
+  // Slide up name lines
+  document.querySelectorAll('.hero-name .line span').forEach((el, i) => {
+    setTimeout(() => el.classList.add('in'), 300 + i * 160);
+  });
+  // Fade up other elements
+  document.querySelectorAll('.hero-anim').forEach((el, i) => {
+    setTimeout(() => el.classList.add('in'), 150 + i * 220);
+  });
+})();
+
+/* ── i18n ── */
+const T = {
+  pt: {
+    "nav.about":"Sobre","nav.skills":"Skills","nav.experience":"Experiência","nav.projects":"Projetos","nav.contact":"Contato",
+    "hero.tag":"Desenvolvedor Full-Stack · Brasil",
+    "hero.desc":"Mais de <strong>5 anos</strong> criando aplicações web escaláveis e experiências digitais de alto impacto. Especialista em React, Next.js e Vue.js.",
+    "hero.cta1":"Ver Experiência","hero.cta2":"Contato","hero.scroll":"scroll",
+    "about.label":"Sobre mim","about.title":"Código com <em>propósito</em>",
+    "about.p1":"Sou um <strong>Desenvolvedor Full-Stack</strong> com formação em Engenharia da Computação pela UCDB e mais de 5 anos construindo soluções digitais que impactam pessoas reais.",
+    "about.p2":"Trabalhei em setores como <strong>saúde digital, governo, e-commerce e Web3</strong>, sempre com foco em performance, acessibilidade e experiência do usuário.",
+    "about.p3":"Atualmente na AZ Tecnologia, desenvolvo plataformas de gestão pública integrando Vue.js, Java e Spring Boot em soluções de alta disponibilidade.",
+    "stat.years":"anos de experiência","stat.users":"usuários impactados","stat.companies":"empresas","stat.lang":"idiomas",
+    "profile.role":"Desenvolvedor Full-Stack · AZ Tecnologia","profile.status":"Disponível para oportunidades",
+    "card.loc":"Localização","card.eng":"Inglês","card.engLevel":"Intermediário - B2",
+    "skills.label":"Tecnologias","skills.title":"Stack <em>completo</em>","skills.tools":"Ferramentas","skills.proficiency":"Proficiência",
+    "exp.label":"Carreira","exp.title":"Onde <em>construí</em> coisas",
+    "role.fullstack":"Desenvolvedor Full-Stack","role.frontend":"Desenvolvedor Front-End","role.freelance":"Desenvolvedor Front-End Freelancer",
+    "now":"Presente",
+    "az.1":"Desenvolveu módulo de exportação de relatórios em PDF e Excel para o sistema Controle Veicular (Governo de Tocantins).",
+    "az.2":"Implementou colunas dinâmicas com inserção/remoção em tempo real, integrando filtros personalizados ao relatório.",
+    "az.3":"Otimização geral de performance e responsividade das páginas do sistema governamental.",
+    "cx.1":"Migração de módulos legados JSP para React, reduzindo tempo de carregamento em 32%.",
+    "cx.2":"Desenvolveu prontuários médicos customizáveis por clínicas, economizando ~4 min por atendimento.",
+    "cx.3":"Plataforma de telemedicina com milhares de usuários ativos diariamente.",
+    "cd.1":"Criou jogo da memória integrado a carteiras NFT com Web3.js, atingindo 5.000+ usuários pelo Brasil.",
+    "cd.2":"Desenvolveu landing page com alto desempenho em SEO utilizando Next.js e SSR.",
+    "sgi.1":"Apps mobile para Cartão SUS, Vacinação e Passe Livre durante a pandemia — 10.000+ usuários no MS.",
+    "sgi.2":"Publicou APKs na Apple Store e Play Store com Android Studio e Xcode.",
+    "sgi.3":"Portal MS Digital com React, AngularJS, Ionic e Node.js.",
+    "rz.1":"Crawlers de comparação de preços em tempo real com Node.js, MongoDB e Redis.",
+    "rz.2":"Elevou score de SEO em ~30% com interfaces Angular otimizadas.",
+    "proj.label":"Projetos","proj.title":"Trabalhos em <em>destaque</em>","proj.visit":"Visitar","proj.private":"Projeto privado",
+    "p1.name":"MS Digital — Portal Governamental","p1.desc":"Portal do Governo de MS com apps para Cartão SUS, Vacinação e Passe Livre. +10.000 usuários ativos durante a pandemia.",
+    "p2.name":"Conexa Saúde — Prontuário Digital","p2.desc":"Migração JSP→React em plataforma de telemedicina. Redução de 32% no carregamento. Formulários customizáveis por clínica.",
+    "p3.name":"Calango Doido — Web3 NFT Game","p3.desc":"Memory game com integração de carteiras Web3. +5.000 usuários pelo Brasil. Landing page SSR de alto desempenho.",
+    "p4.name":"Controle Veicular TO","p4.desc":"Sistema de gestão veicular para o Governo de Tocantins. Relatórios PDF/Excel com colunas dinâmicas e filtragem em tempo real.",
+    "p5.name":"Easy Imóveis","p5.desc":"Plataforma de busca de imóveis com mapas interativos, filtros avançados e UI responsiva. Redução de 10% no tempo de busca.",
+    "p6.name":"Reduza — Price Comparison","p6.desc":"Comparação de preços em tempo real entre e-commerces com crawlers automatizados. Melhoria de SEO de ~30%.",
+    "contact.cta":"Vamos <em>trabalhar</em> juntos?","contact.sub":"Aberto a oportunidades remotas e presenciais. Entre em contato!",
+    "footer.txt":"Feito com código, café ☕ e dedicação."
+  },
+  en: {
+    "nav.about":"About","nav.skills":"Skills","nav.experience":"Experience","nav.projects":"Projects","nav.contact":"Contact",
+    "hero.tag":"Full-Stack Developer · Brazil",
+    "hero.desc":"Over <strong>5 years</strong> building scalable web applications and high-impact digital experiences. Specialized in React, Next.js and Vue.js.",
+    "hero.cta1":"View Experience","hero.cta2":"Contact","hero.scroll":"scroll",
+    "about.label":"About me","about.title":"Code with <em>purpose</em>",
+    "about.p1":"I'm a <strong>Full-Stack Developer</strong> with a Computer Engineering degree from UCDB and 5+ years building digital solutions that impact real people.",
+    "about.p2":"I've worked across <strong>digital health, government, e-commerce and Web3</strong>, always focused on performance, accessibility and user experience.",
+    "about.p3":"Currently at AZ Tecnologia, I develop public management platforms integrating Vue.js, Java and Spring Boot into high-availability solutions.",
+    "stat.years":"years of experience","stat.users":"users impacted","stat.companies":"companies","stat.lang":"languages",
+    "profile.role":"Full-Stack Developer · AZ Tecnologia","profile.status":"Open to opportunities",
+    "card.loc":"Location","card.eng":"English","card.engLevel":"Intermediate - B2",
+    "skills.label":"Technologies","skills.title":"Full <em>stack</em>","skills.tools":"Tools","skills.proficiency":"Proficiency",
+    "exp.label":"Career","exp.title":"Where I <em>built</em> things",
+    "role.fullstack":"Full-Stack Developer","role.frontend":"Front-End Developer","role.freelance":"Front-End Developer Freelancer",
+    "now":"Present",
+    "az.1":"Built PDF and Excel report export module for the Controle Veicular system (Tocantins State Government).",
+    "az.2":"Implemented dynamic columns with real-time insert/remove, integrated with custom report filters.",
+    "az.3":"General performance and responsiveness optimization across the government management system.",
+    "cx.1":"Migrated legacy JSP modules to React, reducing page load time by 32%.",
+    "cx.2":"Developed clinic-customizable medical record forms, saving ~4 min per appointment.",
+    "cx.3":"Telemedicine platform serving thousands of daily active users.",
+    "cd.1":"Built a memory game integrated with NFT wallets using Web3.js, reaching 5,000+ users across Brazil.",
+    "cd.2":"Developed a high-performance SEO landing page using Next.js and SSR.",
+    "sgi.1":"Mobile apps for SUS Card, Vaccination and Free Pass during the pandemic — 10,000+ users in MS.",
+    "sgi.2":"Published APKs to the Apple Store and Play Store using Android Studio and Xcode.",
+    "sgi.3":"MS Digital portal using React, AngularJS, Ionic and Node.js.",
+    "rz.1":"Built real-time price comparison crawlers using Node.js, MongoDB and Redis.",
+    "rz.2":"Improved SEO score by ~30% with optimized Angular interfaces.",
+    "proj.label":"Projects","proj.title":"Featured <em>work</em>","proj.visit":"Visit","proj.private":"Private project",
+    "p1.name":"MS Digital — Government Portal","p1.desc":"Mato Grosso do Sul State Government portal with mobile apps for SUS Card, Vaccination and Free Pass. 10,000+ active users during the pandemic.",
+    "p2.name":"Conexa Saúde — Digital Health Records","p2.desc":"JSP→React migration for a telemedicine platform. 32% load time reduction. Clinic-customizable medical forms.",
+    "p3.name":"Calango Doido — Web3 NFT Game","p3.desc":"Memory game with Web3 wallet integration. 5,000+ users across Brazil. High-performance SSR landing page.",
+    "p4.name":"Controle Veicular TO","p4.desc":"Vehicle management system for the Tocantins State Government. PDF/Excel reports with dynamic columns and real-time filtering.",
+    "p5.name":"Easy Imóveis — Property Search","p5.desc":"Property search platform with interactive maps, advanced filters and responsive UI. 10% reduction in search time.",
+    "p6.name":"Reduza — Price Comparison","p6.desc":"Real-time price comparison and coupon platform across e-commerce stores. ~30% SEO improvement.",
+    "contact.cta":"Let's <em>work</em> together?","contact.sub":"Open to remote and on-site opportunities. Get in touch!",
+    "footer.txt":"Made with code, coffee ☕ and dedication."
+  }
+};
+
+let lang = 'pt';
+function applyLang(l) {
+  lang = l;
+  document.querySelectorAll('[data-i]').forEach(el => {
+    const k = el.getAttribute('data-i');
+    if (T[l][k] !== undefined) el.innerHTML = T[l][k];
+  });
+  document.querySelectorAll('.lang-btn').forEach(b => b.classList.toggle('active', b.dataset.lang === l));
+  document.documentElement.lang = l === 'pt' ? 'pt-BR' : 'en';
+}
+document.querySelectorAll('.lang-btn').forEach(b => b.addEventListener('click', () => applyLang(b.dataset.lang)));
+
+/* ── CURSOR ── */
+const cur = document.getElementById('cursor');
+const ring = document.getElementById('cursor-ring');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove', e => { mx=e.clientX; my=e.clientY; });
+(function animCur(){
+  cur.style.left=mx+'px'; cur.style.top=my+'px';
+  rx+=(mx-rx)*0.13; ry+=(my-ry)*0.13;
+  ring.style.left=rx+'px'; ring.style.top=ry+'px';
+  requestAnimationFrame(animCur);
+})();
+document.querySelectorAll('a,.lang-btn,.exp-item,.sk-tag,.proj-card').forEach(el => {
+  el.addEventListener('mouseenter', () => document.body.classList.add('ch'));
+  el.addEventListener('mouseleave', () => document.body.classList.remove('ch'));
+});
+
+/* ── SCROLL ── */
+window.addEventListener('scroll', () => {
+  document.getElementById('nav').classList.toggle('scrolled', scrollY > 50);
+  const pct = scrollY / (document.body.scrollHeight - innerHeight) * 100;
+  document.getElementById('progress').style.width = pct + '%';
+});
+
+/* ── MARQUEE ── */
+const techs = ['React','Next.js','Vue.js','TypeScript','Node.js','Docker','Spring Boot','PostgreSQL','Tailwind CSS','Web3','Angular','Figma','MongoDB'];
+const mq = document.getElementById('mq-track');
+const rendered = [...techs,...techs].map(t => `<div class="mq-item"><div class="mq-dot"></div>${t}</div>`).join('');
+mq.innerHTML = rendered + rendered;
+
+/* ── REVEAL ── */
+const rvObs = new IntersectionObserver(entries => {
+  entries.forEach(e => { if(e.isIntersecting){ e.target.classList.add('vis'); rvObs.unobserve(e.target); } });
+}, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
+document.querySelectorAll('.rv').forEach(el => rvObs.observe(el));
+
+/* ── EXP ACCORDION ── */
+document.querySelectorAll('.exp-item').forEach(item => {
+  item.addEventListener('click', () => {
+    const was = item.classList.contains('open');
+    document.querySelectorAll('.exp-item').forEach(i => i.classList.remove('open'));
+    if (!was) item.classList.add('open');
+  });
+});
+
+/* ── SKILL BARS ── */
+const barObs = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.querySelectorAll('.bar-fill').forEach(b => {
+        setTimeout(() => { b.style.width = b.dataset.pct + '%'; }, 100);
+      });
+      barObs.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.2 });
+document.querySelectorAll('.bars-card').forEach(c => barObs.observe(c));
+</script>
 </body>
 </html>
