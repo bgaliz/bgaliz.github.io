@@ -487,6 +487,10 @@
       .scroll-hint { display: none; }
       footer { flex-direction: column; gap: 10px; text-align: center; }
     }
+
+    @media(min-width:1200px) {
+      .hero-name { font-size: clamp(3rem, 14vw, 20rem); }
+    }
   </style>
 </head>
 <body>
@@ -536,7 +540,7 @@
 
   <div class="hero-bottom hero-anim">
     <p class="hero-desc" data-i="hero.desc">
-      Mais de <strong>5 anos</strong> criando aplicações web escaláveis e experiências digitais de alto impacto. Maior Experiência em React, Next.js e Vue.js.
+      Mais de <strong id="hero-yrs">5+</strong> anos criando aplicações web escaláveis e experiências digitais de alto impacto. Maior Experiência em React, Next.js e Vue.js.
     </p>
     <div class="hero-actions">
       <a href="#experience" class="btn btn-primary" data-i="hero.cta1">Ver Experiência</a>
@@ -563,11 +567,11 @@
   </div>
   <div class="about-grid">
     <div class="about-text rv d1">
-      <p data-i="about.p1">Sou um <strong>Desenvolvedor Full-Stack</strong> com formação em Engenharia da Computação pela UCDB e mais de 5 anos construindo soluções digitais que impactam pessoas reais.</p>
+      <p data-i="about.p1">Sou um <strong>Desenvolvedor Full-Stack</strong> com formação em Engenharia da Computação pela UCDB e mais de <span id="hero-yrs">7</span> anos construindo soluções digitais que impactam pessoas reais.</p>
       <p data-i="about.p2">Trabalhei em setores como <strong>saúde digital, governo, e-commerce e Web3</strong>, sempre com foco em performance, acessibilidade e experiência do usuário.</p>
       <p data-i="about.p3">Atualmente na AZ Tecnologia, desenvolvo plataformas de gestão pública integrando Vue.js, Java e Spring Boot em soluções de alta disponibilidade.</p>
       <div class="stats-grid">
-        <div class="stat"><div class="stat-n">5+</div><div class="stat-l" data-i="stat.years">anos de experiência</div></div>
+        <div class="stat"><div class="stat-n" id="stat-yrs">7+</div><div class="stat-l" data-i="stat.years">anos de experiência</div></div>
         <div class="stat"><div class="stat-n">10k+</div><div class="stat-l" data-i="stat.users">usuários impactados</div></div>
         <div class="stat"><div class="stat-n">6</div><div class="stat-l" data-i="stat.companies">empresas</div></div>
         <div class="stat"><div class="stat-n">2</div><div class="stat-l" data-i="stat.lang">idiomas</div></div>
@@ -580,7 +584,7 @@
         </div>
         <div class="p-name">Bruno Galiz de Oliveira</div>
         <div class="p-role" data-i="profile.role">Desenvolvedor Full-Stack · AZ Tecnologia</div>
-        <div class="status-row"><div class="s-dot"></div><span data-i="profile.status">Disponível para oportunidades</span></div>
+        <div class="status-row"><div class="s-dot"></div><span data-i="profile.status">Disponível para oportunidades (inclusive mudanças)</span></div>
         <div class="badge-row">
           <span class="badge a">React</span><span class="badge a">Next.js</span><span class="badge a">Node.js</span>
           <span class="badge">TypeScript</span><span class="badge">Node.js</span><span class="badge">Docker</span>
@@ -824,15 +828,21 @@
   });
 })();
 
+/* ── EXPERIENCE YEARS ── */
+const yrsExp = Math.floor((Date.now() - new Date('2019-01-01')) / (365.25 * 24 * 3600 * 1000));
+const yrsLabel = yrsExp;
+document.getElementById('stat-yrs').textContent = yrsLabel;
+document.getElementById('hero-yrs').textContent = yrsLabel;
+
 /* ── i18n ── */
 const T = {
   pt: {
     "nav.about":"Sobre","nav.skills":"Skills","nav.experience":"Experiência","nav.projects":"Projetos","nav.contact":"Contato",
     "hero.tag":"Desenvolvedor Full-Stack · Brasil",
-    "hero.desc":"Mais de <strong>5 anos</strong> criando aplicações web escaláveis e experiências digitais de alto impacto. Especialista em React, Next.js e Vue.js.",
+    "hero.desc":`Mais de <strong>${yrsLabel} anos</strong> criando aplicações web escaláveis e experiências digitais de alto impacto. Especialista em React, Next.js e Vue.js.`,
     "hero.cta1":"Ver Experiência","hero.cta2":"Contato","hero.scroll":"scroll",
     "about.label":"Sobre mim","about.title":"Código com <em>propósito</em>",
-    "about.p1":"Sou um <strong>Desenvolvedor Full-Stack</strong> com formação em Engenharia da Computação pela UCDB e mais de 5 anos construindo soluções digitais que impactam pessoas reais.",
+    "about.p1":`Sou um <strong>Desenvolvedor Full-Stack</strong> com formação em Engenharia da Computação pela UCDB e mais de ${yrsLabel} anos construindo soluções digitais que impactam pessoas reais.`,
     "about.p2":"Trabalhei em setores como <strong>saúde digital, governo, e-commerce e Web3</strong>, sempre com foco em performance, acessibilidade e experiência do usuário.",
     "about.p3":"Atualmente na AZ Tecnologia, desenvolvo plataformas de gestão pública integrando Vue.js, Java e Spring Boot em soluções de alta disponibilidade.",
     "stat.years":"anos de experiência","stat.users":"usuários impactados","stat.companies":"empresas","stat.lang":"idiomas",
@@ -870,10 +880,10 @@ const T = {
   en: {
     "nav.about":"About","nav.skills":"Skills","nav.experience":"Experience","nav.projects":"Projects","nav.contact":"Contact",
     "hero.tag":"Full-Stack Developer · Brazil",
-    "hero.desc":"Over <strong>5 years</strong> building scalable web applications and high-impact digital experiences. Specialized in React, Next.js and Vue.js.",
+    "hero.desc":`Over <strong>${yrsLabel} years</strong> building scalable web applications and high-impact digital experiences. Specialized in React, Next.js and Vue.js.`,
     "hero.cta1":"View Experience","hero.cta2":"Contact","hero.scroll":"scroll",
     "about.label":"About me","about.title":"Code with <em>purpose</em>",
-    "about.p1":"I'm a <strong>Full-Stack Developer</strong> with a Computer Engineering degree from UCDB and 5+ years building digital solutions that impact real people.",
+    "about.p1":`I'm a <strong>Full-Stack Developer</strong> with a Computer Engineering degree from UCDB and ${yrsLabel} years building digital solutions that impact real people.`,
     "about.p2":"I've worked across <strong>digital health, government, e-commerce and Web3</strong>, always focused on performance, accessibility and user experience.",
     "about.p3":"Currently at AZ Tecnologia, I develop public management platforms integrating Vue.js, Java and Spring Boot into high-availability solutions.",
     "stat.years":"years of experience","stat.users":"users impacted","stat.companies":"companies","stat.lang":"languages",
