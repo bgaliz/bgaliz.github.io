@@ -13,7 +13,33 @@
 import { neon } from '@neondatabase/serverless';
 import { createHash } from 'node:crypto';
 
-export const sql = neon(process.env.DATABASE_URL);
+/* A conexão não pode estourar na IMPORTAÇÃO do módulo, e é isso que
+   `neon(undefined)` faz: lança na hora, antes de qualquer handler existir. O
+   try/catch dos dois endpoints nunca chega a rodar, e a Vercel responde
+   FUNCTION_INVOCATION_FAILED — um 500 sem uma palavra sobre a causa. Quem
+   estiver depurando isso às onze da noite merece coisa melhor.
+
+   Adiando o erro para a primeira consulta, o catch de cada handler assume:
+   `/api/painel` passa a devolver o motivo por escrito e `/api/coletar`
+   segue falhando em silêncio, como tem de ser.
+
+   Os quatro nomes existem porque a variável muda conforme por onde o banco
+   entrou: a integração Neon do Marketplace cria DATABASE_URL, a antiga
+   Vercel Postgres criava POSTGRES_URL, e as duas oferecem uma variante sem
+   pool. Aceitar os quatro custa três linhas e evita um deploy inteiro
+   perdido em "mas eu criei o banco". */
+const conexao = process.env.DATABASE_URL
+             || process.env.POSTGRES_URL
+             || process.env.DATABASE_URL_UNPOOLED
+             || process.env.POSTGRES_URL_NON_POOLING;
+
+export const sql = conexao ? neon(conexao) : () => {
+  throw new Error(
+    'Nenhuma string de conexão no ambiente. Esperado DATABASE_URL (ou ' +
+    'POSTGRES_URL). Conecte o banco em Storage, confirme que ele está ligado ' +
+    'a ESTE projeto, e refaça o deploy — variável nova só vale em build novo.'
+  );
+};
 
 /** Origens autorizadas a enviar eventos. */
 const ORIGENS = [
