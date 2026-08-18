@@ -112,7 +112,10 @@
 .fachada__vaga::before {
   content: '';
   position: absolute;
-  left: 0; right: 0; bottom: 0;
+  /* Começa DEPOIS do ponto: o fio é o sublinhado do texto, e um pedaço de
+     fio sobrando à esquerda do ponto seria um rabo sem função. E assim o
+     sinal parte literalmente da borda do ponto — que é o que o gesto diz. */
+  left: var(--trilha-ponto); right: 0; bottom: 0;
   height: 1px;
   background: color-mix(in srgb, var(--petroleo) 40%, transparent);
   transition: background var(--d-micro) var(--saida-expo);
@@ -127,7 +130,7 @@
 .fachada__vaga::after {
   content: '';
   position: absolute;
-  left: 0; right: 0; bottom: 0;
+  left: var(--trilha-ponto); right: 0; bottom: 0;
   height: 1px;
   /* O pico é petróleo puxado para a cor do texto: no tinta clareia, no papel
      escurece — nos dois casos DESTACA do fio, que é o mesmo petróleo a 40%.

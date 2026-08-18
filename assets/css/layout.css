@@ -137,22 +137,30 @@
 /* A disponibilidade É a chamada: quem lê "disponível" e quer agir já tem
    onde clicar. Classe própria para escapar do sublinhado âmbar que base.css
    dá a link sem classe — aqui a cor tem de continuar sendo a do acento frio. */
-/* O ponto PENDURA fora da caixa, como marca de lista em livro: quem define
-   a sangria é o texto, não o marcador. Sem isto a segunda linha entraria
-   ~14px à direita da primeira e o bloco perderia o fio de prumo — que é o
-   único alinhamento que esta coluna tem.
+/* O ponto ficava PENDURADO 13.6px à esquerda da caixa, como marca de lista
+   em livro, para que as duas linhas do bloco dividissem a mesma sangria. A
+   teoria era boa e a prática não: o marcador furava a borda esquerda da
+   página, que é a única linha reta desta coluna, e chamava mais atenção do
+   que a frase que ele marca.
+
+   Agora ele mora DENTRO. A borda esquerda do ponto coincide com a borda de
+   todo o resto — nome, lema, endereço — e o texto da chamada cede a trilha
+   de 6px + 0.6em para ele. Troca-se o alinhamento das duas linhas entre si
+   pelo alinhamento do bloco com a página: o prumo da coluna vale mais.
+
+   Efeito colateral bem-vindo: o anel que pulsa ao redor do ponto deixou de
+   ter qualquer risco de ser cortado pela borda da tela no celular.
 
    Aqui mora só ONDE as coisas ficam. O fio da chamada e o sinal que corre
    por ele são aparência e comportamento: vivem em componentes.css, junto do
    ponto vivo, porque os três são um gesto só. */
 .fachada__vaga {
+  --trilha-ponto: calc(6px + 0.6em);   /* o ponto e o respiro dele */
   position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6em;
   padding-bottom: 0.28em;
-}
-.fachada__vaga .ponto-vivo {
-  position: absolute;
-  left: -0.85rem;   /* < 1.125rem: a margem mínima da casca */
-  top: 0.42em;
 }
 
 /* O pé flutuava: dois grupos soltos, um encostado na margem esquerda e outro
