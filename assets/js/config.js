@@ -10,7 +10,7 @@
  * ══════════════════════════════════════════════════════════════════════════
  */
 
-export const API_BASE = null;
+export const API_BASE = "https://bgaliz-portfolio.vercel.app/api";
 
 export const urlDe = (rota) => (API_BASE ? `${API_BASE}/${rota}` : null);
 
