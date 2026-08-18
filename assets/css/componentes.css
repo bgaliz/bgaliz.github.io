@@ -308,6 +308,7 @@
 .verbete__prosa {
   color: var(--texto-suave);
   font-size: var(--t-peq);
+  max-width: var(--medida-texto);   /* ~75 car/linha em qualquer largura */
 }
 .verbete__prosa + .verbete__prosa { margin-top: var(--e-3); }
 

@@ -79,7 +79,12 @@
 
   /* ── Grade ─────────────────────────────────────────────────────────────── */
   --largura-max: 82rem;
-  --margem: clamp(1.125rem, 4.5vw, 4.5rem);
+  /* O piso era 1.125rem (18px) e não dava conta de dois inquilinos ao mesmo
+     tempo: a leitura, que num texto corrido quer 20–24px de respiro contra a
+     borda do aparelho, e o ponto de disponibilidade, que PENDURA 13.6px para
+     fora da coluna — sobravam 1.4px entre o anel dele e a borda da tela. A
+     24px sobram 7.4px, e o texto ganha o respiro que faltava. */
+  --margem: clamp(1.5rem, 4.5vw, 4.5rem);
   --goteira: clamp(1rem, 2vw, 2rem);
 
   /* Casca de duas colunas. Não é 50/50: a razão é a mesma 0.86 / 1.14 que o
@@ -95,6 +100,29 @@
      que depende de três literais iguais é alinhamento que quebra na
      primeira edição distraída. */
   --medida-fachada: 22rem;
+
+  /* A MEDIDA DO TEXTO CORRIDO. `.secao` não tinha largura própria — o
+     comentário do layout dizia "a coluna É a medida", e isso vale enquanto
+     existe coluna. Abaixo de 64rem não existe: tudo empilha na largura
+     inteira da casca, e a prosa chegava a 133 caracteres por linha num
+     tablet de 1023px. Medido, não estimado. Na casca larga também passava:
+     91 a 93 caracteres entre 1280 e 1920px.
+
+     33rem dão ~75 caracteres em qualquer largura, que é o teto do intervalo
+     confortável (45–75). Não é max-width na coluna: é na PROSA, para que
+     lista de tecnologias, cabeçalho e período continuem usando a coluna
+     inteira. Só o que se lê em sequência precisa de medida. */
+  --medida-texto: 33rem;
+}
+
+/* Abaixo de 64rem a coluna presa deixa de existir: tudo empilha na largura
+   inteira. Manter a fachada em 22rem ali fazia o lema quebrar e o fio do pé
+   parar a 352px enquanto a prosa logo abaixo ia a 528px — identidade mais
+   estreita que o conteúdo, sem motivo. Sem coluna estreita, a medida da
+   fachada É a medida do texto: um só prumo à esquerda e um só limite à
+   direita na página inteira. */
+@media (max-width: 63.999rem) {
+  :root { --medida-fachada: var(--medida-texto); }
 
   /* Único raio do projeto, e só na superfície de realce do verbete. Zero
      continua sendo a regra para tudo que é affordance — controle, campo,
