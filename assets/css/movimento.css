@@ -1,0 +1,143 @@
+/* ═══════════════════════════════════════════════════════════════════════════
+   MOVIMENTO
+   ───────────────────────────────────────────────────────────────────────────
+   REGRA QUE GOVERNA TUDO NESTE ARQUIVO:
+   o estado FINAL é o padrão do CSS. A animação só se soma por cima, dentro
+   de @supports. Sem suporte a scroll-driven (Firefox estável ainda atrás de
+   flag), sem JS, ou com movimento reduzido — nada fica invisível. ~84% veem
+   a animação, 100% veem o conteúdo.
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* ═══ 1 · ABERTURA COREOGRAFADA ═══════════════════════════════════════════
+   ~900ms, uma vez por sessão, pulável em qualquer tecla ou clique.
+   Só roda com JS: a classe .abrindo é posta por abertura.js.               */
+
+html.abrindo body { overflow: hidden; }
+
+html.abrindo .fachada__palavra {
+  animation: assenta-nome var(--d-longa) var(--saida-expo) both;
+}
+html.abrindo .fachada__linha:nth-child(2) .fachada__palavra { animation-delay: 90ms; }
+
+@keyframes assenta-nome {
+  from {
+    transform: translateY(102%);
+    --eixo-peso: 200;
+    --eixo-largura: 78;
+  }
+  to {
+    transform: translateY(0);
+    --eixo-peso: 760;
+    --eixo-largura: 100;
+  }
+}
+
+/* Papel, lema, índice e pé entram escalonados — stagger real, não o mesmo
+   fade em tudo ao mesmo tempo. */
+html.abrindo .fachada__papel,
+html.abrindo .fachada__lema,
+html.abrindo .fachada__estado,
+html.abrindo .indice,
+html.abrindo .fachada__pe {
+  animation: entra-sutil 620ms var(--entrada-sutil) both;
+}
+html.abrindo .fachada__papel  { animation-delay: 240ms; }
+html.abrindo .fachada__lema   { animation-delay: 330ms; }
+html.abrindo .fachada__estado { animation-delay: 420ms; }
+html.abrindo .indice          { animation-delay: 500ms; }
+html.abrindo .fachada__pe     { animation-delay: 580ms; }
+
+@keyframes entra-sutil {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: none; }
+}
+
+/* ═══ 2 · REVELAÇÃO AO ENTRAR NA TELA ═════════════════════════════════════
+   Aqui morava a animação dos eixos da fonte variável ligada ao scroll. Ela
+   saiu junto com o hero de tela cheia: numa coluna PRESA, que por definição
+   nunca rola, ela travaria o nome em wght 330 logo no primeiro scroll e o
+   deixaria assim pelo resto da visita. Os @property continuam registrados —
+   a abertura ainda interpola por eles.                                      */
+
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+
+    /* Nunca no .verbete em si: `revela` anima opacity, e o esmaecer dos
+       irmãos usa filter justamente para não colidir com esta animação.
+       Animar opacity no próprio verbete devolveria a colisão. */
+    .secao__cabeca,
+    .verbete__quando,
+    .verbete__miolo,
+    .contato__chamada,
+    .tecnologias {
+      animation: revela linear both;
+      animation-timeline: view();
+      animation-range: entry 8% cover 34%;
+    }
+
+    @keyframes revela {
+      from { opacity: 0; transform: translateY(18px); }
+      to   { opacity: 1; transform: none; }
+    }
+
+    /* Stagger explícito dentro de uma lista: cada item começa um pouco mais
+       tarde no próprio percurso, criando cascata em vez de bloco. O índice
+       vem do HTML (--i), então acrescentar um botão não exige nova regra —
+       a cascata anterior parava no quarto item em silêncio. */
+    .contato__botoes li {
+      animation: revela linear both;
+      animation-timeline: view();
+      animation-range: entry calc(10% + var(--i, 0) * 4%)
+                       cover calc(28% + var(--i, 0) * 4%);
+    }
+
+    /* O número da seção desliza a partir da régua. */
+    .secao__num {
+      animation: desliza-num linear both;
+      animation-timeline: view();
+      animation-range: entry 5% cover 26%;
+    }
+    @keyframes desliza-num {
+      from { opacity: 0; transform: translateY(-0.15em) translateX(-14px); }
+      to   { opacity: 1; transform: translateY(-0.15em); }
+    }
+  }
+}
+
+/* ═══ 3 · TROCA DE TEMA E IDIOMA (View Transitions) ═══════════════════════
+   A revelação circular parte do próprio botão — as coordenadas vêm de
+   tema.js como --vt-x / --vt-y.                                            */
+
+@media (prefers-reduced-motion: no-preference) {
+  ::view-transition-old(root),
+  ::view-transition-new(root) {
+    animation: none;
+    mix-blend-mode: normal;
+  }
+  ::view-transition-old(root) { z-index: 1; }
+  ::view-transition-new(root) { z-index: 2; }
+
+  html.trocando-tema::view-transition-new(root) {
+    animation: revela-circular 620ms var(--suave-quint) both;
+  }
+  @keyframes revela-circular {
+    from { clip-path: circle(0% at var(--vt-x, 50%) var(--vt-y, 0%)); }
+    to   { clip-path: circle(160% at var(--vt-x, 50%) var(--vt-y, 0%)); }
+  }
+
+  /* Troca de idioma: fade curto, sem geometria — o texto muda de tamanho e
+     um clip circular ficaria estranho. */
+  html.trocando-idioma::view-transition-old(root) {
+    animation: some-curto 140ms var(--saida-expo) both;
+  }
+  html.trocando-idioma::view-transition-new(root) {
+    animation: some-curto 220ms var(--saida-expo) reverse both;
+  }
+  @keyframes some-curto { to { opacity: 0; } }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-group(*),
+  ::view-transition-old(*),
+  ::view-transition-new(*) { animation: none !important; }
+}

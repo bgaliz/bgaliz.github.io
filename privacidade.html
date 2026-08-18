@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Privacidade — Bruno Galiz</title>
+<meta name="description" content="O que este site registra, o que não registra, e como recusar.">
+<meta name="robots" content="noindex">
+<link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="assets/css/tokens.css">
+<link rel="stylesheet" href="assets/css/base.css">
+<link rel="stylesheet" href="assets/css/layout.css">
+<link rel="stylesheet" href="assets/css/componentes.css">
+<script>
+  (function () {
+    try { var t = localStorage.getItem('tema'); if (t) document.documentElement.dataset.tema = t; } catch (e) {}
+  })();
+</script>
+<style>
+  .doc { max-width: 44rem; margin-inline: auto; padding: var(--e-9) var(--margem) var(--e-8); }
+  .doc h1 { font-size: var(--t-d1); letter-spacing: -0.03em; margin-bottom: var(--e-2); }
+  .doc h2 { font-size: var(--t-d3); margin: var(--e-7) 0 var(--e-3); }
+  .doc p  { color: var(--texto-suave); margin-bottom: var(--e-4); }
+  .doc ul { color: var(--texto-suave); margin: 0 0 var(--e-4) 1.1rem; }
+  .doc li { margin-bottom: var(--e-2); }
+  .doc .voltar { display: inline-block; margin-bottom: var(--e-6); }
+  .doc__estado {
+    border: 1px solid var(--fio-forte);
+    padding: var(--e-4) var(--e-5);
+    margin-top: var(--e-6);
+    font-size: var(--t-peq);
+  }
+  .doc__estado strong { color: var(--texto); }
+</style>
+</head>
+<body>
+<main class="doc">
+  <a class="voltar mono" href="index.html">← <span>voltar ao portfólio</span></a>
+
+  <h1>Privacidade</h1>
+  <p class="mono" style="color:var(--ambar)">Sem cookies · sem IP guardado · sem terceiros</p>
+
+  <h2>O que eu registro</h2>
+  <p>
+    Quando alguém abre este site, eu registro que houve uma visita. Isso me diz se o
+    que eu envio está sendo aberto — que é a única coisa que eu quero
+    saber. Concretamente, cada visita grava:
+  </p>
+  <ul>
+    <li>data e hora;</li>
+    <li>de onde veio o acesso (LinkedIn, GitHub, WhatsApp, busca ou direto);</li>
+    <li>país e cidade aproximados, vindos do servidor;</li>
+    <li>tipo de aparelho (celular, computador ou tablet) e idioma do navegador;</li>
+    <li>quais seções da página foram lidas e quanto tempo a visita durou;</li>
+    <li>cliques em contato e no currículo;</li>
+    <li>a etiqueta <code>?ref=</code> do link, quando existe — é como eu sei a qual contato
+      ou proposta aquele acesso corresponde.</li>
+  </ul>
+
+  <h2>O que eu não registro</h2>
+  <ul>
+    <li><strong>Seu endereço IP não é gravado.</strong> O servidor o usa por um instante,
+      em memória, para montar um código embaralhado que serve só para não contar a mesma
+      pessoa duas vezes no mesmo dia. O ingrediente desse embaralhamento muda todo dia,
+      então o código de hoje não pode ser ligado ao de ontem nem revertido para o IP.</li>
+    <li><strong>Nenhum cookie.</strong> A identificação da sessão vive na memória da aba e
+      morre quando você a fecha.</li>
+    <li><strong>Nenhum rastreador de terceiros.</strong> Sem Google Analytics, sem pixel de
+      rede social, sem nada carregado de fora. A infraestrutura é minha.</li>
+    <li><strong>Seu nome, e-mail ou perfil.</strong> Não tenho como saber, e não tento
+      descobrir.</li>
+  </ul>
+
+  <h2>Como recusar</h2>
+  <p>
+    O botão abaixo desliga o registro neste navegador, para sempre. A escolha fica salva
+    localmente no seu aparelho — eu não fico sabendo dela. O site funciona exatamente
+    igual com o registro desligado.
+  </p>
+  <p>
+    Se o seu navegador manda o sinal <em>Do Not Track</em> ou <em>Global Privacy
+    Control</em>, o registro já vem desligado sem você precisar fazer nada.
+  </p>
+
+  <div class="doc__estado">
+    <p id="estado-rastro" style="margin:0 0 var(--e-3)">Verificando…</p>
+    <button class="botao" type="button" id="alternar-rastro" style="display:inline-flex">
+      <span id="rotulo-rastro">—</span>
+      <span class="botao__seta" aria-hidden="true">→</span>
+    </button>
+  </div>
+
+  <h2>Seus direitos</h2>
+  <p>
+    Pela LGPD (Lei 13.709/2018) você pode pedir acesso, correção ou eliminação dos seus
+    dados. Como nada aqui identifica você pessoalmente, na prática não há o que devolver
+    ou apagar em nome de alguém — mas se tiver qualquer dúvida, escreva para
+    <a href="mailto:brunogaliz2@gmail.com">brunogaliz2@gmail.com</a> e eu respondo.
+  </p>
+
+  <p class="mono" style="margin-top:var(--e-8);color:var(--texto-tenue);font-size:var(--t-nano)">
+    Atualizado em <time data-din="site.atualizado" datetime="2026-08-18">18 ago 2026</time>
+  </p>
+</main>
+
+<script type="module">
+  const estado = document.getElementById('estado-rastro');
+  const botao  = document.getElementById('alternar-rastro');
+  const rotulo = document.getElementById('rotulo-rastro');
+
+  const recusou = () => { try { return localStorage.getItem('semRastro') === '1'; } catch (e) { return true; } };
+  const dnt = navigator.doNotTrack === '1' || navigator.globalPrivacyControl;
+
+  function pintar() {
+    if (dnt) {
+      estado.innerHTML = 'Seu navegador pede para não ser rastreado. <strong>O registro está desligado</strong> e eu respeito isso.';
+      botao.hidden = true;
+      return;
+    }
+    const off = recusou();
+    estado.innerHTML = off
+      ? 'O registro está <strong>desligado</strong> neste navegador.'
+      : 'O registro anônimo está <strong>ligado</strong> neste navegador.';
+    rotulo.textContent = off ? 'Ligar o registro' : 'Desligar o registro';
+  }
+
+  botao.addEventListener('click', () => {
+    try {
+      if (recusou()) localStorage.removeItem('semRastro');
+      else localStorage.setItem('semRastro', '1');
+      localStorage.setItem('avisoVisto', '1');
+    } catch (e) {}
+    pintar();
+  });
+
+  pintar();
+</script>
+</body>
+</html>

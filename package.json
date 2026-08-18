@@ -1,0 +1,14 @@
+{
+  "name": "portfolio-bruno-galiz",
+  "private": true,
+  "type": "module",
+  "description": "Portfolio em HTML/CSS/JS puro. Sem dependencias, sem bundler.",
+  "scripts": {
+    "construir": "node ferramentas/construir.mjs",
+    "verificar": "node ferramentas/verificar-tempo.mjs",
+    "servir": "python3 -m http.server 8000"
+  },
+  "dependencies": {
+    "@neondatabase/serverless": "^1.0.2"
+  }
+}

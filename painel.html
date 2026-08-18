@@ -1,0 +1,178 @@
+<!doctype html>
+<html lang="pt-BR" data-tema="tinta">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Painel de visitas — Bruno Galiz</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+<link rel="preload" href="assets/fonts/mono.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="assets/css/tokens.css">
+<link rel="stylesheet" href="assets/css/base.css">
+<link rel="stylesheet" href="assets/css/componentes.css">
+<link rel="stylesheet" href="assets/css/painel.css">
+</head>
+
+<body class="painel">
+
+<header class="painel__barra">
+  <span class="mono painel__marca">BGO · PAINEL</span>
+  <span class="mono painel__gerado" id="gerado"></span>
+  <button class="alternador" type="button" id="recarregar" aria-label="Recarregar dados">
+    <span class="mono">↻</span>
+  </button>
+</header>
+
+<!-- Porta de entrada: o token vive só no localStorage deste navegador. -->
+<section class="entrada" id="entrada" hidden>
+  <h1 class="entrada__titulo">Painel de visitas</h1>
+  <p class="entrada__nota">
+    Informe o token definido em <code>PAINEL_TOKEN</code> na Vercel.
+    Ele fica guardado só neste navegador.
+  </p>
+  <form id="forma-token" class="entrada__forma">
+    <input type="password" id="campo-token" class="entrada__campo mono"
+           placeholder="token" autocomplete="current-password" required>
+    <button type="submit" class="botao botao--principal">
+      <span>Entrar</span><span class="botao__seta" aria-hidden="true">→</span>
+    </button>
+  </form>
+  <p class="entrada__erro mono" id="erro-token" hidden></p>
+</section>
+
+<main class="painel__corpo" id="corpo" hidden>
+
+  <!-- ── Números do topo ────────────────────────────────────────────── -->
+  <section class="cartoes" aria-label="Resumo">
+    <article class="cartao">
+      <p class="cartao__rotulo mono">visitas</p>
+      <p class="cartao__valor num" id="kpi-visitas">—</p>
+    </article>
+    <article class="cartao">
+      <p class="cartao__rotulo mono">visitantes únicos</p>
+      <p class="cartao__valor num" id="kpi-unicos">—</p>
+    </article>
+    <article class="cartao">
+      <p class="cartao__rotulo mono">últimos 30 dias</p>
+      <p class="cartao__valor num" id="kpi-30d">—</p>
+    </article>
+    <article class="cartao">
+      <p class="cartao__rotulo mono">tempo médio</p>
+      <p class="cartao__valor num" id="kpi-tempo">—</p>
+    </article>
+  </section>
+
+  <!-- ── Movimento mensal ───────────────────────────────────────────── -->
+  <section class="bloco">
+    <div class="bloco__cabeca">
+      <h2 class="bloco__titulo">Movimento mensal</h2>
+      <p class="bloco__nota mono">janela deslizante de 12 meses</p>
+    </div>
+    <div class="grafico" id="grafico-mensal"></div>
+  </section>
+
+  <!-- ── Links marcados: o recurso central ──────────────────────────── -->
+  <section class="bloco">
+    <div class="bloco__cabeca">
+      <h2 class="bloco__titulo">Links marcados</h2>
+      <p class="bloco__nota mono">o que você enviou foi aberto?</p>
+    </div>
+
+    <form class="gerador" id="gerador">
+      <label class="gerador__rotulo mono" for="campo-rotulo">
+        para quem / qual proposta
+      </label>
+      <div class="gerador__linha">
+        <input type="text" id="campo-rotulo" class="entrada__campo mono"
+               placeholder="Nubank — proposta front-end" autocomplete="off">
+        <button type="submit" class="botao">
+          <span>Gerar link</span><span class="botao__seta" aria-hidden="true">→</span>
+        </button>
+      </div>
+      <output class="gerador__saida mono" id="saida-link" hidden>
+        <code id="link-gerado"></code>
+        <button type="button" class="gerador__copiar mono" id="copiar">copiar</button>
+      </output>
+    </form>
+
+    <div class="tabela__rolagem">
+      <table class="tabela" id="tabela-marcados">
+        <thead>
+          <tr>
+            <th scope="col">etiqueta</th>
+            <th scope="col" class="num">aberturas</th>
+            <th scope="col" class="num">pessoas</th>
+            <th scope="col" class="num">cliques</th>
+            <th scope="col">primeira</th>
+            <th scope="col">última</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ── Origem e lugar ─────────────────────────────────────────────── -->
+  <div class="colunas">
+    <section class="bloco">
+      <div class="bloco__cabeca"><h2 class="bloco__titulo">De onde vieram</h2></div>
+      <div id="lista-origens" class="barras"></div>
+    </section>
+
+    <section class="bloco">
+      <div class="bloco__cabeca"><h2 class="bloco__titulo">Onde estavam</h2></div>
+      <div class="tabela__rolagem">
+        <table class="tabela" id="tabela-lugares">
+          <thead><tr><th scope="col">país</th><th scope="col">cidade</th><th scope="col" class="num">visitas</th></tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </section>
+  </div>
+
+  <!-- ── Leitura e conversão ────────────────────────────────────────── -->
+  <div class="colunas">
+    <section class="bloco">
+      <div class="bloco__cabeca">
+        <h2 class="bloco__titulo">Até onde leram</h2>
+        <p class="bloco__nota mono">sessões que alcançaram cada seção</p>
+      </div>
+      <div id="lista-secoes" class="barras"></div>
+    </section>
+
+    <section class="bloco">
+      <div class="bloco__cabeca">
+        <h2 class="bloco__titulo">O que clicaram</h2>
+        <p class="bloco__nota mono">contato, currículo e links</p>
+      </div>
+      <div id="lista-cliques" class="barras"></div>
+    </section>
+  </div>
+
+  <!-- ── Aparelhos + últimas visitas ────────────────────────────────── -->
+  <div class="colunas">
+    <section class="bloco">
+      <div class="bloco__cabeca"><h2 class="bloco__titulo">Aparelhos</h2></div>
+      <div id="lista-aparelhos" class="barras"></div>
+    </section>
+
+    <section class="bloco">
+      <div class="bloco__cabeca"><h2 class="bloco__titulo">Últimas visitas</h2></div>
+      <div class="tabela__rolagem tabela__rolagem--alta">
+        <table class="tabela" id="tabela-recentes">
+          <thead><tr><th scope="col">quando</th><th scope="col">origem</th><th scope="col">lugar</th><th scope="col">etiqueta</th></tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </section>
+  </div>
+
+  <footer class="painel__rodape mono">
+    <a href="index.html">← voltar ao portfólio</a>
+    <button type="button" id="sair">esquecer token</button>
+  </footer>
+</main>
+
+<script type="module" src="assets/js/painel.js"></script>
+</body>
+</html>

@@ -1,0 +1,531 @@
+/* ═══════════════════════════════════════════════════════════════════════════
+   COMPONENTES — alternadores, verbetes, ferramentas, botões, avisos
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* ── Alternadores (idioma e tema) ──────────────────────────────────────── */
+
+.alternador {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.1em;
+  min-width: 2.6rem;
+  height: 2rem;
+  padding-inline: var(--e-2);
+  border: 1px solid var(--fio-controle);
+  color: var(--texto-suave);
+  transition: border-color var(--d-micro) var(--saida-expo),
+              color        var(--d-micro) var(--saida-expo);
+}
+.alternador:hover, .alternador:focus-visible {
+  border-color: var(--ambar);
+  color: var(--ambar);
+}
+.alternador .mono { font-size: var(--t-nano); }
+.alternador b  { font-weight: 600; color: var(--texto); }
+.alternador em { font-style: normal; color: var(--fio-forte); margin-inline: 0.15em; }
+.alternador i  { font-style: normal; }
+:root[data-idioma='en'] .alternador b { color: var(--texto-tenue); font-weight: 400; }
+:root[data-idioma='en'] .alternador i { color: var(--texto); font-weight: 600; }
+
+.icone-tema { transition: transform var(--d-media) var(--mola); }
+.alternador:hover .icone-tema { transform: rotate(38deg); }
+
+/* No tema claro o ícone vira lua: os raios recolhem e a máscara entra.
+   A máscara é a metade que faltava — sem ela o "sol sem raios" era um O, e
+   um O não diz nada a ninguém. A mordida fica estacionada fora do disco no
+   tema tinta e desliza para dentro no papel, abrindo o arco. */
+.icone-tema__mordida {
+  transform: translate(4.6px, -4.6px);   /* estacionada bem fora do disco */
+  transition: transform var(--d-media) var(--saida-expo);
+}
+.icone-tema__raios { transition: opacity var(--d-media) var(--saida-expo); }
+
+:root[data-tema='papel'] .icone-tema__raios   { opacity: 0; }
+:root[data-tema='papel'] .icone-tema__mordida { transform: none; }
+@media (prefers-color-scheme: light) {
+  :root:not([data-tema='tinta']) .icone-tema__raios   { opacity: 0; }
+  :root:not([data-tema='tinta']) .icone-tema__mordida { transform: none; }
+}
+
+/* ── Disponibilidade: o sinal no fio ───────────────────────────────────────
+   O projeto inteiro é feito de FIOS — o índice tem um, o verbete tem um, há
+   três tokens de fio. E o marcador da disponibilidade se chama ponto VIVO,
+   mas era um quadrado parado: o nome prometia uma coisa que o CSS não
+   entregava.
+
+   Daí o gesto, que é UM só e não dois: o sublinhado da chamada é um fio, o
+   ponto é por onde o sinal entra nele. A cada ciclo o ponto emite um anel e
+   um brilho curto percorre o fio da esquerda para a direita. Ao aproximar o
+   ponteiro o ciclo ACELERA — de 4s para 2.4s. Não muda de natureza, fica
+   mais vivo. Que é literalmente o que a frase ao lado está dizendo.
+
+   O RELÓGIO, e por que 4s. Isto fica na visão periférica a visita inteira,
+   então a escolha é entre notar e incomodar. A 9s ninguém via — passava uma
+   vez e a pessoa duvidava de ter visto. A 1.5s pisca 40 vezes por minuto ao
+   lado de um texto que se está tentando ler. A 4s são 15 por minuto: quem
+   chega vê duas ou três vezes ainda na primeira frase, e depois o silêncio
+   é longo o bastante para o olho soltar.
+
+   A TRAVESSIA É FRAÇÃO DO CICLO — 17.5% —, então encurtar o ciclo encurta a
+   faísca junto. É por isso que os dois tempos são estes e não outros: dão
+   0.70s de varredura no ambiente e 0.42s sob o ponteiro, que é a janela em
+   que o brilho ainda PERCORRE o fio. Abaixo de ~0.35s ele deixa de percorrer
+   e vira um pisca-pisca. Mexer num dos dois números sem olhar o outro troca
+   o efeito por outro.
+
+   Duas decisões de contenção, porque isto mora numa coluna presa:
+     · o brilho é 1px e some nas duas pontas por gradiente, sem começo nem
+       fim duros;
+     · nada disso existe sob `prefers-reduced-motion: reduce` — lá sobra a
+       troca de cor, que já basta para dizer "isto é clicável".
+
+   Sem sombra, sem raio, sem cor nova: o âmbar é da página, o petróleo é o
+   acento frio que a disponibilidade já usava.                              */
+
+.ponto-vivo {
+  position: relative;
+  width: 6px; height: 6px;
+  background: var(--petroleo);
+  flex: none;
+}
+/* O anel parado. */
+.ponto-vivo::after {
+  content: '';
+  position: absolute;
+  inset: -3px;
+  border: 1px solid var(--petroleo);
+  opacity: 0.45;
+}
+/* O anel que é EMITIDO. Invisível em repouso — quem pulsa é este, e o de
+   cima continua onde está, para o ponto nunca ficar sem marca. */
+.ponto-vivo::before {
+  content: '';
+  position: absolute;
+  inset: -3px;
+  border: 1px solid var(--petroleo);
+  opacity: 0;
+}
+
+/* O fio da chamada. Era `border-bottom`; virou pseudo-elemento porque agora
+   são duas camadas — o fio e o que corre por ele. */
+.fachada__vaga::before {
+  content: '';
+  position: absolute;
+  left: 0; right: 0; bottom: 0;
+  height: 1px;
+  background: color-mix(in srgb, var(--petroleo) 40%, transparent);
+  transition: background var(--d-micro) var(--saida-expo);
+}
+.fachada__vaga:hover::before,
+.fachada__vaga:focus-visible::before { background: var(--petroleo); }
+
+/* O sinal. Pinta por `background-position`, não por `translate`, e a razão é
+   concreta: fundo não vaza da própria caixa. Com transform eu precisaria de
+   `overflow: hidden` no link — e o link é justamente quem PENDURA o ponto
+   para fora, então o overflow decepava o ponto. */
+.fachada__vaga::after {
+  content: '';
+  position: absolute;
+  left: 0; right: 0; bottom: 0;
+  height: 1px;
+  /* O pico é petróleo puxado para a cor do texto: no tinta clareia, no papel
+     escurece — nos dois casos DESTACA do fio, que é o mesmo petróleo a 40%.
+     Sem isso o brilho tem a cor do fio e a linha inteira parece só acender. */
+  background-image: linear-gradient(90deg, transparent,
+                    color-mix(in srgb, var(--petroleo) 55%, var(--texto)), transparent);
+  background-size: 26% 100%;
+  background-repeat: no-repeat;
+  background-position: -36% 0;   /* fora da ponta esquerda */
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .ponto-vivo::before      { animation: emite-anel  4s var(--saida-expo) infinite; }
+  /* `linear` de propósito, e é a única curva linear do projeto: as outras
+     animam COISAS, que têm massa e desaceleram. Esta anima um sinal
+     percorrendo um fio, e sinal não freia. Com a curva de saída padrão o
+     brilho chegava a 65% do caminho em 20% do tempo e o resto era espera. */
+  .fachada__vaga::after    { animation: corre-o-fio 4s linear infinite; }
+
+  /* Mesmo gesto, relógio mais rápido. */
+  .fachada__vaga:hover  .ponto-vivo::before,
+  .fachada__vaga:focus-visible .ponto-vivo::before,
+  .fachada__vaga:hover::after,
+  .fachada__vaga:focus-visible::after { animation-duration: 2.4s; }
+}
+
+/* Sobe de 0: sem isso o anel reaparece com um estalo no início de cada
+   ciclo. Chega em scale(2.8) invisível e espera ali o resto do ciclo. */
+@keyframes emite-anel {
+  0%    { transform: scale(1);   opacity: 0;    }
+  4%    { transform: scale(1.1); opacity: 0.55; }
+  17.5% { transform: scale(2.5); opacity: 0;    }
+  100%  { transform: scale(2.5); opacity: 0;    }
+}
+
+/* -36% e 136% são as posições em que uma imagem de 26% de largura fica
+   inteiramente FORA de cada ponta (posição P% assenta a borda esquerda em
+   P × 0.74 da caixa). A travessia ocupa 17.5% do ciclo; o resto é silêncio —
+   0.70s de faísca e 3.30s de espera no ambiente, 0.42s e 1.98s sob o
+   ponteiro. */
+@keyframes corre-o-fio {
+  0%    { background-position: -36% 0; }
+  17.5% { background-position: 136% 0; }
+  100%  { background-position: 136% 0; }
+}
+
+/* ── Rol e verbetes ────────────────────────────────────────────────────────
+   Um rol é uma lista de verbetes; um verbete é uma entrada de catálogo. Vale
+   igual para cargo, recorte e formação — três seções, uma gramática só.
+
+   Três coisas acontecem no hover, e nenhuma é sombra:
+     1. o fundo se levanta (--elevado) com um fio inset de 1px no topo;
+     2. a seta do título anda para o canto superior direito;
+     3. os IRMÃOS esmaecem — o olho fica onde o ponteiro está.
+
+   (3) é o group/list da referência reproduzido sem Tailwind. Detalhe que
+   custou pensar: o esmaecer NÃO pode usar `opacity`, porque `revela` (a
+   animação scroll-driven em movimento.css) também anima opacity — e animação
+   vence declaração, então o cartão esmaecido voltaria sozinho. `filter:
+   opacity()` é propriedade diferente, então as duas convivem. Por isso
+   `revela` mira em __quando e __miolo, nunca no verbete em si.               */
+
+.rol {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  gap: var(--e-5);
+}
+
+.verbete {
+  position: relative;
+  isolation: isolate;          /* prende o z-index -1 do ::before aqui dentro */
+  display: grid;
+  gap: var(--e-2);
+  transition: filter var(--d-media) var(--saida-expo);
+}
+
+@media (min-width: 48rem) {
+  .verbete {
+    /* 9.5rem é a medida de "set 2022 — jun 2024" em mono nano: o período mais
+       longo que os dados produzem. Menos que isso e ele quebra em duas linhas
+       justamente nos cargos mais importantes. */
+    grid-template-columns: 9.5rem minmax(0, 1fr);
+    gap: var(--e-4);
+  }
+}
+
+/* A superfície de realce. Único lugar do projeto com raio — e ela não é
+   affordance, é um levantar de fundo. */
+.verbete::before {
+  content: '';
+  position: absolute;
+  z-index: -1;
+  inset: calc(var(--e-4) * -1) calc(var(--e-5) * -1);
+  border-radius: var(--raio-verbete);
+  background: var(--elevado);
+  /* Fio inset, não sombra: a doutrina do projeto é profundidade por fio.
+     box-shadow aqui desenha 1px de linha, nada além disso. */
+  box-shadow: inset 0 1px 0 var(--fio-forte);
+  opacity: 0;
+  transition: opacity var(--d-media) var(--saida-expo);
+}
+.verbete:hover::before,
+.verbete:focus-within::before { opacity: 1; }
+
+@media (hover: hover) and (pointer: fine) {
+  .rol:hover > .verbete { filter: opacity(0.5); }
+  .rol > .verbete:hover,
+  .rol > .verbete:focus-within { filter: none; }
+}
+
+/* Coluna estreita: o período. É aqui que a referência põe a miniatura do
+   projeto — e é por isto que não há imagem nenhuma nesta página. */
+.verbete__quando {
+  color: var(--texto-tenue);
+  font-size: var(--t-nano);
+  /* Mais apertado que --ls-mono: o período é longo e a coluna é estreita. */
+  letter-spacing: 0.04em;
+  line-height: 1.6;
+  padding-top: 0.35em;         /* alinha ao baseline do título */
+}
+.verbete__dur { display: block; color: var(--fio-forte); }
+
+/* O selo "atual" — derivado de fim === null nos dados e escrito por
+   dinamico.js no atributo data-rotulo-atual. Nunca digitado à mão.
+   attr() só lê o elemento de ORIGEM, por isso o atributo cai no [data-selo]. */
+[data-selo][data-rotulo-atual]:not([data-rotulo-atual=''])::after {
+  content: attr(data-rotulo-atual);
+  display: inline-block;
+  margin-top: 0.6em;
+  padding: 0.16em 0.6em;
+  border: 1px solid var(--petroleo);
+  border-radius: var(--raio-pilula);
+  color: var(--petroleo);
+  font-weight: 500;
+}
+
+.verbete__miolo { min-width: 0; }
+
+.verbete__titulo {
+  font-size: var(--t-d3);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  margin-bottom: 0.2em;
+}
+
+/* Sem alvo de clique cobrindo o cartão inteiro, ao contrário da referência.
+   Lá cada projeto tem um destino único e óbvio; aqui um cargo é um cargo e um
+   recorte leva a uma conversa. Cartão inteiro clicável seria affordance falsa,
+   então os links ficam explícitos e o realce do hover diz só "é este que você
+   está lendo" — que é o que o esmaecer dos irmãos já comunica. */
+
+.verbete__seta {
+  display: inline-block;
+  transition: translate var(--d-media) var(--mola);
+}
+.verbete:hover .verbete__seta,
+.verbete:focus-within .verbete__seta { translate: 3px -3px; }
+
+.verbete__sub {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5em;
+  color: var(--texto-tenue);
+  font-size: var(--t-micro);
+  margin-bottom: var(--e-3);
+}
+.verbete__sep { color: var(--fio-forte); }
+
+/* A prosa sobe acima do alvo: o texto continua selecionável, e arrastar para
+   selecionar não dispara o link nem infla a contagem de cliques. */
+.verbete__prosa,
+.verbete__convite {
+  position: relative;
+  z-index: 1;
+}
+.verbete__prosa {
+  color: var(--texto-suave);
+  font-size: var(--t-peq);
+}
+.verbete__prosa + .verbete__prosa { margin-top: var(--e-3); }
+
+/* O problema entra em itálico ótico via eixo de peso, não com <em>. */
+.verbete__prosa--problema { font-weight: 340; }
+
+.verbete__convite {
+  display: inline-block;
+  margin-top: var(--e-3);
+  font-family: var(--f-display);
+  font-size: var(--t-peq);
+  font-weight: 560;
+  color: var(--ambar);
+  border-bottom: 1px solid color-mix(in srgb, var(--ambar) 35%, transparent);
+  padding-bottom: 0.2em;
+  transition: border-color var(--d-micro) var(--saida-expo),
+              letter-spacing var(--d-media) var(--saida-expo);
+}
+.verbete__convite:hover,
+.verbete__convite:focus-visible { border-color: var(--ambar); letter-spacing: 0.012em; }
+
+/* Etiquetas de stack — pílulas no acento frio, para não competirem com o
+   âmbar que marca navegação e chamadas. */
+.verbete__stack {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--e-2);
+  list-style: none;
+  padding: 0;
+  margin-top: var(--e-4);
+}
+/* Uma definição só para a pílula: as etiquetas de stack do cargo e as da
+   seção 004 são visualmente a mesma coisa e não devem divergir. */
+.verbete__stack li,
+.rol-tec li {
+  padding: 0.28em 0.7em;
+  border-radius: var(--raio-pilula);
+  background: var(--petroleo-tenue);
+  color: var(--petroleo);
+  font-family: var(--f-mono);
+  font-size: var(--t-nano);
+  font-weight: 500;
+  letter-spacing: var(--ls-mono);
+  text-transform: uppercase;
+  line-height: 1.5;
+}
+
+/* O cargo anterior à programação. Presente, sem disputar atenção. */
+.verbete--discreto { opacity: 0.62; transition: opacity var(--d-media) var(--saida-expo); }
+.verbete--discreto:hover, .verbete--discreto:focus-within { opacity: 1; }
+.verbete--discreto .verbete__titulo { font-size: var(--t-corpo); font-weight: 500; }
+
+/* Link solto no fim de um rol — "ver currículo completo". */
+.rol-elo {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.4em;
+  margin-top: var(--e-5);
+  font-family: var(--f-display);
+  font-size: var(--t-peq);
+  font-weight: 600;
+  color: var(--texto);
+}
+.rol-elo:hover, .rol-elo:focus-visible { color: var(--ambar); }
+.rol-elo .verbete__seta { transition: translate var(--d-media) var(--mola); }
+.rol-elo:hover .verbete__seta { translate: 3px -3px; }
+
+/* ── Ferramentas: capacidade por camada (004) ──────────────────────────────
+   Terceira forma desta seção, e as duas anteriores ensinaram o mesmo:
+
+     · uma matriz 35×6, onde 77% das células diziam "não" — grade é a forma
+       certa para cruzamento denso, e este dado é esparso;
+     · uma fileira de pontos contando projetos, que todo leitor entendeu como
+       NOTA DE 1 A 5, subestimando justamente quem a lista descreve.
+
+   Daí a regra desta seção: NENHUMA gradação visual entre tecnologias. Nem
+   ponto, nem barra, nem opacidade, nem tamanho. Toda pílula tem o mesmo peso,
+   e a hierarquia vive em duas coisas que não se confundem com nota — a ORDEM
+   (o que é de hoje vem primeiro, decidido pelo build) e a FRASE de cada
+   camada.
+
+   Também não há esmaecer de irmãos aqui, ao contrário do rol de verbetes:
+   naquele, entradas longas pedem foco; numa nuvem de pílulas curtas isso é
+   ruído.                                                                    */
+
+.tecnologias__intro {
+  color: var(--texto-suave);
+  margin-bottom: var(--e-6);
+}
+
+.tec-camada + .tec-camada { margin-top: var(--e-6); }
+
+.tec-camada__titulo {
+  font-family: var(--f-mono);
+  font-size: var(--t-nano);
+  font-weight: 500;
+  letter-spacing: var(--ls-mono);
+  text-transform: uppercase;
+  color: var(--ambar);
+  padding-bottom: var(--e-2);
+  border-bottom: 1px solid var(--fio);
+  margin-bottom: var(--e-3);
+}
+
+/* A frase é quem carrega o nível. Serif, tamanho de leitura — ela é conteúdo,
+   não legenda. */
+.tec-camada__nota {
+  color: var(--texto-suave);
+  font-size: var(--t-peq);
+  max-width: 38rem;
+  margin-bottom: var(--e-4);
+}
+
+.rol-tec {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--e-2);
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+/* ── Contato (006) ─────────────────────────────────────────────────────── */
+
+.contato__chamada {
+  font-family: var(--f-display);
+  font-size: var(--t-d2);
+  font-weight: 620;
+  letter-spacing: -0.028em;
+  line-height: 1.14;
+  margin-bottom: var(--e-4);
+}
+.contato__prazo { color: var(--texto-suave); font-weight: 400; }
+.contato__nota { color: var(--texto-suave); margin-bottom: var(--e-6); max-width: 34rem; }
+
+.contato__botoes {
+  display: grid;
+  gap: var(--e-3);
+  list-style: none;
+  padding: 0;
+  margin-bottom: var(--e-6);
+}
+.botao {
+  --puxao-x: 0px;
+  --puxao-y: 0px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--e-4);
+  padding: var(--e-4) var(--e-5);
+  border: 1px solid var(--fio-controle);
+  font-family: var(--f-mono);
+  font-size: var(--t-micro);
+  letter-spacing: var(--ls-mono);
+  color: var(--texto);
+  translate: var(--puxao-x) var(--puxao-y);
+  transition: border-color var(--d-micro) var(--saida-expo),
+              background   var(--d-micro) var(--saida-expo),
+              color        var(--d-micro) var(--saida-expo),
+              translate    var(--d-media) var(--saida-expo);
+}
+.botao:hover, .botao:focus-visible { border-color: var(--ambar); color: var(--ambar); }
+
+.botao--principal {
+  background: var(--ambar);
+  border-color: var(--ambar);
+  color: var(--selecao-fg);
+  font-weight: 600;
+}
+.botao--principal:hover, .botao--principal:focus-visible {
+  background: transparent;
+  color: var(--ambar);
+}
+
+.botao__seta {
+  transition: transform var(--d-media) var(--mola);
+  font-family: var(--f-corpo);
+}
+.botao:hover .botao__seta, .botao:focus-visible .botao__seta { transform: translateX(5px); }
+
+.contato__curriculo { color: var(--texto-tenue); font-size: var(--t-micro); display: flex; flex-wrap: wrap; gap: 0.6em; }
+
+/* ── Aviso LGPD ────────────────────────────────────────────────────────── */
+
+.aviso-lgpd {
+  position: fixed;
+  left: var(--margem);
+  bottom: var(--e-4);
+  z-index: 200;
+  max-width: 27rem;
+  padding: var(--e-4) var(--e-5);
+  background: var(--elevado);
+  border: 1px solid var(--fio-forte);
+  color: var(--texto-suave);
+  font-size: var(--t-peq);
+  animation: sobe-aviso var(--d-longa) var(--saida-expo) both;
+}
+.aviso-lgpd[hidden] { display: none; }
+
+@keyframes sobe-aviso {
+  from { opacity: 0; transform: translateY(14px); }
+  to   { opacity: 1; transform: none; }
+}
+
+.aviso-lgpd__acoes {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--e-4);
+  margin-top: var(--e-3);
+  font-size: var(--t-nano);
+}
+.aviso-lgpd__acoes button {
+  border-bottom: 1px solid var(--fio-forte);
+  padding-bottom: 0.15em;
+  color: var(--texto);
+  transition: border-color var(--d-micro) var(--saida-expo), color var(--d-micro) var(--saida-expo);
+}
+.aviso-lgpd__acoes button:hover,
+.aviso-lgpd__acoes button:focus-visible { border-color: var(--ambar); color: var(--ambar); }
+.aviso-lgpd__acoes a { color: var(--texto-tenue); }

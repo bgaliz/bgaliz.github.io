@@ -1,0 +1,415 @@
+/* ═══════════════════════════════════════════════════════════════════════════
+   LAYOUT — casca de duas colunas, fachada presa, índice, seções
+   ───────────────────────────────────────────────────────────────────────────
+   A identidade fica presa à esquerda e nunca sai da tela; todo o conteúdo
+   rola à direita. A assimetria continua deliberada: nada de 50/50.
+
+   ESCADA DE DOIS DEGRAUS
+   ───────────────────────────────────────────────────────────────────────────
+   Antes havia cinco larguras (40, 48, 50, 56, 62rem) e nenhuma explicava a
+   próxima. Agora há duas, e cada uma tem um motivo:
+
+     48rem  MÉDIO  — cabe uma segunda coluna DENTRO de um bloco
+                     (o verbete ganha a coluna do período)
+     64rem  LARGO  — cabe a divisão em duas colunas da casca INTEIRA
+
+   E uma consulta de ALTURA, ortogonal às duas: a coluna presa não pode
+   transbordar num notebook de 720px.
+
+     (min-width: 64rem) and (max-height: 44rem)
+
+   @custom-media não chegou a navegador estável, e media query não lê custom
+   property — por isso os literais. Este comentário é o token.
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+.ancora { position: absolute; top: 0; }
+
+/* ── Casca ─────────────────────────────────────────────────────────────────
+   Uma só caixa centrada. Abaixo de 64rem tudo empilha e a fachada vira um
+   bloco estático no topo — sem media query para isso, porque `display: block`
+   já é o padrão.                                                            */
+
+.casca {
+  position: relative;
+  z-index: 1;                  /* acima do .refletor, que mora em z 0 */
+  max-width: var(--largura-max);
+  margin-inline: auto;
+  padding: var(--e-7) var(--margem);
+}
+
+@media (min-width: 64rem) {
+  .casca {
+    display: grid;
+    grid-template-columns: var(--col-presa) var(--col-fluxo);
+    gap: var(--goteira);
+    align-items: start;
+    padding-block: 0;          /* cada coluna paga o seu próprio ar */
+  }
+}
+
+/* ── Fachada: a coluna presa ───────────────────────────────────────────── */
+
+.fachada {
+  display: flex;
+  flex-direction: column;
+  gap: var(--e-6);
+  margin-bottom: var(--e-8);
+}
+
+@media (min-width: 64rem) {
+  .fachada {
+    position: sticky;
+    top: 0;
+    padding-block: var(--e-8);
+    margin-bottom: 0;
+    /* Sem `max-height` e sem `overflow`. A tentativa anterior foi dar uma
+       barra de rolagem à coluna, e barra dentro de coluna presa é duas
+       rolagens na mesma tela — o problema, não a solução. O que cabe é
+       resolvido por espaço (os degraus de altura, mais abaixo) e o que não
+       cabe desgruda. Nenhum dos dois precisa de barra. */
+
+    /* O pé desce por `margin-top: auto`, não por `space-between`: quando o
+       conteúdo aperta, a distribuição come o espaço do PRIMEIRO item, e o
+       primeiro item aqui é o nome. */
+  }
+  .fachada__pe { margin-top: auto; }
+}
+
+.fachada__topo { display: flex; flex-direction: column; gap: var(--e-4); }
+
+.fachada__nome {
+  font-size: var(--t-nome);
+  line-height: var(--lh-apertado);
+  letter-spacing: var(--ls-hero);
+  font-weight: 760;
+  /* Ligado por movimento.css aos eixos variáveis, só durante a abertura. */
+  font-variation-settings: 'wght' var(--eixo-peso), 'wdth' var(--eixo-largura);
+}
+/* O par máscara + conteúdo que a abertura anima. Não separar. */
+.fachada__linha   { display: block; overflow: hidden; }
+.fachada__palavra { display: block; }
+
+.fachada__papel {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.7em;
+}
+.fachada__papel strong {
+  font-family: var(--f-display);
+  font-size: var(--t-d3);
+  font-weight: 600;
+}
+.fachada__desde { color: var(--texto-tenue); }
+
+.fachada__lema {
+  color: var(--texto-suave);
+  font-size: var(--t-peq);
+  max-width: var(--medida-fachada);
+}
+
+/* Disponibilidade acima da dobra: é a informação que decide se vale a pena
+   continuar lendo.
+
+   Era UMA linha — lugar, separador e chamada emendados no mesmo gesto. Duas
+   coisas davam errado nisso: a linha passava de 25rem e virava o elemento
+   mais largo da coluna (mais largo que o nome, que o lema, que tudo), e a
+   chamada — a única coisa clicável do bloco — chegava ao olho como sufixo do
+   endereço. Agora são duas linhas com a MESMA sangria, o lugar em cima como
+   contexto e a chamada embaixo como ação. */
+.fachada__estado {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--e-2);
+  max-width: var(--medida-fachada);
+  color: var(--petroleo);
+  font-size: var(--t-nano);
+}
+
+.fachada__lugar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5em;
+  color: var(--texto-tenue);
+}
+
+/* A disponibilidade É a chamada: quem lê "disponível" e quer agir já tem
+   onde clicar. Classe própria para escapar do sublinhado âmbar que base.css
+   dá a link sem classe — aqui a cor tem de continuar sendo a do acento frio. */
+/* O ponto PENDURA fora da caixa, como marca de lista em livro: quem define
+   a sangria é o texto, não o marcador. Sem isto a segunda linha entraria
+   ~14px à direita da primeira e o bloco perderia o fio de prumo — que é o
+   único alinhamento que esta coluna tem.
+
+   Aqui mora só ONDE as coisas ficam. O fio da chamada e o sinal que corre
+   por ele são aparência e comportamento: vivem em componentes.css, junto do
+   ponto vivo, porque os três são um gesto só. */
+.fachada__vaga {
+  position: relative;
+  padding-bottom: 0.28em;
+}
+.fachada__vaga .ponto-vivo {
+  position: absolute;
+  left: -0.85rem;   /* < 1.125rem: a margem mínima da casca */
+  top: 0.42em;
+}
+
+/* O pé flutuava: dois grupos soltos, um encostado na margem esquerda e outro
+   empurrado por `space-between` contra um lado direito que não existe — nesta
+   coluna tudo é alinhado à esquerda e sangrado à direita. O fio resolve os
+   dois: fecha a coluna e passa a ser a régua que justifica os dois grupos.
+   Ele tem a MEDIDA do lema, não a largura da trilha da grade, senão sobraria
+   fio à direita de tudo que há acima dele. */
+.fachada__pe {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--e-4);
+  max-width: var(--medida-fachada);
+  padding-top: var(--e-4);
+  border-top: 1px solid var(--fio);
+}
+
+.fachada__acoes { display: flex; gap: var(--e-2); flex: none; }
+
+/* ── Índice: sumário, não menu ─────────────────────────────────────────────
+   O indicador da referência. Um fio de 1px que dobra de largura e ganha cor
+   quando a seção é a corrente — `aria-current` é escrito por principal.js e
+   já vem no HTML para o estado sem-JS estar certo.
+
+   TRÊS TRILHAS FIXAS, E O MOTIVO DELAS
+   O fio morava ANTES do rótulo, na mesma linha de texto, e crescia de 2rem
+   para 4rem. Quer dizer: o rótulo da seção corrente ficava 2rem à direita
+   dos outros cinco, e cada rolagem empurrava um rótulo para lá e trazia
+   outro de volta. Seis itens que nunca compartilhavam uma margem.
+
+   Agora o `a` é grade de trilhas FIXAS — ordinal | fio | rótulo. O fio
+   cresce dentro da própria trilha, então nada se move: os seis ordinais
+   dividem um prumo, os seis rótulos dividem outro, e a animação continua
+   inteira.
+
+   O ordinal não é enfeite: é o mesmo 001–006 que encabeça a seção lá na
+   coluna que rola. Com ele o fio deixa de ser um traço solto e vira o
+   PONTILHADO de sumário que liga o número à entrada — e o índice passa a
+   dizer onde você está em duas linguagens, a cor e o número.
+
+   Só no degrau largo: abaixo de 64rem a fachada é um bloco no topo e uma
+   lista de âncoras ali não orienta ninguém — a página inteira está a um
+   scroll de distância.                                                      */
+
+.indice { display: none; }
+
+@media (min-width: 64rem) {
+  .indice { display: block; margin-top: var(--e-5); }
+
+  .indice ol {
+    display: flex;
+    flex-direction: column;
+    gap: var(--e-3);
+    list-style: none;
+    padding: 0;
+  }
+
+  .indice a {
+    /* inline-grid, não grid: em grade de bloco as trilhas `auto` absorvem a
+       sobra da linha e o rótulo é jogado para a direita da coluna. Aqui as
+       trilhas têm de encolher no conteúdo. */
+    display: inline-grid;
+    grid-template-columns: max-content 2.75rem max-content;
+    align-items: center;
+    gap: var(--e-3);
+    padding-block: var(--e-1);
+    color: var(--texto-tenue);
+    font-size: var(--t-nano);
+    letter-spacing: var(--ls-mono);
+  }
+
+  .indice__num {
+    color: var(--fio-controle);
+    font-variant-numeric: tabular-nums;   /* seis ordinais, uma só largura */
+    transition: color var(--d-media) var(--saida-expo);
+  }
+
+  /* Duas camadas na mesma trilha, e a razão é de leitura:
+       · o fio de baixo ocupa a trilha INTEIRA, tênue, nas seis linhas — é o
+         pontilhado de sumário que costura o número ao rótulo. Sem ele, o
+         traço curto de uma linha inativa fica um risco solto no vazio;
+       · o de cima é o indicador, e ele PREENCHE da esquerda para a direita
+         em vez de a caixa mudar de tamanho. O gesto é o mesmo, o alinhamento
+         sai de graça, e o desenho ganha um guia contínuo em toda linha.    */
+  .indice__fio {
+    position: relative;
+    display: block;
+    width: 100%;
+    height: 1px;
+    background: var(--fio);
+  }
+  .indice__fio::after {
+    content: '';
+    position: absolute;
+    inset: 0 auto 0 0;
+    width: 0;
+    background: var(--texto);
+    transition: width var(--d-media) var(--saida-expo),
+                background var(--d-media) var(--saida-expo);
+  }
+  .indice__texto { transition: color var(--d-media) var(--saida-expo); }
+
+  .indice a:hover  .indice__fio::after,
+  .indice a:focus-visible .indice__fio::after,
+  .indice a[aria-current='true'] .indice__fio::after { width: 100%; }
+
+  .indice a:hover  .indice__texto,
+  .indice a:focus-visible .indice__texto { color: var(--texto); }
+  .indice a:hover  .indice__num,
+  .indice a:focus-visible .indice__num { color: var(--texto-tenue); }
+
+  .indice a[aria-current='true'] .indice__texto { color: var(--texto); font-weight: 600; }
+  /* O mesmo âmbar do 001 que encabeça a seção — a correspondência é o ponto. */
+  .indice a[aria-current='true'] .indice__num { color: var(--ambar); }
+  .indice a[aria-current='true'] .indice__fio::after { background: var(--ambar); }
+}
+
+/* ── Sociais ───────────────────────────────────────────────────────────── */
+
+.sociais {
+  display: flex;
+  align-items: center;
+  gap: var(--e-4);
+  list-style: none;
+  padding: 0;
+}
+.sociais a {
+  display: block;
+  color: var(--texto-tenue);
+  transition: color var(--d-micro) var(--saida-expo),
+              translate var(--d-media) var(--mola);
+}
+.sociais a:hover,
+.sociais a:focus-visible { color: var(--texto); translate: 0 -2px; }
+
+/* ── Dois degraus de ALTURA, e por que passaram a ser dois ────────────────
+   Havia um só, em 44rem, e ele fazia a concessão inteira de uma vez: encolhe
+   o nome E esconde o lema. O efeito colateral era a faixa logo ACIMA dele.
+   Medido: numa janela de ~760px de viewport a fachada pedia 824px e o pé era
+   cortado — sem barra, sem aviso. O degrau existia, só que 60px baixo demais.
+
+   Agora a concessão é graduada, que é como concessão deve ser:
+
+     ≤ 54rem  APERTA   o ritmo interno cede (respiro do bloco, entrelinha do
+                       índice). Nada some. Resolve a faixa que estava quebrada.
+     ≤ 49rem  CEDE     além do aperto, o nome encolhe e o lema sai.
+
+   Os dois limiares saem de medir a altura pedida em cada degrau (824 / 760 /
+   676px), não de números redondos: cada um fica ONDE o degrau de baixo passa
+   a caber, com folga. Mexer num respiro daqui muda a altura pedida — remeça
+   antes de mexer no limiar.
+
+   E o bloco mora AQUI, no fim da seção, de propósito: ele tem a mesma
+   especificidade das regras que sobrescreve. Morava lá em cima, antes de
+   `.fachada__nome`, e por isso o encolhimento do nome nunca chegou a
+   acontecer — media query não ganha peso, só ordem.
+
+   Abaixo disso a coluna rola — ver `overflow-y` acima. Rolar é feio; cortar
+   é pior.                                                                   */
+@media (min-width: 64rem) and (max-height: 54rem) {
+  .fachada { padding-block: var(--e-7); }
+  .fachada__estado { gap: var(--e-1); }
+  .indice { margin-top: var(--e-4); }
+  .indice ol { gap: var(--e-2); }
+  .fachada__pe { padding-top: var(--e-3); }
+}
+
+@media (min-width: 64rem) and (max-height: 49rem) {
+  .fachada { gap: var(--e-4); }
+  .fachada__nome { font-size: clamp(2rem, 4vw, 2.75rem); }
+  .fachada__lema { display: none; }
+  .indice { margin-top: var(--e-3); }
+}
+
+/* ≤ 40rem  COMPRIME — o respiro vai ao mínimo. Nada some, nada encolhe de
+   tamanho: só o ar entre as coisas. Vale 80px, e é o que separa uma janela
+   de 584px de viewport (medida, real, de um 1366×768 com barra e abas) de
+   ganhar uma barra de rolagem que ninguém pediu. */
+@media (min-width: 64rem) and (max-height: 40rem) {
+  .fachada { gap: var(--e-3); padding-block: var(--e-6); }
+  .fachada__topo { gap: var(--e-3); }
+  .indice ol { gap: var(--e-1); }
+  .fachada__pe { padding-top: var(--e-2); }
+}
+
+/* Última linha: onde nem comprimida a coluna cabe, ela DESGRUDA e rola com a
+   página. Coluna presa que não cabe é coluna que esconde o próprio pé — e
+   presa COM barra era pior. Aqui ninguém perde nada: é só rolar. */
+@media (min-width: 64rem) and (max-height: 33rem) {
+  .fachada { position: static; }
+}
+
+
+/* ── Fluxo: a coluna que rola ──────────────────────────────────────────── */
+
+@media (min-width: 64rem) {
+  .fluxo { padding-block: var(--e-8); }
+}
+
+/* ── Seções ────────────────────────────────────────────────────────────────
+   Sem largura nem margem próprias: a coluna É a medida. Sem borda de topo
+   nem inversão de fundo — numa coluna centrada de meia largura uma banda
+   full-bleed é geometricamente impossível, e o ritmo agora vem do espaço.  */
+
+.secao { padding-block: 0 var(--secao-y); }
+.secao:last-of-type { padding-bottom: var(--e-7); }
+
+.secao__cabeca {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: var(--e-3) var(--e-4);
+  margin-bottom: var(--e-6);
+}
+
+.secao__num {
+  color: var(--ambar);
+  font-size: var(--t-micro);
+  font-weight: 600;
+  /* O número "monta" sobre a régua da seção. movimento.css repete este
+     deslocamento dentro de @keyframes desliza-num — mudar aqui é mudar lá. */
+  transform: translateY(-0.15em);
+}
+
+/* Mono maiúsculo em vez de display gigante: com seis seções numa coluna
+   estreita, um título de 4.5rem competiria com o nome da fachada. */
+.secao__titulo {
+  font-family: var(--f-mono);
+  font-size: var(--t-micro);
+  font-weight: 600;
+  letter-spacing: var(--ls-mono);
+  text-transform: uppercase;
+  color: var(--texto);
+}
+
+.secao__nota {
+  flex-basis: 100%;
+  color: var(--texto-tenue);
+  font-size: var(--t-nano);
+}
+
+/* ── Contato (006) ─────────────────────────────────────────────────────── */
+
+.contato { display: grid; gap: var(--e-5); }
+
+/* ── Créditos ──────────────────────────────────────────────────────────────
+   Herda a coluna: sem max-width, sem margem própria, sem borda de topo. */
+
+.rodape {
+  display: grid;
+  gap: var(--e-2);
+  padding-top: var(--e-7);
+  color: var(--texto-tenue);
+  font-size: var(--t-nano);
+}
+.rodape__meta { display: flex; flex-wrap: wrap; gap: 0.5em; align-items: baseline; }
+.rodape__sep { color: var(--fio-forte); }
+.rodape a { color: var(--texto-suave); }

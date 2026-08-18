@@ -1,0 +1,43 @@
+# Mantém os valores temporais frescos no HTML servido.
+#
+# O JS já corrige tudo no navegador — este workflow existe para o crawler do
+# Google, o card do LinkedIn e quem estiver sem JS, que leem o HTML cru.
+# Roda todo dia 1º e só commita quando algo realmente mudou.
+
+name: Atualizar datas
+
+on:
+  schedule:
+    - cron: '17 4 1 * *'     # dia 1º, 04:17 UTC (01:17 em Campo Grande)
+  workflow_dispatch:          # permite rodar à mão pelo painel do GitHub
+
+permissions:
+  contents: write
+
+jobs:
+  atualizar:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Verificar a camada temporal
+        run: node ferramentas/verificar-tempo.mjs
+
+      - name: Injetar os valores no HTML
+        run: node ferramentas/construir.mjs
+
+      - name: Commitar se houve mudança
+        run: |
+          if [[ -z "$(git status --porcelain)" ]]; then
+            echo "Nada mudou neste mês."
+            exit 0
+          fi
+          git config user.name  "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -m "chore: atualiza valores temporais ($(date -u +%Y-%m))"
+          git push

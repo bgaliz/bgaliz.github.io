@@ -1,0 +1,687 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>Bruno Galiz — Desenvolvedor Full-Stack</title>
+<meta name="description" data-din="meta.descricao" content="Desenvolvedor full-stack desde 2019. Governo, saúde — Vue, React, Node e Java. Campo Grande, MS · remoto.">
+<meta name="author" content="Bruno Galiz de Oliveira">
+<link rel="canonical" href="https://bgaliz.github.io/">
+
+<meta property="og:type" content="profile">
+<meta property="og:title" content="Bruno Galiz — Desenvolvedor Full-Stack">
+<meta property="og:description" data-din="meta.descricao" content="Desenvolvedor full-stack desde 2019. Governo, saúde — Vue, React, Node e Java. Campo Grande, MS · remoto.">
+<meta property="og:url" content="https://bgaliz.github.io/">
+<meta property="og:image" content="https://bgaliz.github.io/assets/img/og.png">
+<meta property="og:locale" content="pt_BR">
+<meta name="twitter:card" content="summary_large_image">
+
+<link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+<meta name="theme-color" content="#0B0A08" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#F7F3EA" media="(prefers-color-scheme: light)">
+
+<link rel="preload" href="assets/fonts/display.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="assets/fonts/corpo.woff2" as="font" type="font/woff2" crossorigin>
+
+<link rel="stylesheet" href="assets/css/tokens.css">
+<link rel="stylesheet" href="assets/css/base.css">
+<link rel="stylesheet" href="assets/css/layout.css">
+<link rel="stylesheet" href="assets/css/componentes.css">
+<link rel="stylesheet" href="assets/css/movimento.css">
+
+<!-- Tema antes da primeira pintura: sem isto, quem escolheu papel vê um
+     flash preto a cada carregamento. Precisa ser inline e síncrono. -->
+<script>
+  (function () {
+    try {
+      var t = localStorage.getItem('tema');
+      if (t) document.documentElement.dataset.tema = t;
+      var i = localStorage.getItem('idioma');
+      if (!i) i = (navigator.language || 'pt').toLowerCase().startsWith('pt') ? 'pt' : 'en';
+      if (i === 'en') document.documentElement.dataset.idiomaPendente = 'en';
+    } catch (e) {}
+    document.documentElement.classList.add('js');
+  })();
+</script>
+</head>
+
+<body>
+<a class="pular" href="#conteudo" data-en="Skip to content">Pular para o conteúdo</a>
+
+<!-- ═══════════════════════════════════════════════════════════════════════
+     CASCA DE DUAS COLUNAS
+     À esquerda a identidade, presa e sempre visível. À direita o conteúdo,
+     que rola. Abaixo de 64rem as duas empilham.
+     ═══════════════════════════════════════════════════════════════════════ -->
+<div class="casca">
+
+<header class="fachada">
+  <span id="topo" class="ancora"></span>
+
+  <div class="fachada__topo">
+
+    <h1 class="fachada__nome">
+      <span class="fachada__linha"><span class="fachada__palavra">Bruno Galiz</span></span>
+      <span class="fachada__linha"><span class="fachada__palavra">de Oliveira</span></span>
+    </h1>
+
+    <p class="fachada__papel">
+      <strong data-en="Full-Stack Developer">Desenvolvedor Full-Stack</strong>
+      <span class="mono fachada__desde">
+        <span data-en="since">desde</span> <span data-din="perfil.desdeAno">2019</span>
+      </span>
+    </p>
+
+    <p class="fachada__lema" data-en="I build systems that have to ship and stay up — for government, healthcare and the web.">Construo sistemas que precisam entrar no ar e continuar de pé — para governo, saúde e a web.</p>
+
+    <p class="fachada__estado mono">
+      <span class="fachada__lugar">
+        <span data-en="Campo Grande, Brazil">Campo Grande, MS</span>
+        <span aria-hidden="true">·</span>
+        <span data-en="remote">remoto</span>
+      </span>
+      <a class="fachada__vaga" href="#contato" data-cta="ir-contato">
+        <span class="ponto-vivo" aria-hidden="true"></span>
+        <span data-en="available for work">disponível para projetos</span>
+      </a>
+    </p>
+
+    <nav class="indice" aria-label="Seções">
+      <ol class="mono">
+        <li><a href="#perfil" data-secao="perfil" aria-current="true"><span class="indice__num mono" aria-hidden="true">001</span><span class="indice__fio" aria-hidden="true"></span><span class="indice__texto" data-en="About">Sobre</span></a></li>
+        <li><a href="#trajetoria" data-secao="trajetoria"><span class="indice__num mono" aria-hidden="true">002</span><span class="indice__fio" aria-hidden="true"></span><span class="indice__texto" data-en="Experience">Trajetória</span></a></li>
+        <li><a href="#recortes" data-secao="recortes"><span class="indice__num mono" aria-hidden="true">003</span><span class="indice__fio" aria-hidden="true"></span><span class="indice__texto" data-en="Case studies">Recortes</span></a></li>
+        <li><a href="#ferramentas" data-secao="ferramentas"><span class="indice__num mono" aria-hidden="true">004</span><span class="indice__fio" aria-hidden="true"></span><span class="indice__texto" data-en="Stack">Ferramentas</span></a></li>
+        <li><a href="#formacao" data-secao="formacao"><span class="indice__num mono" aria-hidden="true">005</span><span class="indice__fio" aria-hidden="true"></span><span class="indice__texto" data-en="Education">Formação</span></a></li>
+        <li><a href="#contato" data-secao="contato"><span class="indice__num mono" aria-hidden="true">006</span><span class="indice__fio" aria-hidden="true"></span><span class="indice__texto" data-en="Contact">Contato</span></a></li>
+      </ol>
+    </nav>
+
+  </div>
+
+  <div class="fachada__pe">
+    <ul class="sociais">
+      <li>
+        <a href="https://github.com/bgaliz" rel="me noopener" data-cta="github" aria-label="GitHub">
+          <svg viewBox="0 0 16 16" width="20" height="20" fill="currentColor" aria-hidden="true">
+            <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8Z"/>
+          </svg>
+        </a>
+      </li>
+      <li>
+        <a href="https://linkedin.com/in/brunogaliz" rel="me noopener" data-cta="linkedin" aria-label="LinkedIn">
+          <svg viewBox="0 0 16 16" width="20" height="20" fill="currentColor" aria-hidden="true">
+            <path d="M3.8 15.6H.65V5.45h3.15ZM2.23 4.07C1.22 4.07 .4 3.23 .4 2.23a1.83 1.83 0 0 1 3.65 0c0 1.01-.82 1.84-1.83 1.84ZM15.6 15.6h-3.14V10.66c0-1.18-.02-2.69-1.64-2.69-1.64 0-1.89 1.28-1.89 2.6V15.6h-3.15V5.45h3.02v1.38h.04c.42-.8 1.45-1.64 2.98-1.64 3.19 0 3.78 2.1 3.78 4.83V15.6Z"/>
+          </svg>
+        </a>
+      </li>
+    </ul>
+
+    <div class="fachada__acoes">
+      <button class="alternador" id="alternar-idioma" type="button"
+              aria-label="Mudar para inglês" data-en-label="Switch to Portuguese">
+        <span class="mono" aria-hidden="true"><b>PT</b><em>/</em><i>EN</i></span>
+      </button>
+      <button class="alternador" id="alternar-tema" type="button"
+              aria-label="Mudar para tema claro" data-en-label="Switch to light theme">
+        <svg viewBox="0 0 16 16" width="15" height="15" aria-hidden="true" class="icone-tema">
+          <!-- Região em espaço de usuário: por padrão a máscara se recorta na
+               caixa do objeto + 10%, e o traço do anel encosta nessa borda. -->
+          <mask id="mascara-lua" maskUnits="userSpaceOnUse" x="0" y="0" width="16" height="16">
+            <rect width="16" height="16" fill="#fff"/>
+            <!-- 45° acima-direita, a 4.2 do centro: remove 138° e deixa um
+                 arco de 222° — crescente cheio, legível a 15px. -->
+            <circle class="icone-tema__mordida" cx="10.97" cy="5.03" r="4.35" fill="#000"/>
+          </mask>
+          <circle cx="8" cy="8" r="3.4" fill="none" stroke="currentColor" stroke-width="1.3"
+                  mask="url(#mascara-lua)"/>
+          <g class="icone-tema__raios" stroke="currentColor" stroke-width="1.3" stroke-linecap="round">
+            <path d="M8 .8v2M8 13.2v2M.8 8h2M13.2 8h2M2.9 2.9l1.4 1.4M11.7 11.7l1.4 1.4M13.1 2.9l-1.4 1.4M4.3 11.7l-1.4 1.4"/>
+          </g>
+        </svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+
+<main id="conteudo" class="fluxo">
+
+<!-- ═══════════════════════════════════════════════════════════════════════
+     001 · SOBRE
+     ═══════════════════════════════════════════════════════════════════════ -->
+<section id="perfil" class="secao" data-secao-obs="perfil">
+  <div class="secao__cabeca">
+    <span class="secao__num mono">001</span>
+    <h2 class="secao__titulo" data-en="About">Sobre</h2>
+  </div>
+
+  <p class="verbete__prosa" data-en="I work on systems that have to ship and stay up. In practice that has meant migrating medical records from JSP to React, building reports that respect the filter the user just applied, and shipping public-health apps to both app stores during the pandemic.">Trabalho com sistemas que precisam entrar no ar e continuar de pé. Na prática isso já significou migrar prontuário médico de JSP para React, construir relatório que respeita o filtro que o usuário acabou de aplicar, e publicar aplicativo de saúde pública nas duas lojas durante a pandemia.</p>
+
+  <p class="verbete__prosa" data-en="Right now I am at AZ Tecnologia, on the vehicle-control system for the State of Tocantins — Vue on the front, Java 11 and Spring Boot behind it, and tables large enough that turning them into a report is the actual problem. Before that came telemedicine at Conexa Saúde and the MS Digital portal at the State of Mato Grosso do Sul.">Hoje estou na AZ Tecnologia, no sistema de controle veicular do Governo do Tocantins — Vue na frente, Java 11 e Spring Boot atrás, e tabelas grandes o bastante para que transformá-las em relatório seja o problema de verdade. Antes disso vieram a telemedicina na Conexa Saúde e o portal MS Digital no Governo de Mato Grosso do Sul.</p>
+
+  <p class="verbete__prosa" data-en="Seven companies across five domains, and the pattern is the same in all of them: legacy that cannot stop working, a user who needs something the screen does not offer yet, and a deadline. That is the work I like.">Sete empresas em cinco domínios, e o padrão se repete em todos: legado que não pode parar de funcionar, um usuário que precisa de algo que a tela ainda não oferece, e um prazo. É esse o trabalho de que eu gosto.</p>
+</section>
+
+
+<!-- ═══════════════════════════════════════════════════════════════════════
+     002 · TRAJETÓRIA
+     Períodos e durações são slots data-din: calculados, nunca escritos.
+     ═══════════════════════════════════════════════════════════════════════ -->
+<section id="trajetoria" class="secao" data-secao-obs="trajetoria">
+  <div class="secao__cabeca">
+    <span class="secao__num mono">002</span>
+    <h2 class="secao__titulo" data-en="Experience">Trajetória</h2>
+    <p class="secao__nota mono">
+      <span data-din="linha.faixa">2018 — 2026</span>
+      <span aria-hidden="true">·</span>
+      <span data-din="contagem.empresas">7</span>
+      <span data-en="companies">empresas</span>
+      <span aria-hidden="true">·</span>
+      <span data-din="contagem.dominios">5</span>
+      <span data-en="domains">domínios</span>
+    </p>
+  </div>
+
+  <ol class="rol">
+
+    <li class="verbete" data-atual="sim">
+      <div class="verbete__quando mono" data-selo>
+        <span data-din="cargo.az.periodo">ago 2025 — atual</span>
+        <span class="verbete__dur" data-din="cargo.az.duracao">1 ano e 1 mês</span>
+      </div>
+      <div class="verbete__miolo">
+        <h3 class="verbete__titulo">AZ Tecnologia em Gestão</h3>
+        <p class="verbete__sub mono">
+          <span data-en="Full-Stack Developer">Desenvolvedor Full-Stack</span>
+          <span class="verbete__sep" aria-hidden="true">·</span>
+          <span data-en="remote">remoto</span>
+        </p>
+        <p class="verbete__prosa" data-en="Vehicle control system for the State of Tocantins. Public fleet management, with large tables that need to become reports for public accountability.">Sistema de controle veicular do Governo do Tocantins. Gestão da frota pública, com tabelas grandes que precisam virar relatório para prestação de contas.</p>
+        <ul class="verbete__stack">
+          <li>Vue</li><li>Java 11</li><li>Spring Boot</li><li>JPAQuery</li>
+          <li>PostgreSQL</li><li>OracleDB</li><li>Docker</li><li>Grafana</li>
+        </ul>
+      </div>
+    </li>
+
+    <li class="verbete">
+      <div class="verbete__quando mono">
+        <span data-din="cargo.easy.periodo">ago 2024 — set 2024</span>
+        <span class="verbete__dur" data-din="cargo.easy.duracao">2 meses</span>
+      </div>
+      <div class="verbete__miolo">
+        <h3 class="verbete__titulo">Easy Imóveis</h3>
+        <p class="verbete__sub mono">
+          <span data-en="Front-end Developer · freelance">Desenvolvedor Front-end · freelancer</span>
+          <span class="verbete__sep" aria-hidden="true">·</span>
+          <span data-en="remote">remoto</span>
+        </p>
+        <p class="verbete__prosa" data-en="Property search platform with custom filters. Interactive maps, form flows and reusable components.">Plataforma de busca de imóveis com filtros personalizados. Mapas interativos, fluxos de formulário e componentes reutilizáveis.</p>
+        <ul class="verbete__stack">
+          <li>Nuxt</li><li>Vue</li><li>TypeScript</li><li>Tailwind</li><li>shadcn/ui</li><li>Docker</li>
+        </ul>
+      </div>
+    </li>
+
+    <li class="verbete">
+      <div class="verbete__quando mono">
+        <span data-din="cargo.conexa.periodo">set 2022 — jun 2024</span>
+        <span class="verbete__dur" data-din="cargo.conexa.duracao">1 ano e 10 meses</span>
+      </div>
+      <div class="verbete__miolo">
+        <h3 class="verbete__titulo">Conexa Saúde</h3>
+        <p class="verbete__sub mono">
+          <span data-en="Front-end Developer">Desenvolvedor Front-end</span>
+          <span class="verbete__sep" aria-hidden="true">·</span>
+          <span data-en="remote">remoto</span>
+        </p>
+        <p class="verbete__prosa" data-en="Telemedicine platform. Migrated medical-record modules from legacy JSP to React and built customizable records.">Plataforma de telemedicina. Migração de módulos de prontuário de JSP legado para React, e prontuário customizável por clínica.</p>
+        <ul class="verbete__stack">
+          <li>React</li><li>React Hooks</li><li>Vue</li><li>TypeScript</li><li>JSP</li><li>Scrum</li>
+        </ul>
+      </div>
+    </li>
+
+    <li class="verbete">
+      <div class="verbete__quando mono">
+        <span data-din="cargo.calango.periodo">fev 2022 — jan 2023</span>
+        <span class="verbete__dur" data-din="cargo.calango.duracao">1 ano</span>
+      </div>
+      <div class="verbete__miolo">
+        <h3 class="verbete__titulo">Calango Doido</h3>
+        <p class="verbete__sub mono">
+          <span data-en="Front-end Developer · freelance">Desenvolvedor Front-end · freelancer</span>
+          <span class="verbete__sep" aria-hidden="true">·</span>
+          <span data-en="Campo Grande, Brazil">Campo Grande, MS</span>
+        </p>
+        <p class="verbete__prosa" data-en="NFT collection. Browser memory game built from the connected wallet’s tokens, plus the collection landing page.">Coleção de NFTs. Jogo da memória no navegador montado com os tokens da carteira conectada, mais a landing page da coleção.</p>
+        <ul class="verbete__stack">
+          <li>Next.js</li><li>TypeScript</li><li>Web3.js</li><li>MetaMask</li><li>Vercel</li>
+        </ul>
+      </div>
+    </li>
+
+    <li class="verbete">
+      <div class="verbete__quando mono">
+        <span data-din="cargo.sgi.periodo">ago 2020 — jun 2022</span>
+        <span class="verbete__dur" data-din="cargo.sgi.duracao">1 ano e 11 meses</span>
+      </div>
+      <div class="verbete__miolo">
+        <h3 class="verbete__titulo">SGI · Governo de MS</h3>
+        <p class="verbete__sub mono">
+          <span data-en="Full-Stack Developer">Desenvolvedor Full-Stack</span>
+          <span class="verbete__sep" aria-hidden="true">·</span>
+          <span data-en="Campo Grande, Brazil">Campo Grande, MS</span>
+        </p>
+        <p class="verbete__prosa" data-en="MS Digital portal. Public-health apps with Ionic during Covid — SUS Card, Vaccination Card and Free Pass — shipped to both app stores.">Portal MS Digital. Aplicativos de saúde pública com Ionic durante a Covid — Cartão SUS, Cartão de Vacinação e Passe Livre — publicados nas duas lojas.</p>
+        <p>
+          <a class="verbete__convite" href="https://www.msdigital.ms.gov.br" rel="noopener" data-cta="msdigital">msdigital.ms.gov.br <span class="verbete__seta" aria-hidden="true">↗</span></a>
+        </p>
+        <ul class="verbete__stack">
+          <li>Angular</li><li>React</li><li>Ionic</li><li>Node.js</li><li>Sequelize</li><li>Jest</li><li>SQL Server</li>
+        </ul>
+      </div>
+    </li>
+
+    <li class="verbete">
+      <div class="verbete__quando mono">
+        <span data-din="cargo.reduza.periodo">jan 2019 — jul 2020</span>
+        <span class="verbete__dur" data-din="cargo.reduza.duracao">1 ano e 7 meses</span>
+      </div>
+      <div class="verbete__miolo">
+        <h3 class="verbete__titulo">Reduza</h3>
+        <p class="verbete__sub mono">
+          <span data-en="Full-Stack Developer">Desenvolvedor Full-Stack</span>
+          <span class="verbete__sep" aria-hidden="true">·</span>
+          <span data-en="Campo Grande, Brazil">Campo Grande, MS</span>
+        </p>
+        <p class="verbete__prosa" data-en="Coupon and price-comparison platform. Scraping bots in Node.js with automated refresh cycles, and real-time cross-store comparison.">Plataforma de cupons e comparação de preços. Robôs de coleta em Node.js com ciclos de atualização automatizados, e comparação entre lojas em tempo real.</p>
+        <p>
+          <a class="verbete__convite" href="https://www.reduza.com.br" rel="noopener" data-cta="reduza">www.reduza.com.br <span class="verbete__seta" aria-hidden="true">↗</span></a>
+        </p>
+        <ul class="verbete__stack">
+          <li>Angular</li><li>Sass</li><li>TypeScript</li><li>Node.js</li><li>MongoDB</li><li>Redis</li>
+        </ul>
+      </div>
+    </li>
+
+    <li class="verbete verbete--discreto">
+      <div class="verbete__quando mono">
+        <span data-din="cargo.unisys.periodo">fev 2018 — jan 2019</span>
+      </div>
+      <div class="verbete__miolo">
+        <h3 class="verbete__titulo">Unisys</h3>
+        <p class="verbete__sub mono">
+          <span data-en="IT Service Desk">Service Desk de TI</span>
+        </p>
+        <p class="verbete__prosa" data-en="Remote support, Active Directory access management and network setup. Before programming professionally.">Suporte remoto, gestão de acessos em Active Directory e configuração de rede. Antes de programar profissionalmente.</p>
+      </div>
+    </li>
+
+  </ol>
+
+  <a class="rol-elo" href="curriculo/bruno-galiz-pt.pdf" data-cta="cv-pt" download>
+    <span data-en="View full résumé">Ver currículo completo</span>
+    <span class="verbete__seta" aria-hidden="true">↗</span>
+  </a>
+</section>
+
+
+<!-- ═══════════════════════════════════════════════════════════════════════
+     003 · RECORTES
+     Três domínios distintos. Cada caso tem problema, solução e convite.
+     ═══════════════════════════════════════════════════════════════════════ -->
+<section id="recortes" class="secao" data-secao-obs="recortes">
+  <div class="secao__cabeca">
+    <span class="secao__num mono">003</span>
+    <h2 class="secao__titulo" data-en="Case studies">Recortes</h2>
+    <p class="secao__nota mono">
+      <span data-din="contagem.recortesDominios">2</span>
+      <span data-en="domains">domínios</span>
+      <span aria-hidden="true">·</span>
+      <span data-din="contagem.recortes">2</span>
+      <span data-en="problems">problemas</span>
+    </p>
+  </div>
+
+  <ol class="rol">
+
+    <li class="verbete">
+      <div class="verbete__quando mono">
+        <span data-en="government">governo</span>
+        <span class="verbete__dur" data-din="caso.az.anos">2025 — atual</span>
+      </div>
+      <div class="verbete__miolo">
+        <h3 class="verbete__titulo">Controle Veicular</h3>
+        <p class="verbete__sub mono">
+          <span>AZ Tecnologia</span>
+          <span class="verbete__sep" aria-hidden="true">·</span>
+          <span data-en="State of Tocantins">Governo do Tocantins</span>
+        </p>
+        <p class="verbete__prosa verbete__prosa--problema" data-en="The fleet table has dozens of columns, and every department needs a different cut of it for public accountability. The report was fixed — it always came out the same, whatever the user was actually looking at.">A tabela da frota tem dezenas de colunas, e cada setor precisa de um recorte diferente para prestação de contas. O relatório era fixo — saía sempre igual, independente do que o usuário estivesse olhando na tela.</p>
+        <p class="verbete__prosa" data-en="I made the columns dynamic: the user adds or removes them from the table, and the report comes out with exactly the ones left. The active filter carries over too — what you see on screen is what lands in the PDF or the spreadsheet. I also reworked menu items and the responsive behaviour of the layout.">Tornei as colunas dinâmicas: o usuário insere ou remove colunas da tabela, e o relatório sai com exatamente as que ficaram. O filtro ativo vai junto — o que está na tela é o que cai no PDF ou na planilha. Também refiz itens de menu e o comportamento responsivo do layout.</p>
+        <ul class="verbete__stack">
+          <li>Vue</li><li>Java 11</li><li>Spring Boot</li><li>Maven</li>
+          <li>JPAQuery</li><li>PostgreSQL</li><li>Docker</li>
+        </ul>
+        <p>
+          <a class="verbete__convite" href="#contato" data-cta="caso-az" data-en="Need reports your users can actually shape? Let’s talk →">Precisa de relatório que o usuário consiga moldar? Vamos conversar →</a>
+        </p>
+      </div>
+    </li>
+
+    <li class="verbete">
+      <div class="verbete__quando mono">
+        <span data-en="healthcare">saúde</span>
+        <span class="verbete__dur" data-din="caso.conexa.anos">2022—2024</span>
+      </div>
+      <div class="verbete__miolo">
+        <h3 class="verbete__titulo" data-en="Electronic medical record">Prontuário eletrônico</h3>
+        <p class="verbete__sub mono">
+          <span>Conexa Saúde</span>
+          <span class="verbete__sep" aria-hidden="true">·</span>
+          <span data-en="telemedicine">telemedicina</span>
+        </p>
+        <p class="verbete__prosa verbete__prosa--problema" data-en="The record ran on legacy JSP, and every clinic needed different fields. Each new field meant a ticket, a deploy and a wait — the product team was the bottleneck for something that was really just configuration.">O prontuário rodava em JSP legado, e cada clínica precisava de campos diferentes. Cada campo novo virava chamado, deploy e espera — o time de produto era gargalo de uma coisa que, no fundo, era configuração.</p>
+        <p class="verbete__prosa" data-en="I migrated record modules from JSP to React with Hooks and TypeScript, and modularized the forms. Then came the part that removed the bottleneck: the clinic itself creates the fields it needs, with no deploy in between. I also maintained the business-rule configuration modules in Vue.">Migrei módulos do prontuário de JSP para React com Hooks e TypeScript, e modularizei os formulários. Aí veio a parte que tirou o gargalo: a própria clínica cria os campos de que precisa, sem deploy no meio. Também mantive os módulos de configuração de regra de negócio em Vue.</p>
+        <ul class="verbete__stack">
+          <li>React</li><li>React Hooks</li><li>Vue</li><li>TypeScript</li><li>JSP</li><li>Scrum</li>
+        </ul>
+        <p>
+          <a class="verbete__convite" href="#contato" data-cta="caso-conexa" data-en="Need to unblock a front-end nobody wants to touch? →">Precisa destravar um front que ninguém quer mexer? →</a>
+        </p>
+      </div>
+    </li>
+
+  </ol>
+</section>
+
+
+<!-- ═══════════════════════════════════════════════════════════════════════
+     004 · FERRAMENTAS — capacidade por camada
+     O corte é a camada, porque é o que um cliente pergunta. O nível vive na
+     frase de cada bloco, nunca num marcador: já houve aqui uma fileira de
+     pontos contando projetos, e todo leitor entendeu como nota de 1 a 5.
+     Nada de ponto, estrela, barra ou contagem — em hipótese nenhuma.
+
+     A prova de "onde cada uma foi usada" é dada em Trajetória, cargo por
+     cargo. Esta seção não a repete invertida.
+
+     ATENÇÃO: o conteúdo de cada lista .rol-tec é gerado por
+     ferramentas/construir.mjs a partir de perfil.js. Não escrever item à mão
+     aqui — o build sobrescreve. Manter a linha de abertura de cada lista
+     exatamente como está: o script casa nela por expressão regular. E não
+     repetir essa linha dentro de comentário, sob pena de o regex casar no
+     próprio comentário e engolir a lista seguinte.
+     ═══════════════════════════════════════════════════════════════════════ -->
+<section id="ferramentas" class="secao" data-secao-obs="ferramentas">
+  <div class="secao__cabeca">
+    <span class="secao__num mono">004</span>
+    <h2 class="secao__titulo" data-en="Stack">Ferramentas</h2>
+    <p class="secao__nota mono" data-en="what I can own, by layer">o que eu assumo, por camada</p>
+  </div>
+
+  <p class="tecnologias__intro" data-en="Listing forty technologies makes none of them credible. These are the ones I have shipped to production, grouped by what they let me take on — and each role above says which were used where.">Listar quarenta tecnologias não torna nenhuma delas crível. Estas são as que eu coloquei em produção, agrupadas pelo que me permitem assumir — e cada cargo acima diz quais foram usadas onde.</p>
+
+  <div class="tecnologias">
+
+    <section class="tec-camada">
+      <h3 class="tec-camada__titulo" data-en="Product front-end">Front-end de produto</h3>
+      <p class="tec-camada__nota" data-en="Where I live. It was in React with Hooks and TypeScript that I migrated Conexa’s medical record, and it is in Vue that I maintain the Tocantins fleet screen today.">Onde eu moro. Foi em React com Hooks e TypeScript que migrei o prontuário da Conexa, e é em Vue que mantenho a tela de frota do Tocantins hoje.</p>
+      <ul class="rol-tec" data-camada="front">
+          <li>Vue.js</li>
+          <li>TypeScript</li>
+          <li>React</li>
+          <li>Next.js</li>
+          <li>Nuxt.js</li>
+          <li>Tailwind CSS</li>
+          <li>shadcn/ui</li>
+          <li>Sass</li>
+          <li>Figma</li>
+        </ul>
+    </section>
+
+    <section class="tec-camada">
+      <h3 class="tec-camada__titulo" data-en="Back-end and data">Back-end e dados</h3>
+      <p class="tec-camada__nota" data-en="API, query, and whatever database the client already has. Java 11 with Spring Boot today; Node with Express and Reduza’s scraping bots before that.">API, consulta e o banco que o cliente já tem. Java 11 com Spring Boot hoje; Node com Express e os robôs de coleta da Reduza antes disso.</p>
+      <ul class="rol-tec" data-camada="back">
+          <li>Node.js</li>
+          <li>PostgreSQL</li>
+          <li>Java 11</li>
+          <li>Spring Boot</li>
+          <li>Maven</li>
+          <li>JPAQuery</li>
+          <li>Express.js</li>
+          <li>MongoDB</li>
+          <li>OracleDB</li>
+          <li>SQL Server</li>
+          <li>Redis</li>
+        </ul>
+    </section>
+
+    <section class="tec-camada">
+      <h3 class="tec-camada__titulo" data-en="Shipping and operating">Entrega e operação</h3>
+      <p class="tec-camada__nota" data-en="From commit to production, and what to look at when it falls over.">Do commit ao ar, e o que olhar quando cai.</p>
+      <ul class="rol-tec" data-camada="entrega">
+          <li>Git</li>
+          <li>Docker</li>
+          <li>Scrum</li>
+          <li>Jest</li>
+          <li>Grafana</li>
+          <li>Vercel</li>
+        </ul>
+    </section>
+
+    <section class="tec-camada">
+      <h3 class="tec-camada__titulo" data-en="Legacy I kept running">Legado que mantive de pé</h3>
+      <p class="tec-camada__nota" data-en="Systems that cannot stop. In government and healthcare that is half the job: I migrated the medical record from JSP to React without taking down what was already live.">Sistema que não pode parar. Em governo e saúde isso é metade do trabalho: migrei o prontuário de JSP para React sem derrubar o que já estava no ar.</p>
+      <ul class="rol-tec" data-camada="legado">
+          <li>JSP</li>
+          <li>Angular</li>
+          <li>jQuery</li>
+          <li>PHP</li>
+          <li>Bootstrap</li>
+          <li>Sequelize</li>
+        </ul>
+    </section>
+
+    <section class="tec-camada">
+      <h3 class="tec-camada__titulo" data-en="Off the beaten path">Fora da rotina</h3>
+      <p class="tec-camada__nota" data-en="Two forays that shipped anyway: public-health apps on both app stores during Covid, and a board built from the tokens in the connected wallet.">Duas incursões que renderam produto publicado: aplicativos de saúde pública nas duas lojas durante a Covid, e um tabuleiro montado com os tokens da carteira conectada.</p>
+      <ul class="rol-tec" data-camada="margem">
+          <li>Ionic</li>
+          <li>Web3.js</li>
+          <li>MetaMask</li>
+        </ul>
+    </section>
+
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════════════════════════════════
+     005 · FORMAÇÃO
+     ═══════════════════════════════════════════════════════════════════════ -->
+<section id="formacao" class="secao" data-secao-obs="formacao">
+  <div class="secao__cabeca">
+    <span class="secao__num mono">005</span>
+    <h2 class="secao__titulo" data-en="Education">Formação</h2>
+  </div>
+
+  <ol class="rol">
+
+    <li class="verbete">
+      <div class="verbete__quando mono">
+        <span data-din="formacao.ucdb.periodo">2014 — 2018</span>
+        <span class="verbete__dur" data-din="formacao.ucdb.ha">há 7 anos</span>
+      </div>
+      <div class="verbete__miolo">
+        <h3 class="verbete__titulo" data-en="B.Sc. in Computer Engineering">Bacharelado em Engenharia da Computação</h3>
+        <p class="verbete__sub mono"><span>Universidade Católica Dom Bosco</span></p>
+        <ul class="verbete__stack">
+          <li data-en="Data Structures">Estruturas de Dados</li>
+          <li data-en="Networking">Redes</li>
+          <li data-en="Operating Systems">Sistemas Operacionais</li>
+          <li data-en="Databases">Bancos de Dados</li>
+          <li data-en="Software Engineering">Engenharia de Software</li>
+          <li data-en="Compilers">Compiladores</li>
+        </ul>
+      </div>
+    </li>
+
+    <li class="verbete">
+      <div class="verbete__quando mono">
+        <span>2018</span>
+      </div>
+      <div class="verbete__miolo">
+        <h3 class="verbete__titulo" data-en="Software Development Course">Curso de Desenvolvimento de Software</h3>
+        <p class="verbete__sub mono"><span>High Tech</span></p>
+        <ul class="verbete__stack"><li>Vue.js</li><li>Node.js</li><li>MongoDB</li></ul>
+      </div>
+    </li>
+
+    <li class="verbete">
+      <div class="verbete__quando mono">
+        <span data-din="idioma.en.anos">15</span> <span data-en="years">anos</span>
+      </div>
+      <div class="verbete__miolo">
+        <h3 class="verbete__titulo" data-en="English · advanced">Inglês · avançado</h3>
+        <p class="verbete__sub mono"><span data-din="idioma.en.cursos">Wizard (2011—2013) · inFlux (2021—2023)</span></p>
+        <ul class="verbete__stack">
+          <li data-en="Portuguese · native">Português · nativo</li>
+        </ul>
+      </div>
+    </li>
+
+  </ol>
+</section>
+
+
+<!-- ═══════════════════════════════════════════════════════════════════════
+     006 · CONTATO
+     ═══════════════════════════════════════════════════════════════════════ -->
+<section id="contato" class="secao" data-secao-obs="contato">
+  <div class="secao__cabeca">
+    <span class="secao__num mono">006</span>
+    <h2 class="secao__titulo" data-en="Contact">Contato</h2>
+  </div>
+
+  <div class="contato">
+    <!-- A chamada devolve ao leitor, como pergunta, a frase que abre a página
+         em Sobre: "sistemas que precisam entrar no ar e continuar de pé". A
+         página termina onde começou, agora apontada para quem lê.
+         O prazo fica aqui porque responde à dúvida silenciosa de quem vai
+         escrever — "ele responde?" — e o número é slot, nunca digitado. -->
+    <p class="contato__chamada">
+      <span data-en="Got a system to put live — or to keep standing?">Tem um sistema para colocar no ar — ou para manter de pé?</span>
+      <span class="contato__prazo" data-en="I reply within">Respondo em até</span>
+      <span data-din="perfil.prazoResposta">24</span>h.
+    </p>
+
+    <p class="contato__nota" data-en="Tell me what the system needs to do and what is in the way — that is enough for me to say whether I can help, and how. Project-based, contract or full-time: all three work.">Me conte o que o sistema precisa fazer e o que está no caminho — já dá para eu dizer se consigo ajudar e de que forma. Projeto fechado, alocação ou efetivo: os três funcionam.</p>
+
+    <ul class="contato__botoes">
+      <li style="--i:0">
+        <a class="botao botao--principal" data-cta="whatsapp"
+           href="https://wa.me/5567981142011?text=Ol%C3%A1%20Bruno%2C%20vi%20seu%20portf%C3%B3lio%20e%20queria%20conversar%20sobre%20um%20projeto" rel="noopener">
+          <span>WhatsApp</span>
+          <span class="botao__seta" aria-hidden="true">→</span>
+        </a>
+      </li>
+      <li style="--i:1">
+        <a class="botao" data-cta="email"
+           href="mailto:brunogaliz2@gmail.com?subject=Projeto%20-%20desenvolvimento%20full-stack">
+          <span>brunogaliz2@gmail.com</span>
+          <span class="botao__seta" aria-hidden="true">→</span>
+        </a>
+      </li>
+      <li style="--i:2">
+        <a class="botao" data-cta="linkedin-contato" href="https://linkedin.com/in/brunogaliz" rel="me noopener">
+          <span>LinkedIn</span><span class="botao__seta" aria-hidden="true">→</span>
+        </a>
+      </li>
+      <li style="--i:3">
+        <a class="botao" data-cta="github-contato" href="https://github.com/bgaliz" rel="me noopener">
+          <span>GitHub</span><span class="botao__seta" aria-hidden="true">→</span>
+        </a>
+      </li>
+    </ul>
+
+    <p class="contato__curriculo mono">
+      <span data-en="Résumé:">Currículo:</span>
+      <a href="curriculo/bruno-galiz-pt.pdf" data-cta="cv-pt" download>PDF · português</a>
+      <span aria-hidden="true">·</span>
+      <a href="curriculo/bruno-galiz-en.pdf" data-cta="cv-en" download>PDF · english</a>
+    </p>
+  </div>
+</section>
+
+<footer class="rodape">
+  <p class="mono">
+    <span data-din="site.ano">2026</span> · Bruno Galiz de Oliveira
+    <span class="rodape__sep" aria-hidden="true">·</span>
+    <span data-en="Campo Grande, Brazil">Campo Grande, MS</span>
+  </p>
+  <p class="mono rodape__meta">
+    <span data-en="updated">atualizado em</span>
+    <time data-din="site.atualizado" datetime="2026-08-18">18 ago 2026</time>
+    <span class="rodape__sep" aria-hidden="true">·</span>
+    <a href="privacidade.html" data-en="Privacy">Privacidade</a>
+  </p>
+</footer>
+
+</main>
+
+</div><!-- /.casca -->
+
+<aside class="aviso-lgpd" id="aviso-lgpd" hidden>
+  <p data-en="I log visits anonymously — no cookies, and your IP is never stored. It tells me whether what I send is being opened.">Registro visitas de forma anônima — sem cookies e sem guardar seu IP. É como eu sei se o que eu envio está sendo aberto.</p>
+  <div class="aviso-lgpd__acoes mono">
+    <button type="button" data-lgpd="aceitar" data-en="Got it">Entendi</button>
+    <button type="button" data-lgpd="recusar" data-en="No thanks">Não quero</button>
+    <a href="privacidade.html" data-en="Details">Detalhes</a>
+  </div>
+</aside>
+
+<script type="application/ld+json" id="dados-estruturados">
+{
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "name": "Bruno Galiz de Oliveira",
+  "givenName": "Bruno",
+  "familyName": "Galiz de Oliveira",
+  "jobTitle": "Desenvolvedor Full-Stack",
+  "email": "mailto:brunogaliz2@gmail.com",
+  "telephone": "+5567981142011",
+  "url": "https://bgaliz.github.io/",
+  "image": "https://bgaliz.github.io/assets/img/og.png",
+  "address": {
+    "@type": "PostalAddress",
+    "addressLocality": "Campo Grande",
+    "addressRegion": "MS",
+    "addressCountry": "BR"
+  },
+  "sameAs": [
+    "https://github.com/bgaliz",
+    "https://linkedin.com/in/brunogaliz"
+  ],
+  "alumniOf": {
+    "@type": "CollegeOrUniversity",
+    "name": "Universidade Católica Dom Bosco"
+  },
+  "knowsLanguage": [
+    { "@type": "Language", "name": "Portuguese" },
+    { "@type": "Language", "name": "English" }
+  ],
+  "knowsAbout": [
+    "Vue.js", "React", "Next.js", "Nuxt.js", "TypeScript", "Node.js",
+    "Java", "Spring Boot", "PostgreSQL", "Docker"
+  ]
+}
+</script>
+
+<script type="module" src="assets/js/principal.js"></script>
+</body>
+</html>

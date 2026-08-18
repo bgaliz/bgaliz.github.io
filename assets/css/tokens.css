@@ -1,0 +1,255 @@
+/* ═══════════════════════════════════════════════════════════════════════════
+   TOKENS E TEMAS
+   ───────────────────────────────────────────────────────────────────────────
+   Cada escolha aqui é deliberada contra um "tell" de site gerado por IA:
+     · dois acentos de temperaturas opostas em vez de gradiente roxo→azul
+     · raio 0 em vez de 16px uniforme em tudo
+     · profundidade por fio e inversão em vez de box-shadow
+     · escala de espaço não-linear em vez de padding idêntico em toda parte
+     · curvas de aceleração customizadas em vez de `ease`
+
+   TEMA: tinta (escuro) é o padrão. Papel (claro) entra por preferência do
+   sistema OU por escolha explícita. A escolha explícita vence nos dois
+   sentidos — por isso os três blocos.
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+:root {
+  color-scheme: dark;
+
+  /* ── Cor · tema tinta (padrão) ─────────────────────────────────────────── */
+  --base:        #0B0A08;
+  --elevado:     #14120E;
+  --elevado-2:   #1C1914;
+  --texto:       #F2EDE3;
+  --texto-suave: #9A9184;
+  --texto-tenue: #80786B;   /* AA 4.54:1 sobre a base — era #6B6459, 3.39:1 */
+  --fio:         #2A2620;
+  --fio-forte:   #3D382F;
+  /* Fio decorativo pode ser tênue; contorno de CONTROLE não pode: a WCAG
+     1.4.11 exige 3:1 para a borda que identifica um botão ou campo. */
+  --fio-controle: #655C4E;
+
+  --ambar:       #E89B45;
+  --ambar-tenue: #3A2A16;
+  --petroleo:    #5FA396;
+  --petroleo-tenue: #16302C;
+
+  --selecao-bg:  #E89B45;
+  --selecao-fg:  #0B0A08;
+
+  /* Intensidade do grão e da vinheta — o tema papel reduz os dois. */
+  --grao-opacidade: 0.045;
+  --vinheta-opacidade: 0.55;
+
+  /* Refletor: no escuro é um clarear quase imperceptível, na temperatura do
+     próprio texto. Sai de color-mix sobre a paleta — nenhum hex novo entra
+     neste arquivo. Se color-mix faltar, o valor computa inválido, o
+     radial-gradient cai fora e sobra fundo nenhum: degrada para "sem luz",
+     nunca para pintura quebrada. */
+  --refletor-cor: color-mix(in srgb, var(--texto) 4.5%, transparent);
+
+  /* ── Tipografia ────────────────────────────────────────────────────────── */
+  --f-display: 'Bricolage', 'Bricolage Fallback', ui-sans-serif, system-ui, sans-serif;
+  --f-corpo:   'Newsreader', 'Newsreader Fallback', ui-serif, Georgia, serif;
+  --f-mono:    'JetBrains', 'JetBrains Fallback', ui-monospace, 'SF Mono', Menlo, monospace;
+
+  /* Escala fluida. O nome vive numa coluna de ~40% da casca, não numa tela
+     inteira: 11.5rem ali não seria grandioso, seria quebrado. */
+  --t-nome:  clamp(2.75rem, 5.5vw, 4.25rem);
+  --t-d1:    clamp(2.25rem, 5.5vw, 4.5rem);
+  --t-d2:    clamp(1.625rem, 3.2vw, 2.75rem);
+  --t-d3:    clamp(1.25rem, 1.9vw, 1.625rem);
+  --t-corpo: clamp(1rem, 0.94rem + 0.28vw, 1.1875rem);
+  --t-peq:   clamp(0.875rem, 0.85rem + 0.1vw, 0.9375rem);
+  --t-micro: 0.75rem;
+  --t-nano:  0.6875rem;
+
+  --lh-apertado: 0.86;
+  --lh-titulo:   1.08;
+  --lh-corpo:    1.62;
+  --ls-mono:     0.08em;
+  --ls-hero:     -0.035em;
+
+  /* ── Espaço · escala não-linear, de propósito ──────────────────────────── */
+  --e-1: 0.25rem;  --e-2: 0.5rem;   --e-3: 0.75rem;  --e-4: 1rem;
+  --e-5: 1.5rem;   --e-6: 2.25rem;  --e-7: 3.5rem;   --e-8: 5.5rem;
+  --e-9: 8rem;     --e-10: 12rem;
+
+  --secao-y: clamp(4.5rem, 11vh, 9rem);
+
+  /* ── Grade ─────────────────────────────────────────────────────────────── */
+  --largura-max: 82rem;
+  --margem: clamp(1.125rem, 4.5vw, 4.5rem);
+  --goteira: clamp(1rem, 2vw, 2rem);
+
+  /* Casca de duas colunas. Não é 50/50: a razão é a mesma 0.86 / 1.14 que o
+     bloco de casos já usava. Lê como duas metades à primeira vista, e dá à
+     coluna de conteúdo o ar de que a seção de ferramentas precisa. */
+  --col-presa: minmax(0, 0.86fr);
+  --col-fluxo: minmax(0, 1.14fr);
+
+  /* A MEDIDA da fachada. A coluna presa é larga (~30rem num monitor), mas o
+     texto dentro dela não pode ser: 22rem é onde o lema já quebrava bem.
+     Promovido de número solto a token porque agora três coisas dependem de
+     ser o MESMO número — lema, estado e o fio que separa o pé. Alinhamento
+     que depende de três literais iguais é alinhamento que quebra na
+     primeira edição distraída. */
+  --medida-fachada: 22rem;
+
+  /* Único raio do projeto, e só na superfície de realce do verbete. Zero
+     continua sendo a regra para tudo que é affordance — controle, campo,
+     lista de ferramentas. Isto aqui não é affordance, é um levantar de fundo. */
+  --raio-verbete: 6px;
+  --raio-pilula: 999px;
+
+  /* Refletor — o raio do círculo de luz. A cor é por tema, lá em cima. */
+  --refletor-raio: 34rem;
+
+  /* ── Movimento ─────────────────────────────────────────────────────────── */
+  --saida-expo:   cubic-bezier(0.16, 1, 0.30, 1);
+  --suave-quint:  cubic-bezier(0.83, 0, 0.17, 1);
+  --entrada-sutil: cubic-bezier(0.32, 0.72, 0, 1);
+  /* Mola real via linear() — impossível de obter com cubic-bezier. */
+  --mola: linear(
+    0, 0.0088 1.4%, 0.0355 2.9%, 0.1436 6%, 0.3151 9.4%, 0.6844 15.3%,
+    0.8264 17.7%, 0.9432 20.2%, 1.0343 22.9%, 1.0682 24.4%, 1.0922 26%,
+    1.1063 27.8%, 1.1097 29.9%, 1.1027 32.1%, 1.0854 34.6%, 1.0374 39.7%,
+    0.9925 44.1%, 0.9743 46.6%, 0.9633 49.4%, 0.9604 52.6%, 0.9689 58.4%,
+    1.0011 71.4%, 1.0068 78.5%, 1
+  );
+
+  --d-micro: 180ms;
+  --d-media: 420ms;
+  --d-longa: 900ms;
+
+  /* ── Textura ───────────────────────────────────────────────────────────── */
+  --grao: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.82' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)'/%3E%3C/svg%3E");
+
+  /* Foco: espessura generosa, sempre visível, nunca removido. */
+  --foco: 2px;
+  --foco-offset: 3px;
+}
+
+/* Papel entra pela preferência do sistema, desde que não haja escolha explícita por tinta. */
+@media (prefers-color-scheme: light) {
+  :root:not([data-tema='tinta']) {
+    color-scheme: light;
+    --base:        #F7F3EA;
+    --elevado:     #EFE9DC;
+    --elevado-2:   #E7E0D0;
+    --texto:       #14120E;
+    --texto-suave: #5C574C;
+    --texto-tenue: #756F63;   /* AA 4.50:1 — era #857E70, 3.64:1 */
+    --fio:         #DDD5C6;
+    --fio-forte:   #C7BDA9;
+    --fio-controle: #9C8B68;
+
+    --ambar:       #B0561D;   /* AA 4.52:1 — era #B4581E, 4.35:1 */
+    --ambar-tenue: #F5E4D2;
+    --petroleo:    #2F615A;
+    --petroleo-tenue: #DDE8E4;
+
+    --selecao-bg:  #B4581E;
+    --selecao-fg:  #F7F3EA;
+
+    --grao-opacidade: 0.055;
+    --vinheta-opacidade: 0;
+
+    /* No papel um "clarear" não existe — sobre fundo claro ele é invisível.
+       O gesto certo é uma sombra QUENTE, e o âmbar do tema claro é
+       exatamente essa temperatura. */
+    --refletor-cor: color-mix(in srgb, var(--ambar) 6%, transparent);
+  }
+}
+
+/* Escolha explícita — vence a preferência do sistema nos dois sentidos. */
+:root[data-tema='papel'] {
+  color-scheme: light;
+  --base:        #F7F3EA;
+  --elevado:     #EFE9DC;
+  --elevado-2:   #E7E0D0;
+  --texto:       #14120E;
+  --texto-suave: #5C574C;
+  --texto-tenue: #756F63;   /* AA 4.50:1 — era #857E70, 3.64:1 */
+  --fio:         #DDD5C6;
+  --fio-forte:   #C7BDA9;
+  --fio-controle: #9C8B68;
+
+  --ambar:       #B0561D;   /* AA 4.52:1 — era #B4581E, 4.35:1 */
+  --ambar-tenue: #F5E4D2;
+  --petroleo:    #2F615A;
+  --petroleo-tenue: #DDE8E4;
+
+  --selecao-bg:  #B4581E;
+  --selecao-fg:  #F7F3EA;
+
+  --grao-opacidade: 0.055;
+  --vinheta-opacidade: 0;
+
+  /* Ver o bloco de preferência do sistema: no papel a luz vira sombra quente. */
+  --refletor-cor: color-mix(in srgb, var(--ambar) 6%, transparent);
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   FONTES — self-hosted, subsetadas (287 KB → 160 KB), 3 eixos preservados.
+   As métricas de fallback (size-adjust e companhia) existem para que a troca
+   da fonte de sistema pela real não desloque uma linha sequer: CLS ≈ 0.
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+@font-face {
+  font-family: 'Bricolage';
+  src: url('../fonts/display.woff2') format('woff2-variations');
+  font-weight: 200 800;
+  font-stretch: 75% 100%;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Newsreader';
+  src: url('../fonts/corpo.woff2') format('woff2-variations');
+  font-weight: 200 800;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'JetBrains';
+  src: url('../fonts/mono.woff2') format('woff2-variations');
+  font-weight: 100 800;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Bricolage Fallback';
+  src: local('Arial'), local('Helvetica'), local('Liberation Sans');
+  size-adjust: 97%;
+  ascent-override: 96%;
+  descent-override: 24%;
+  line-gap-override: 0%;
+}
+@font-face {
+  font-family: 'Newsreader Fallback';
+  src: local('Georgia'), local('Times New Roman'), local('Liberation Serif');
+  size-adjust: 103%;
+  ascent-override: 92%;
+  descent-override: 26%;
+  line-gap-override: 0%;
+}
+@font-face {
+  font-family: 'JetBrains Fallback';
+  src: local('Courier New'), local('Liberation Mono');
+  size-adjust: 108%;
+  ascent-override: 88%;
+  descent-override: 22%;
+  line-gap-override: 0%;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   PROPRIEDADES REGISTRADAS
+   Sem @property, os eixos da fonte variável não interpolam — o navegador
+   trataria os valores como strings e a animação saltaria em vez de correr.
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+@property --eixo-peso {
+  syntax: '<number>'; inherits: false; initial-value: 760;
+}
+@property --eixo-largura {
+  syntax: '<number>'; inherits: false; initial-value: 100;
+}
