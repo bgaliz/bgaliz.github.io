@@ -10,7 +10,6 @@
  * ══════════════════════════════════════════════════════════════════════════
  */
 
-import { neon } from '@neondatabase/serverless';
 import { createHash } from 'node:crypto';
 
 /* A conexão não pode estourar na IMPORTAÇÃO do módulo, e é isso que
@@ -33,13 +32,44 @@ const conexao = process.env.DATABASE_URL
              || process.env.DATABASE_URL_UNPOOLED
              || process.env.POSTGRES_URL_NON_POOLING;
 
-export const sql = conexao ? neon(conexao) : () => {
-  throw new Error(
-    'Nenhuma string de conexão no ambiente. Esperado DATABASE_URL (ou ' +
-    'POSTGRES_URL). Conecte o banco em Storage, confirme que ele está ligado ' +
-    'a ESTE projeto, e refaça o deploy — variável nova só vale em build novo.'
-  );
-};
+/* O driver entra por importação DINÂMICA, e não por `import` no topo, pela
+   mesma razão que a conexão é adiada: em ESM, importação estática que falha
+   derruba o módulo inteiro antes de o handler existir, e nem o try/catch dele
+   nem a guarda acima chegam a rodar — a Vercel responde
+   FUNCTION_INVOCATION_FAILED e não conta o porquê. Foi exatamente o que
+   aconteceu: adiar só o `neon()` não bastou, porque quem estourava era a
+   linha de import.
+
+   Dinâmico, qualquer falha na carga do driver (pacote ausente no build,
+   runtime incompatível) vira erro CAPTURÁVEL: `/api/painel` devolve o motivo
+   por escrito e `/api/coletar` continua em silêncio. */
+let cliente = null;
+
+async function conectar() {
+  if (cliente) return cliente;
+  if (!conexao) {
+    throw new Error(
+      'Nenhuma string de conexão no ambiente. Esperado DATABASE_URL (ou ' +
+      'POSTGRES_URL). Conecte o banco em Storage, confirme que ele está ligado ' +
+      'a ESTE projeto, e refaça o deploy — variável nova só vale em build novo.'
+    );
+  }
+  let neon;
+  try {
+    ({ neon } = await import('@neondatabase/serverless'));
+  } catch (e) {
+    throw new Error(
+      `Não foi possível carregar '@neondatabase/serverless' no runtime: ${e?.message}. ` +
+      'Confirme que ele está em dependencies (não devDependencies) e que o build ' +
+      'da Vercel instalou os pacotes.'
+    );
+  }
+  cliente = neon(conexao);
+  return cliente;
+}
+
+/** Mantém a forma de template marcado: `await sql\`select 1\``. */
+export const sql = async (textos, ...valores) => (await conectar())(textos, ...valores);
 
 /** Origens autorizadas a enviar eventos. */
 const ORIGENS = [
