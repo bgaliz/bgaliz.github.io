@@ -38,7 +38,7 @@
   <a class="voltar mono" href="index.html">← <span>voltar ao portfólio</span></a>
 
   <h1>Privacidade</h1>
-  <p class="mono" style="color:var(--ambar)">Sem cookies · sem IP guardado · sem terceiros</p>
+  <p class="mono" style="color:var(--ambar)">Sem cookies · sem IP guardado · sem rastreadores de terceiros</p>
 
   <h2>O que eu registro</h2>
   <p>
@@ -50,7 +50,7 @@
     <li>data e hora;</li>
     <li>de onde veio o acesso (LinkedIn, GitHub, WhatsApp, busca ou direto);</li>
     <li>país e cidade aproximados, vindos do servidor;</li>
-    <li>tipo de aparelho (celular, computador ou tablet) e idioma do navegador;</li>
+    <li>tipo de aparelho (celular, computador, tablet ou robô de busca) e idioma do navegador;</li>
     <li>quais seções da página foram lidas e quanto tempo a visita durou;</li>
     <li>cliques em contato e no currículo;</li>
     <li>a etiqueta <code>?ref=</code> do link, quando existe — é como eu sei a qual contato
@@ -66,10 +66,33 @@
     <li><strong>Nenhum cookie.</strong> A identificação da sessão vive na memória da aba e
       morre quando você a fecha.</li>
     <li><strong>Nenhum rastreador de terceiros.</strong> Sem Google Analytics, sem pixel de
-      rede social, sem nada carregado de fora. A infraestrutura é minha.</li>
+      rede social, sem nada carregado de fora — nenhuma outra empresa é avisada da sua
+      visita.</li>
     <li><strong>Seu nome, e-mail ou perfil.</strong> Não tenho como saber, e não tento
       descobrir.</li>
   </ul>
+
+  <h2>Quem processa, onde, e por quanto tempo</h2>
+  <p>
+    Não há rastreador de terceiros, mas o registro precisa rodar em algum lugar — e
+    seria desonesto chamar isso de "infraestrutura própria". Duas empresas atuam como
+    <strong>operadoras</strong> destes dados, no sentido da LGPD:
+  </p>
+  <ul>
+    <li><strong>Vercel</strong> — executa a função que recebe o registro. Ela também é
+      quem informa o país e a cidade aproximados, a partir da conexão.</li>
+    <li><strong>Neon</strong> — armazena o banco de dados. Conforme a região do
+      servidor, o armazenamento pode ocorrer fora do Brasil.</li>
+  </ul>
+  <p>
+    Nenhuma das duas recebe dado que identifique você — elas processam exatamente as
+    mesmas linhas descritas acima, sem IP e sem nome.
+  </p>
+  <p>
+    <strong>Prazo:</strong> cada registro é apagado automaticamente após
+    <strong>18 meses</strong>. Não há arquivo histórico: passado esse prazo o dado
+    deixa de existir, sem eu precisar fazer nada.
+  </p>
 
   <h2>Como recusar</h2>
   <p>
@@ -99,7 +122,7 @@
   </p>
 
   <p class="mono" style="margin-top:var(--e-8);color:var(--texto-tenue);font-size:var(--t-nano)">
-    Atualizado em <time data-din="site.atualizado" datetime="2026-08-18">18 ago 2026</time>
+    Atualizado em <time data-din="site.atualizado" datetime="2026-08-19">19 ago 2026</time>
   </p>
 </main>
 
