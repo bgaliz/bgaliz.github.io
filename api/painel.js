@@ -11,8 +11,9 @@
  */
 
 import { sql, garantirEsquema, corsPara, json } from './_lib/db.js';
+import { adaptar } from './_lib/adaptador.js';
 
-export default async function handler(request) {
+async function handler(request) {
   const cors = corsPara(request.headers.get('origin'));
 
   if (request.method === 'OPTIONS') return new Response(null, { status: 204, headers: cors });
@@ -114,3 +115,6 @@ export default async function handler(request) {
     return json({ erro: 'Falha ao consultar', detalhe: e?.message }, 500, cors);
   }
 }
+
+/* A Vercel invoca com (req, res) neste projeto; o handler acima é web. */
+export default adaptar(handler);

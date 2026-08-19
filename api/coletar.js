@@ -15,11 +15,12 @@ import {
   sql, garantirEsquema, corsPara, origemPermitida,
   hashVisitante, geoDe, ipDe, dispositivoDe, hostDe,
 } from './_lib/db.js';
+import { adaptar } from './_lib/adaptador.js';
 
 const EVENTOS = new Set(['pageview', 'secao', 'clique', 'saida']);
 const corta = (t, n) => (typeof t === 'string' ? t.slice(0, n) : null);
 
-export default async function handler(request) {
+async function handler(request) {
   const origem = request.headers.get('origin');
   const cors = corsPara(origem);
 
@@ -72,3 +73,6 @@ export default async function handler(request) {
 
   return new Response(null, { status: 204, headers: cors });
 }
+
+/* A Vercel invoca com (req, res) neste projeto; o handler acima é web. */
+export default adaptar(handler);
