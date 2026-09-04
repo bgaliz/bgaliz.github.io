@@ -181,17 +181,32 @@
    Um rol é uma lista de verbetes; um verbete é uma entrada de catálogo. Vale
    igual para cargo, recorte e formação — três seções, uma gramática só.
 
-   Três coisas acontecem no hover, e nenhuma é sombra:
+   O realce do hover é ADITIVO: acrescenta luz onde o ponteiro está. Nunca
+   subtrativo — nada no resto da lista apaga. Três coisas acontecem, e nenhuma
+   é sombra:
      1. o fundo se levanta (--elevado) com um fio inset de 1px no topo;
-     2. a seta do título anda para o canto superior direito;
-     3. os IRMÃOS esmaecem — o olho fica onde o ponteiro está.
+     2. um fio-guia cresce na margem esquerda, de cima para baixo;
+     3. a seta do título anda para o canto superior direito.
 
-   (3) é o group/list da referência reproduzido sem Tailwind. Detalhe que
-   custou pensar: o esmaecer NÃO pode usar `opacity`, porque `revela` (a
-   animação scroll-driven em movimento.css) também anima opacity — e animação
-   vence declaração, então o cartão esmaecido voltaria sozinho. `filter:
-   opacity()` é propriedade diferente, então as duas convivem. Por isso
-   `revela` mira em __quando e __miolo, nunca no verbete em si.               */
+   Aqui houve um `.rol:hover > .verbete { filter: opacity(0.5) }` que esmaecia
+   os IRMÃOS — o group/list da referência, reproduzido sem Tailwind. Saiu, por
+   duas razões:
+
+   · LEITURA. Ali a lista é uma galeria de projetos, que o olho varre; aqui é
+     currículo, que o olho LÊ. Quem lê move o ponteiro sem intenção e deixa
+     ele parado onde parou — e a cada movimento desses metade da página piscava
+     para 50%. O efeito punia justamente quem estava lendo com atenção.
+
+   · CONTRASTE. Sobre a base #0B0A08, `--texto-tenue` tem 4.54:1; a 50% de
+     opacidade cai para ~1.9:1, e `--texto` despenca de 15:1 para 4.7:1. Ou
+     seja: todo verbete não-apontado reprovava na WCAG 1.4.3 enquanto o
+     ponteiro estivesse na lista. Um realce não pode custar a legibilidade do
+     que ele não está realçando.
+
+   Fica registrado o motivo de o fundo usar `filter` e não `opacity` no que
+   restou: `revela` (a animação scroll-driven em movimento.css) anima opacity,
+   e animação vence declaração. Por isso `revela` mira em __quando e __miolo,
+   nunca no verbete em si.                                                    */
 
 .rol {
   list-style: none;
@@ -206,7 +221,6 @@
   isolation: isolate;          /* prende o z-index -1 do ::before aqui dentro */
   display: grid;
   gap: var(--e-2);
-  transition: filter var(--d-media) var(--saida-expo);
 }
 
 @media (min-width: 48rem) {
@@ -237,10 +251,35 @@
 .verbete:hover::before,
 .verbete:focus-within::before { opacity: 1; }
 
-@media (hover: hover) and (pointer: fine) {
-  .rol:hover > .verbete { filter: opacity(0.5); }
-  .rol > .verbete:hover,
-  .rol > .verbete:focus-within { filter: none; }
+/* O fio-guia. Com o esmaecer fora, o fundo elevado sozinho é discreto demais
+   para dizer "é este" — a diferença entre --base e --elevado é de nove níveis
+   de luminância, deliberadamente quase nada. O fio devolve a precisão que o
+   esmaecer dava, mas gastando 2px na margem em vez da legibilidade da seção
+   inteira: cresce de cima para baixo, na direção em que se lê, e some no mesmo
+   tempo. É o único lugar do projeto onde o âmbar aparece sem ser link, e por
+   isso vem a 55% — presença, não aviso. */
+.verbete::after {
+  content: '';
+  position: absolute;
+  z-index: -1;
+  left: calc(var(--e-5) * -1);
+  top: calc(var(--e-4) * -1);
+  bottom: calc(var(--e-4) * -1);
+  width: 2px;
+  border-radius: 2px;
+  background: var(--ambar);
+  opacity: 0;
+  scale: 1 0;
+  transform-origin: top;
+  transition: scale var(--d-media) var(--saida-expo),
+              opacity var(--d-media) var(--saida-expo);
+}
+.verbete:hover::after,
+.verbete:focus-within::after { opacity: 0.55; scale: 1 1; }
+
+/* Quem pediu menos movimento recebe o realce inteiro, sem o crescer. */
+@media (prefers-reduced-motion: reduce) {
+  .verbete::after { transition: opacity var(--d-media) linear; scale: 1 1; }
 }
 
 /* Coluna estreita: o período. É aqui que a referência põe a miniatura do
@@ -282,7 +321,7 @@
    Lá cada projeto tem um destino único e óbvio; aqui um cargo é um cargo e um
    recorte leva a uma conversa. Cartão inteiro clicável seria affordance falsa,
    então os links ficam explícitos e o realce do hover diz só "é este que você
-   está lendo" — que é o que o esmaecer dos irmãos já comunica. */
+   está lendo" — nunca "clique aqui". */
 
 .verbete__seta {
   display: inline-block;
@@ -359,9 +398,20 @@
   line-height: 1.5;
 }
 
-/* O cargo anterior à programação. Presente, sem disputar atenção. */
-.verbete--discreto { opacity: 0.62; transition: opacity var(--d-media) var(--saida-expo); }
-.verbete--discreto:hover, .verbete--discreto:focus-within { opacity: 1; }
+/* O cargo anterior à programação. Presente, sem disputar atenção.
+
+   Estava em opacity 0.62, e o mesmo cálculo que derrubou o esmaecer dos
+   irmãos condena esse número: --texto-suave a 62% sobre a base dá 3.09:1,
+   contra os 4.5:1 que a WCAG 1.4.3 pede para texto normal. Só que aqui era
+   permanente, não durava o tempo do ponteiro — o verbete da Unisys ficava
+   ilegível o dia inteiro. 0.82 é o ponto exato em que ele volta a passar
+   (4.59:1), e continua atrás dos outros no olhar.
+
+   O resto da hierarquia não depende de opacidade nenhuma: o título já vem
+   menor e mais leve na linha abaixo, que é como se rebaixa um item sem
+   apagá-lo. E o hover perdeu o salto de opacidade — este verbete recebe agora
+   o mesmo realce dos demais, fundo e fio, um idioma só para a lista toda. */
+.verbete--discreto { opacity: 0.82; }
 .verbete--discreto .verbete__titulo { font-size: var(--t-corpo); font-weight: 500; }
 
 /* Link solto no fim de um rol — "ver currículo completo". */

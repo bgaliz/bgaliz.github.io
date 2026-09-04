@@ -42,6 +42,23 @@
 
 <main class="painel__corpo" id="corpo" hidden>
 
+  <!-- ── Diagnóstico: a resposta antes dos dados ─────────────────────
+       Vem primeiro porque é a pergunta que se faz ao abrir o painel. Os
+       blocos abaixo são a prova; este é a conclusão. -->
+  <section class="laudo" id="laudo" hidden>
+    <div class="laudo__texto">
+      <p class="laudo__rotulo mono">diagnóstico · últimos 90 dias</p>
+      <h2 class="laudo__veredito" id="laudo-veredito"></h2>
+      <p class="laudo__detalhe" id="laudo-detalhe"></p>
+      <p class="laudo__acao" id="laudo-acao"></p>
+      <ul class="laudo__sinais" id="laudo-sinais"></ul>
+    </div>
+
+    <!-- O funil. Três degraus, sempre na mesma ordem: é a ordem em que as
+         coisas precisam acontecer, e portanto a ordem em que se conserta. -->
+    <ol class="degraus" id="laudo-degraus"></ol>
+  </section>
+
   <!-- ── Números do topo ────────────────────────────────────────────── -->
   <section class="cartoes" aria-label="Resumo">
     <article class="cartao">

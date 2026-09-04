@@ -35,7 +35,8 @@ async function handler(request) {
     await garantirEsquema();
 
     const [
-      totais, ruido, mensal, origens, lugares, aparelhos, secoes, cliques, marcados, recentes,
+      totais, ruido, funil, mensal, origens, lugares, aparelhos, secoes, cliques,
+      marcados, recentes,
     ] = await Promise.all([
       sql`
         select
@@ -64,6 +65,34 @@ async function handler(request) {
         from visitas v
         where evento = 'pageview'
           and not exists (select 1 from visitas_gente g where g.id = v.id)`,
+
+      /* O funil, contado por SESSÃO e não por evento. Três perguntas em ordem,
+         e a ordem importa: quem chegou, quem leu até o fim, quem agiu. Uma
+         taxa só significa alguma coisa contra o degrau imediatamente acima —
+         "10% clicaram" não diz nada sem saber quantos chegaram a ver o botão.
+
+         Janela de 90 dias: menos que isso e não há amostra; mais que isso e a
+         conta passa a misturar versões diferentes da página. */
+      sql`
+        with sessoes as (
+          select
+            sessao,
+            bool_or(evento = 'pageview')                     as entrou,
+            bool_or(evento = 'secao'  and detalhe = 'contato') as leu_ate_o_fim,
+            bool_or(evento = 'clique' and detalhe in
+                     ('whatsapp', 'email', 'linkedin-contato')) as chamou,
+            bool_or(evento = 'clique' and detalhe in ('cv-pt', 'cv-en')) as levou_cv
+          from visitas_gente
+          where criado_em > now() - interval '90 days'
+          group by sessao
+        )
+        select
+          count(*) filter (where entrou)                      as sessoes,
+          count(*) filter (where leu_ate_o_fim)               as leram,
+          count(*) filter (where chamou or levou_cv)          as agiram,
+          count(*) filter (where chamou)                      as chamaram,
+          count(*) filter (where levou_cv)                    as levaram_cv
+        from sessoes`,
 
       // Série de 12 meses com os vazios preenchidos.
       sql`
@@ -132,6 +161,7 @@ async function handler(request) {
       gerado_em: new Date().toISOString(),
       totais: totais[0],
       ruido: ruido[0],
+      funil: funil[0],
       mensal, origens, lugares, aparelhos, secoes, cliques, marcados, recentes,
     }, 200, { ...cors, 'Cache-Control': 'no-store' });
 

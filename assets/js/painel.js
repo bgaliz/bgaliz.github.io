@@ -9,6 +9,7 @@
 
 import { urlDe, SITE } from './config.js';
 import { haQuantoTempo } from './tempo.js';
+import { diagnosticar } from './diagnostico.js';
 
 const $ = (s) => document.querySelector(s);
 const CHAVE = 'painelToken';
@@ -117,6 +118,36 @@ function barras(itens, chave, valor, formatar = nf.format) {
     </div>`).join('');
 }
 
+/* ── Diagnóstico ───────────────────────────────────────────────────────── */
+
+/* O nível vira classe, e a cor mora no CSS. Nenhuma cor é decidida aqui: o
+   mesmo âmbar que significa "atenção" no laudo precisa significar a mesma
+   coisa no resto do painel, e isso só se garante num arquivo só. */
+function pintarLaudo(d) {
+  const laudo = diagnosticar(d);
+  const secao = $('#laudo');
+
+  secao.dataset.nivel = laudo.nivel;
+  $('#laudo-veredito').textContent = laudo.veredito;
+  $('#laudo-detalhe').textContent = laudo.detalhe;
+  $('#laudo-acao').textContent = laudo.acao;
+
+  $('#laudo-degraus').innerHTML = laudo.degraus.map((g) => `
+    <li class="degrau" data-nivel="${g.nivel}">
+      <span class="degrau__valor num">${nf.format(g.valor)}</span>
+      <span class="degrau__rotulo mono">${escapar(g.rotulo)}</span>
+      ${g.taxa ? `<span class="degrau__taxa mono num">${g.taxa}</span>` : ''}
+    </li>`).join('');
+
+  $('#laudo-sinais').innerHTML = laudo.sinais.map((s) => `
+    <li class="sinal" data-nivel="${s.nivel}">
+      <span class="sinal__rotulo mono">${escapar(s.rotulo)}</span>
+      <span class="sinal__texto">${escapar(s.texto)}</span>
+    </li>`).join('');
+
+  secao.hidden = false;
+}
+
 /* ── Pintura ───────────────────────────────────────────────────────────── */
 
 function pintar(d) {
@@ -143,6 +174,8 @@ function pintar(d) {
   } else {
     elo.hidden = true;
   }
+
+  pintarLaudo(d);
 
   $('#gerado').textContent = `atualizado ${haQuantoTempo(d.gerado_em, 'pt')}`;
   $('#grafico-mensal').innerHTML = grafico(d.mensal || []);

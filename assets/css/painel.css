@@ -30,6 +30,182 @@
   line-height: 1.5;
 }
 
+/* ── Laudo ─────────────────────────────────────────────────────────────────
+   A cor do veredito é o único lugar do painel onde cor carrega significado
+   sozinha — e por isso ela nunca vem sozinha: o texto sempre diz a mesma
+   coisa que a cor. Quem não distingue âmbar de petróleo lê "Chega pouca
+   gente" e recebe a informação inteira. WCAG 1.4.1, e também bom senso: um
+   painel que só funciona colorido não funciona impresso, nem no escuro, nem
+   para quem tem daltonismo.                                                */
+
+.laudo {
+  display: grid;
+  gap: var(--e-5);
+  padding: var(--e-5);
+  border: 1px solid var(--fio);
+  border-left: 3px solid var(--nivel-cor, var(--fio-forte));
+  border-radius: var(--raio-verbete);
+  background: var(--elevado);
+}
+
+@media (min-width: 60rem) {
+  .laudo { grid-template-columns: minmax(0, 1fr) 15rem; gap: var(--e-6); }
+}
+
+/* Cada nível nomeia a sua cor uma vez; tudo abaixo herda por variável.
+
+   "ruim" e "atenção" dividem o âmbar de propósito. Um vermelho resolveria a
+   distinção, mas seria hex novo na paleta, e a paleta é fechada — o projeto
+   inteiro se sustenta em dois acentos. A diferença entre os dois estados já é
+   dita onde importa: no veredito, em palavras, e na borda dos degraus, cheia
+   para "ruim" e a 40% para "atenção". Cor nunca é o único portador. */
+.laudo[data-nivel="bom"]      { --nivel-cor: var(--petroleo); }
+.laudo[data-nivel="atencao"]  { --nivel-cor: var(--ambar); }
+.laudo[data-nivel="ruim"]     { --nivel-cor: var(--ambar); }
+
+/* Neutro não é um estado, é a ausência de um: sem veredito, sem cor de
+   veredito. A barra fica no cinza de controle, mas o título volta para a cor
+   de texto — --fio-controle sobre --elevado dá 2.85:1, e o título é texto
+   grande em negrito, que a WCAG 1.4.3 obriga a 3:1. Passava raspando por
+   baixo, que é o mesmo que não passar. */
+.laudo[data-nivel="neutro"]   { --nivel-cor: var(--fio-controle); }
+.laudo[data-nivel="neutro"] .laudo__veredito { color: var(--texto); }
+
+.laudo__rotulo {
+  color: var(--texto-tenue);
+  font-size: var(--t-nano);
+  text-transform: uppercase;
+  letter-spacing: var(--ls-mono);
+  margin-bottom: var(--e-2);
+}
+
+.laudo__veredito {
+  font-family: var(--f-display);
+  font-size: var(--t-d3);
+  font-weight: 620;
+  letter-spacing: -0.02em;
+  color: var(--nivel-cor, var(--texto));
+  margin: 0 0 var(--e-3);
+}
+
+.laudo__detalhe {
+  color: var(--texto-suave);
+  font-size: var(--t-peq);
+  line-height: 1.6;
+  margin: 0 0 var(--e-3);
+  max-width: 62ch;
+}
+
+/* A ação é a única linha que o leitor precisa levar embora. Fio à esquerda
+   em vez de negrito: separa sem gritar, e sobrevive ao tema claro. */
+.laudo__acao {
+  border-left: 2px solid var(--fio-forte);
+  padding-left: var(--e-3);
+  color: var(--texto);
+  font-size: var(--t-peq);
+  line-height: 1.6;
+  margin: 0;
+  max-width: 62ch;
+}
+
+.laudo__sinais {
+  list-style: none;
+  padding: 0;
+  margin: var(--e-4) 0 0;
+  display: grid;
+  gap: var(--e-2);
+}
+.laudo__sinais:empty { display: none; }
+
+.sinal {
+  display: grid;
+  grid-template-columns: 8.5rem minmax(0, 1fr);
+  gap: var(--e-3);
+  align-items: baseline;
+  line-height: 1.5;
+  padding-top: var(--e-2);
+  border-top: 1px solid var(--fio);
+}
+
+/* Só o RÓTULO é mono. O texto do sinal é frase inteira, e `.mono` traz
+   text-transform: uppercase junto — três linhas de caixa alta em fonte
+   monoespaçada é o tipo de coisa que se olha e não se lê. A caixa alta serve
+   para etiquetar uma ou duas palavras; passou disso, atrapalha. */
+.sinal__rotulo { color: var(--texto-tenue); }
+.sinal__texto {
+  color: var(--texto-suave);
+  font-size: var(--t-micro);
+  text-wrap: pretty;
+}
+.sinal[data-nivel="ruim"]    .sinal__rotulo,
+.sinal[data-nivel="atencao"] .sinal__rotulo { color: var(--ambar); }
+.sinal[data-nivel="bom"]     .sinal__rotulo { color: var(--petroleo); }
+
+@media (max-width: 40rem) {
+  .sinal { grid-template-columns: 1fr; gap: 0.15em; }
+}
+
+/* ── Degraus do funil ──────────────────────────────────────────────────────
+   Escada, não gráfico de barras: a largura aqui mediria mal (três números em
+   escalas que podem diferir por ordens de grandeza) e o degrau já carrega a
+   ideia de sequência, que é o que importa ler.                             */
+
+.degraus {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  gap: var(--e-2);
+  align-content: start;
+}
+
+.degrau {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: baseline;
+  gap: 0 var(--e-3);
+  padding: var(--e-3);
+  border: 1px solid var(--fio);
+  border-radius: calc(var(--raio-verbete) / 2);
+  background: var(--base);
+}
+
+/* O recuo é o que faz a escada. Só a partir de 60rem, onde a coluna existe:
+   empilhado num telefone, recuo vira desalinhamento sem sentido. */
+@media (min-width: 60rem) {
+  .degrau:nth-child(2) { margin-left: var(--e-3); }
+  .degrau:nth-child(3) { margin-left: var(--e-5); }
+}
+
+.degrau__valor {
+  font-family: var(--f-display);
+  font-size: 1.5rem;
+  font-weight: 640;
+  letter-spacing: -0.03em;
+  line-height: 1;
+  color: var(--texto);
+}
+.degrau__rotulo {
+  grid-column: 1 / -1;
+  color: var(--texto-tenue);
+  font-size: var(--t-nano);
+  text-transform: uppercase;
+  letter-spacing: var(--ls-mono);
+  margin-top: 0.35em;
+}
+.degrau__taxa {
+  font-size: var(--t-peq);
+  font-weight: 500;
+  color: var(--texto-suave);
+}
+
+.degrau[data-nivel="bom"]     { border-color: color-mix(in srgb, var(--petroleo) 40%, var(--fio)); }
+.degrau[data-nivel="bom"]     .degrau__taxa { color: var(--petroleo); }
+.degrau[data-nivel="atencao"] { border-color: color-mix(in srgb, var(--ambar) 40%, var(--fio)); }
+.degrau[data-nivel="atencao"] .degrau__taxa { color: var(--ambar); }
+.degrau[data-nivel="ruim"]    { border-color: var(--ambar); }
+.degrau[data-nivel="ruim"]    .degrau__taxa { color: var(--ambar); }
+
 .painel__corpo {
   max-width: 76rem;
   margin-inline: auto;
