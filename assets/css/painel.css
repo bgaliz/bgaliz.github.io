@@ -21,6 +21,15 @@
 .painel__marca { color: var(--ambar); font-weight: 600; }
 .painel__gerado { margin-left: auto; color: var(--texto-tenue); font-size: var(--t-nano); }
 
+/* Nota do descarte. Sobe contra o gap do grid para encostar nos cartões que
+   ela explica — solta no meio do vão, pareceria comentar o bloco seguinte. */
+.painel__ruido {
+  margin-top: calc(var(--e-6) * -1 + var(--e-2));
+  color: var(--texto-tenue);
+  font-size: var(--t-nano);
+  line-height: 1.5;
+}
+
 .painel__corpo {
   max-width: 76rem;
   margin-inline: auto;

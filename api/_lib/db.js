@@ -71,6 +71,13 @@ async function conectar() {
 /** Mantém a forma de template marcado: `await sql\`select 1\``. */
 export const sql = async (textos, ...valores) => (await conectar())(textos, ...valores);
 
+/* Comando sem parâmetro nenhum, para o punhado de casos em que o Postgres não
+   aceita $1 — CREATE VIEW é o único aqui. `query()` é a forma que o próprio
+   driver oferece para isso; o template marcado não serve, porque tudo que ele
+   interpola vira placeholder, e placeholder é justamente o que o CREATE VIEW
+   recusa. Nada vindo de fora entra por aqui. */
+export const sqlDireto = async (texto) => (await conectar()).query(texto);
+
 /** Origens autorizadas a enviar eventos. */
 const ORIGENS = [
   'https://bgaliz.github.io',
@@ -119,13 +126,47 @@ export function ipDe(headers) {
                      : headers.get('x-real-ip') || null;
 }
 
+/* Robô moderno não se anuncia como robô: carrega uma cadeia de navegador
+   inteira e só entrega o nome no fim. O Googlebot de celular manda
+   "...Android 6.0.1...Mobile Safari...(compatible; Googlebot/2.1...)" e a
+   prévia do WhatsApp manda "WhatsApp/2.24 Android". Testando aparelho antes
+   de robô — como estava — os dois casavam em `Android` e entravam no painel
+   como visita de gente num celular. A ordem aqui é o conserto: robô PRIMEIRO,
+   sempre. */
+const ROBO = new RegExp([
+  'bot', 'crawler', 'spider', 'crawling', 'scraper', 'preview',
+  'facebookexternalhit', 'WhatsApp', 'Slackbot', 'TelegramBot', 'Discordbot',
+  'LinkedInBot', 'Twitterbot', 'Applebot', 'SkypeUriPreview', 'Embedly',
+  'HeadlessChrome', 'Lighthouse', 'PhantomJS', 'Puppeteer', 'Playwright',
+  'python-requests', 'aiohttp', 'httpx', 'Go-http-client', 'okhttp',
+  'node-fetch', 'axios', 'curl', 'Wget', 'libwww', 'Java/', 'Apache-HttpClient',
+  'monitoring', 'uptime', 'pingdom', 'statuscake', 'newrelic', 'datadog',
+].join('|'), 'i');
+
 /** Classificação grosseira e suficiente — não é fingerprinting. */
 export function dispositivoDe(ua = '') {
+  if (!ua || ROBO.test(ua)) return 'bot';
   if (/iPad|Tablet|PlayBook|Silk|Android(?!.*Mobile)/i.test(ua)) return 'tablet';
   if (/Mobi|Android|iPhone|iPod|Windows Phone/i.test(ua)) return 'mobile';
-  if (/bot|crawler|spider|crawling|preview|facebookexternalhit|WhatsApp/i.test(ua)) return 'bot';
   return 'desktop';
 }
+
+/* Endereços que são datacenter, não cidade. Boydton tem 400 habitantes e o
+   East US da Azure; Des Moines e Council Bluffs são o us-central1 do Google;
+   Prineville e Clonee são da Meta. Ninguém "visita um portfólio" de lá — é de
+   onde saem os robôs que passaram pela peneira de user-agent acima, e é o
+   único sinal que sobra depois que eles se vestem de navegador.
+
+   A lista é curta de propósito: só entra lugar cuja população não explica o
+   tráfego. Cidade grande de verdade (San Jose, Chicago, Dublin) fica fora,
+   mesmo hospedando nuvem — descartar um recrutador real custa mais caro do
+   que deixar passar um robô. */
+export const CIDADES_NUVEM = [
+  'boydton', 'des moines', 'council bluffs', 'the dalles', 'prineville',
+  'clonee', 'papillion', 'moncks corner', 'quincy', 'widows creek',
+  'lenoir', 'mayes county', 'pryor', 'new albany', 'huntsville',
+  'eemshaven', 'st ghislain', 'saint-ghislain', 'hamina', 'fredericia',
+];
 
 /** Só o host do referrer: a URL completa não acrescenta nada e expõe mais. */
 export function hostDe(referrer) {
@@ -160,6 +201,25 @@ export async function garantirEsquema() {
   await sql`create index if not exists visitas_criado_em_idx on visitas (criado_em desc)`;
   await sql`create index if not exists visitas_ref_idx        on visitas (ref)`;
   await sql`create index if not exists visitas_evento_idx     on visitas (evento)`;
+
+  /* A vista existe para que o painel não precise repetir a regra em nove
+     consultas — e para que ela valha RETROATIVAMENTE. O acerto de user-agent
+     acima só classifica o que chegar de hoje em diante; o que já está gravado
+     como "desktop" continua gravado assim, e é a cidade que o desmente.
+
+     A lista entra no texto da definição em vez de vir por parâmetro porque
+     CREATE VIEW não aceita $1. É constante do próprio código, sem nada vindo
+     de fora, e as aspas são checadas antes de concatenar. */
+  const lista = CIDADES_NUVEM
+    .map((c) => `'${String(c).replace(/'/g, "''")}'`)
+    .join(', ');
+
+  await sqlDireto(`
+    create or replace view visitas_gente as
+      select * from visitas
+      where dispositivo is distinct from 'bot'
+        and lower(coalesce(cidade, '')) not in (${lista})`);
+
   pronto = true;
 }
 

@@ -129,6 +129,21 @@ function pintar(d) {
   $('#kpi-30d').textContent = nf.format(+t.visitas_30d || 0);
   $('#kpi-tempo').textContent = duracaoCurta(+t.duracao_media_ms);
 
+  /* O ruído descartado. Aparece só quando existe — num painel limpo, uma
+     linha dizendo "0 descartadas" seria ela própria ruído. */
+  const r = d.ruido || {};
+  const descartadas = +r.visitas || 0;
+  const elo = $('#ruido');
+  if (descartadas) {
+    const total = descartadas + (+t.visitas || 0);
+    const pct = Math.round((descartadas / total) * 100);
+    elo.textContent = `${nf.format(descartadas)} de ${nf.format(total)} visitas (${pct}%) `
+      + 'vieram de robô ou datacenter e ficaram de fora dos números acima.';
+    elo.hidden = false;
+  } else {
+    elo.hidden = true;
+  }
+
   $('#gerado').textContent = `atualizado ${haQuantoTempo(d.gerado_em, 'pt')}`;
   $('#grafico-mensal').innerHTML = grafico(d.mensal || []);
 

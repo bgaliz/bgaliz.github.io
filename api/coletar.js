@@ -48,8 +48,14 @@ async function handler(request) {
     await garantirEsquema();
 
     const { pais, cidade } = geoDe(request.headers);
+
+    /* Teto de 30 minutos, não de quatro horas. Ninguém LÊ um portfólio por
+       quatro horas: passar disso é aba esquecida aberta, e o `pagehide` só
+       fecha a conta quando a pessoa volta ao navegador no dia seguinte. Com
+       algumas dezenas de visitas, uma única aba dessas domina a média inteira
+       — foi o que produziu um "tempo médio" de quase catorze minutos. */
     const duracao = Number.isFinite(corpo.duracao_ms)
-      ? Math.min(Math.max(0, Math.round(corpo.duracao_ms)), 4 * 60 * 60 * 1000)
+      ? Math.min(Math.max(0, Math.round(corpo.duracao_ms)), 30 * 60 * 1000)
       : null;
 
     await sql`

@@ -7,6 +7,13 @@
  * com os meses vazios preenchidos com zero. Sem isso o gráfico mentiria por
  * omissão — um mês sem visita simplesmente sumiria do eixo, e a linha
  * pareceria contínua quando na verdade teve um buraco.
+ *
+ * TUDO AQUI LÊ `visitas_gente`, NUNCA `visitas`. A tabela crua conta robô
+ * como pessoa, e a diferença não é de margem: numa amostra de 41 visitas,
+ * 31 vinham de datacenter. Um painel que soma as duas coisas não é um painel
+ * otimista, é um painel errado — leva a concluir "o site não converte" quando
+ * o que houve foi "quase ninguém entrou". O descartado sai em `ruido`, para
+ * que o número menor venha acompanhado do motivo.
  * ══════════════════════════════════════════════════════════════════════════
  */
 
@@ -28,7 +35,7 @@ async function handler(request) {
     await garantirEsquema();
 
     const [
-      totais, mensal, origens, lugares, aparelhos, secoes, cliques, marcados, recentes,
+      totais, ruido, mensal, origens, lugares, aparelhos, secoes, cliques, marcados, recentes,
     ] = await Promise.all([
       sql`
         select
@@ -37,9 +44,26 @@ async function handler(request) {
           count(distinct sessao)                                     as sessoes,
           count(*) filter (where evento = 'pageview'
                              and criado_em > now() - interval '30 days') as visitas_30d,
-          round(avg(duracao_ms) filter (where evento = 'saida' and duracao_ms > 1500))
+          /* Mediana, não média: com poucas dezenas de visitas uma única aba
+             esquecida arrasta a média para onde ela quiser. O teto de 30min
+             repete aqui o de coletar.js porque o que já está gravado veio
+             com o teto antigo, de quatro horas. */
+          round(percentile_cont(0.5) within group (
+            order by least(duracao_ms, 30 * 60 * 1000)
+          ) filter (where evento = 'saida' and duracao_ms between 1500 and 30 * 60 * 1000))
                                                                      as duracao_media_ms
-        from visitas`,
+        from visitas_gente`,
+
+      /* O que foi descartado. Sem esta linha o painel apenas mostraria
+         números menores, sem dizer por quê — e um número que encolhe sem
+         explicação parece defeito, não correção. */
+      sql`
+        select
+          count(*) filter (where evento = 'pageview')                as visitas,
+          count(distinct visitante)                                  as unicos
+        from visitas v
+        where evento = 'pageview'
+          and not exists (select 1 from visitas_gente g where g.id = v.id)`,
 
       // Série de 12 meses com os vazios preenchidos.
       sql`
@@ -55,33 +79,33 @@ async function handler(request) {
           coalesce(count(v.id) filter (where v.evento = 'pageview'), 0) as visitas,
           coalesce(count(distinct v.visitante), 0)                    as unicos
         from meses m
-        left join visitas v on date_trunc('month', v.criado_em) = m.mes
+        left join visitas_gente v on date_trunc('month', v.criado_em) = m.mes
         group by m.mes
         order by m.mes`,
 
       sql`
         select coalesce(referrer_host, 'direto') as origem, count(*) as total
-        from visitas where evento = 'pageview'
+        from visitas_gente where evento = 'pageview'
         group by 1 order by total desc limit 12`,
 
       sql`
         select coalesce(pais, '??') as pais, coalesce(cidade, '—') as cidade, count(*) as total
-        from visitas where evento = 'pageview'
+        from visitas_gente where evento = 'pageview'
         group by 1, 2 order by total desc limit 15`,
 
       sql`
         select dispositivo, count(*) as total
-        from visitas where evento = 'pageview'
+        from visitas_gente where evento = 'pageview'
         group by 1 order by total desc`,
 
       sql`
         select detalhe as secao, count(distinct sessao) as sessoes
-        from visitas where evento = 'secao' and detalhe is not null
+        from visitas_gente where evento = 'secao' and detalhe is not null
         group by 1 order by sessoes desc`,
 
       sql`
         select detalhe as alvo, count(*) as total
-        from visitas where evento = 'clique' and detalhe is not null
+        from visitas_gente where evento = 'clique' and detalhe is not null
         group by 1 order by total desc limit 20`,
 
       // Links marcados: é o que responde "o que eu enviei foi aberto?".
@@ -93,20 +117,21 @@ async function handler(request) {
           min(criado_em)                               as primeira,
           max(criado_em)                               as ultima,
           count(*) filter (where evento = 'clique')    as cliques
-        from visitas
+        from visitas_gente
         where ref is not null
         group by ref order by ultima desc limit 50`,
 
       sql`
         select criado_em, coalesce(referrer_host, 'direto') as origem,
                pais, cidade, dispositivo, ref, idioma
-        from visitas where evento = 'pageview'
+        from visitas_gente where evento = 'pageview'
         order by criado_em desc limit 50`,
     ]);
 
     return json({
       gerado_em: new Date().toISOString(),
       totais: totais[0],
+      ruido: ruido[0],
       mensal, origens, lugares, aparelhos, secoes, cliques, marcados, recentes,
     }, 200, { ...cors, 'Cache-Control': 'no-store' });
 
