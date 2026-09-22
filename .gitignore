@@ -5,3 +5,11 @@ node_modules/
 .DS_Store
 .mock-api/
 .impeccable
+
+# Skills de agentes instaladas (reproduziveis via skills-lock.json)
+.agents/skills/
+.claude/skills/
+.cortex/skills/
+
+# Config local por maquina (contem caminhos absolutos)
+.claude/settings.local.json
