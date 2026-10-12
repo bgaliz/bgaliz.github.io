@@ -1,0 +1,122 @@
+Bruno Galiz de Oliveira
+Mid-level Full Stack Developer
+Java, Spring Boot, Vue.js, React, TypeScript, Node.js
+Campo Grande, MS, Brazil. Remote.
+brunogaliz2@gmail.com | https://www.linkedin.com/in/brunogaliz | https://github.com/bgaliz | https://bgaliz.github.io/en/
+
+PROFESSIONAL SUMMARY
+
+Full stack developer since 2019. Today I maintain the State of Tocantins fleet system with Vue.js, Java and Spring Boot. Before that, I migrated Conexa Saúde's medical record from JSP to React and shipped Mato Grosso do Sul's Covid Vaccination Card to both app stores.
+
+PROFESSIONAL EXPERIENCE
+
+Full Stack Developer | AZ Tecnologia em Gestão
+Aug 2025 - present | remote
+Vehicle Control System for the State of Tocantins.
+- PDF and Excel reports that follow the columns and the filter chosen on screen.
+- Made the fleet table columns dynamic: users pick which ones show, and the report comes out with exactly those.
+- Build and maintain REST APIs in Java 11 and Spring Boot, with JPAQuery queries over PostgreSQL and OracleDB.
+- Reworked menu items and the responsive layout of the Vue.js and TypeScript front end.
+Technologies: Vue.js, TypeScript, Java 11, Spring Boot, Maven, JPAQuery, PostgreSQL, OracleDB, MongoDB, Docker, CI/CD, Grafana
+
+Front-end Developer (freelance) | Easy Imóveis
+Aug 2024 - Sep 2024 | remote
+Property search platform.
+- Performance optimization of the property search page.
+- Built custom filters, interactive maps and form flows with reusable components in Nuxt and Vue.js.
+Technologies: Nuxt.js, Vue.js, TypeScript, Tailwind CSS, shadcn/ui, PHP, Docker, Bootstrap
+
+Front-end Developer | Conexa Saúde
+Sep 2022 - Jun 2024 | remote
+Telemedicine platform.
+- Modularization of the electronic medical record and migration from JSP to React.
+- Migrated medical record modules from legacy JSP to React with Hooks and TypeScript, without taking down what was already live.
+- Turned the forms into configurable modules: each clinic creates the fields it needs, with no deploy.
+- Maintained the business-rule modules in Vue.js, on a Scrum team.
+Technologies: React, Vue.js, TypeScript, JavaScript, JSP
+
+Front-end Developer (freelance) | Calango Doido NFT
+Feb 2022 - Jan 2023 | Campo Grande, Brazil
+NFT collection.
+- Connected the React front end to Web3 digital wallets (MetaMask) to read each user's NFTs.
+- Built a browser memory game from the tokens in the connected wallet.
+- Shipped the collection landing page in Next.js, on Vercel.
+Technologies: Next.js, React, TypeScript, Web3.js, MetaMask, Tailwind CSS, Figma, Vercel
+
+Full Stack Developer | SGI, Governo de Mato Grosso do Sul
+Aug 2020 - Jun 2022 | Campo Grande, Brazil
+Information Management Office (SGI), State of Mato Grosso do Sul.
+- Digital Vaccination Card during the Covid pandemic, shipped to the App Store and Google Play.
+- Also worked on the SUS Card and the Free Pass apps, in Ionic with Angular.
+- Prepared the builds in Android Studio and Xcode and handled the store releases.
+- Worked on the MS Digital portal and on REST APIs in Node.js with Sequelize and SQL Server.
+Technologies: Angular, React, Ionic, Node.js, Sequelize, TypeScript, JavaScript, Jest, SQL Server, Figma
+
+Full Stack Developer | Reduza
+Jan 2019 - Jul 2020 | Campo Grande, Brazil
+Coupon and price-comparison platform.
+- Price crawlers in Node.js and one web page per store, optimized for SEO.
+- Wrote scraping bots with automatic refresh cycles, with data in MongoDB and Redis.
+- Built real-time price comparison across stores, with an Angular front end.
+Technologies: Node.js, Express, MongoDB, Redis, Angular, Sass, TypeScript, JavaScript, jQuery, HTML and CSS
+
+IT Service Desk | Unisys
+Feb 2018 - Jan 2019
+- Remote support, Active Directory access management and network setup, before programming professionally.
+
+PERSONAL PROJECTS
+
+AssetForge (2026 - present)
+Game asset generator ready for Unity: from a text description (or an image) to a Humanoid FBX with textures, prefab and animations.
+- Clean Architecture in Python, with an AI provider router that switches services when a free quota runs out.
+- Headless Blender and MakeHuman generate fully rigged characters, plus a library of 45 free animations.
+- A Unity package imports everything on its own: Humanoid Avatar, URP materials, prefab and a locomotion Animator. 73 tests.
+Technologies: Python, FastAPI, pytest, Unity, AI-assisted development
+
+Copiloto de Trading (2026 - present)
+Decision-support system for trading on MetaTrader 5, in observation mode: it reads the chart, sizes the risk and explains, but never places an order.
+- Never shows a confidence percentage: it shows "3 of 4 criteria aligned", checkable item by item on the chart.
+- Logs every trade in a journal, to measure whether there is a real edge.
+- Has 743 automated tests; the autonomous executor runs on a demo account only, reviewed weekly.
+Technologies: Python, FastAPI, pytest, Docker, AI-assisted development
+
+E-PLAY (2026)
+App for the E-PLAY community: schedule matches, score on a leaderboard, read the Bible as a group and follow the live streams.
+- React with Capacitor builds the Android APK from the same web code, with builds on GitHub Actions.
+- Supabase on the back end: Google sign-in, LGPD consent and a public profile with privacy controls.
+- Rule-based automatic moderation (block, warn, ban), an offline Bible with search, and a color-blind mode with 4 options.
+Technologies: React, TypeScript, Capacitor, Supabase, PostgreSQL, Tailwind CSS, CI/CD, AI-assisted development
+https://e-connect-play.vercel.app
+
+Cronômetro de Oradores (2026)
+Speaking-time control for speakers at meetings and events, with visual and audio alerts, a speaker log and PDF export.
+- Timer and bell logic in dedicated hooks, kept apart from the UI.
+- On-screen QR code and PDF export of the speaker log.
+Technologies: React, TypeScript, Tailwind CSS, Vercel
+https://cronometro-speacher.vercel.app
+
+Mini n8n (2025)
+Visual automation-flow editor, in the style of n8n, that sends messages through a Telegram bot.
+- React front end with React Flow: the flow is built by dragging nodes.
+- REST API in Node.js and Express that talks to the Telegram API, with a configurable delay between sends to avoid being blocked.
+Technologies: React, React Flow, Tailwind CSS, Node.js, Express, REST APIs
+https://github.com/bgaliz/Mini-n8n-Project-Front
+
+TECHNICAL SKILLS
+
+Front end: Vue.js (since 2022), React (since 2020), TypeScript (since 2019), JavaScript (since 2019), Angular (since 2019), Next.js (since 2022), Nuxt.js (since 2024), Tailwind CSS (since 2022), HTML and CSS (since 2019), Sass (since 2019), shadcn/ui (since 2024), React Flow (since 2025), jQuery (since 2019), JSP (since 2022), Figma (since 2020), Web3.js (since 2022), MetaMask (since 2022), Bootstrap (since 2024)
+Back end and APIs: Java 11 (since 2025), Spring Boot (since 2025), REST APIs (since 2019), Node.js (since 2019), Express (since 2019), Microservices, Python (since 2026), FastAPI (since 2026), JPAQuery (since 2025), Maven (since 2025), Sequelize (since 2020), PHP (since 2024)
+Databases: PostgreSQL (since 2025), OracleDB (since 2025), SQL Server (since 2020), MongoDB (since 2019), Redis (since 2019), Supabase (since 2026)
+Delivery and operations: Git (since 2019), Docker (since 2024), CI/CD (since 2025), Kubernetes, Cloud (AWS, Azure, GCP), Grafana (since 2025), Jest (since 2020), pytest (since 2026), Vercel (since 2022)
+Mobile and games: Ionic (since 2020), Capacitor (since 2026), Publishing to the App Store and Google Play (since 2020), Unity (since 2026)
+AI in development: AI-assisted development (since 2026)
+Methods: Scrum (since 2019), Legacy system migration (since 2022), SEO (since 2019)
+
+How I work: I use AI every day to explore code, refactor and review, always with tests and human review before anything reaches production. My personal projects document it: the Trading Copilot has 743 automated tests and AssetForge has 73.
+
+EDUCATION AND LANGUAGES
+
+B.Sc. in Computer Engineering | Universidade Católica Dom Bosco | 2014 - 2018
+Software Development Course | High Tech | 2018 - 2018
+Portuguese: native
+English: advanced

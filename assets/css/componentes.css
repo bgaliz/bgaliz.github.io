@@ -1,555 +1,537 @@
 /* ═══════════════════════════════════════════════════════════════════════════
-   COMPONENTES — alternadores, verbetes, ferramentas, botões, avisos
+   COMPONENTES
+   Raio 0 em tudo, sem sombra. Profundidade vem de fio, de superfície
+   (--papel-2) e de escala tipográfica. Um acento só: terra.
    ═══════════════════════════════════════════════════════════════════════════ */
 
-/* ── Alternadores (idioma e tema) ──────────────────────────────────────── */
+/* ── Botões e elos ──────────────────────────────────────────────────────── */
 
-.alternador {
+.botao {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 0.1em;
-  min-width: 2.6rem;
-  height: 2rem;
-  padding-inline: var(--e-2);
+  gap: var(--e-2);
+  min-height: 2.75rem;
+  padding: 0.6rem 1.1rem;
   border: 1px solid var(--fio-controle);
-  color: var(--texto-suave);
-  transition: border-color var(--d-micro) var(--saida-expo),
-              color        var(--d-micro) var(--saida-expo);
+  background: transparent;
+  color: var(--tinta);
+  font-size: var(--t-peq);
+  font-weight: 620;
+  line-height: 1.2;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: background-color var(--d-controle) var(--saida), color var(--d-controle) var(--saida),
+              border-color var(--d-controle) var(--saida), transform 100ms var(--saida);
 }
-.alternador:hover, .alternador:focus-visible {
-  border-color: var(--ambar);
-  color: var(--ambar);
+.botao:hover { border-color: var(--tinta); color: var(--tinta); }
+.botao:active { transform: scale(0.97); }
+.botao--principal { background: var(--tinta); border-color: var(--tinta); color: var(--papel); }
+.botao--principal:hover { background: var(--terra); border-color: var(--terra); color: var(--sobre-terra); }
+.botao__seta { transition: transform var(--d-estado) var(--saida); }
+.botao:hover .botao__seta { transform: translateY(2px); }
+.botao[data-ok] { border-color: var(--terra); color: var(--terra); }
+
+/* Elo: um fio fixo embaixo e, no hover, o terra cresce da esquerda. */
+.elo {
+  font-weight: 560;
+  text-decoration: none;
+  padding-bottom: 2px;
+  background-image: linear-gradient(var(--fio-controle), var(--fio-controle)), linear-gradient(var(--terra), var(--terra));
+  background-repeat: no-repeat;
+  background-position: left bottom, left bottom;
+  background-size: 100% 1px, 0% 1px;
+  transition: color var(--d-controle) var(--saida), background-size var(--d-estado) var(--saida);
 }
-.alternador .mono { font-size: var(--t-nano); }
-.alternador b  { font-weight: 600; color: var(--texto); }
-.alternador em { font-style: normal; color: var(--fio-forte); margin-inline: 0.15em; }
-.alternador i  { font-style: normal; }
-:root[data-idioma='en'] .alternador b { color: var(--texto-tenue); font-weight: 400; }
-:root[data-idioma='en'] .alternador i { color: var(--texto); font-weight: 600; }
+.elo:hover, .elo:focus-visible { color: var(--terra); background-size: 100% 1px, 100% 1px; }
 
-.icone-tema { transition: transform var(--d-media) var(--mola); }
-.alternador:hover .icone-tema { transform: rotate(38deg); }
-
-/* No tema claro o ícone vira lua: os raios recolhem e a máscara entra.
-   A máscara é a metade que faltava — sem ela o "sol sem raios" era um O, e
-   um O não diz nada a ninguém. A mordida fica estacionada fora do disco no
-   tema tinta e desliza para dentro no papel, abrindo o arco. */
-.icone-tema__mordida {
-  transform: translate(4.6px, -4.6px);   /* estacionada bem fora do disco */
-  transition: transform var(--d-media) var(--saida-expo);
-}
-.icone-tema__raios { transition: opacity var(--d-media) var(--saida-expo); }
-
-:root[data-tema='papel'] .icone-tema__raios   { opacity: 0; }
-:root[data-tema='papel'] .icone-tema__mordida { transform: none; }
-@media (prefers-color-scheme: light) {
-  :root:not([data-tema='tinta']) .icone-tema__raios   { opacity: 0; }
-  :root:not([data-tema='tinta']) .icone-tema__mordida { transform: none; }
-}
-
-/* ── Disponibilidade: o sinal no fio ───────────────────────────────────────
-   O projeto inteiro é feito de FIOS — o índice tem um, o verbete tem um, há
-   três tokens de fio. E o marcador da disponibilidade se chama ponto VIVO,
-   mas era um quadrado parado: o nome prometia uma coisa que o CSS não
-   entregava.
-
-   Daí o gesto, que é UM só e não dois: o sublinhado da chamada é um fio, o
-   ponto é por onde o sinal entra nele. A cada ciclo o ponto emite um anel e
-   um brilho curto percorre o fio da esquerda para a direita. Ao aproximar o
-   ponteiro o ciclo ACELERA — de 4s para 2.4s. Não muda de natureza, fica
-   mais vivo. Que é literalmente o que a frase ao lado está dizendo.
-
-   O RELÓGIO, e por que 4s. Isto fica na visão periférica a visita inteira,
-   então a escolha é entre notar e incomodar. A 9s ninguém via — passava uma
-   vez e a pessoa duvidava de ter visto. A 1.5s pisca 40 vezes por minuto ao
-   lado de um texto que se está tentando ler. A 4s são 15 por minuto: quem
-   chega vê duas ou três vezes ainda na primeira frase, e depois o silêncio
-   é longo o bastante para o olho soltar.
-
-   A TRAVESSIA É FRAÇÃO DO CICLO — 17.5% —, então encurtar o ciclo encurta a
-   faísca junto. É por isso que os dois tempos são estes e não outros: dão
-   0.70s de varredura no ambiente e 0.42s sob o ponteiro, que é a janela em
-   que o brilho ainda PERCORRE o fio. Abaixo de ~0.35s ele deixa de percorrer
-   e vira um pisca-pisca. Mexer num dos dois números sem olhar o outro troca
-   o efeito por outro.
-
-   Duas decisões de contenção, porque isto mora numa coluna presa:
-     · o brilho é 1px e some nas duas pontas por gradiente, sem começo nem
-       fim duros;
-     · nada disso existe sob `prefers-reduced-motion: reduce` — lá sobra a
-       troca de cor, que já basta para dizer "isto é clicável".
-
-   Sem sombra, sem raio, sem cor nova: o âmbar é da página, o petróleo é o
-   acento frio que a disponibilidade já usava.                              */
-
+/* O único ponto do site: disponibilidade real. */
 .ponto-vivo {
-  position: relative;
-  width: 6px; height: 6px;
-  background: var(--petroleo);
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 50%;
+  background: currentColor;
   flex: none;
 }
-/* O anel parado. */
-.ponto-vivo::after {
-  content: '';
+
+/* ── Retrato: o 3x4 da ficha, com marcas de corte de gráfica ─────────────── */
+
+.retrato { position: relative; margin: 0; }
+.retrato picture,
+.retrato img {
+  width: 100%;
+  aspect-ratio: 3 / 4;
+  object-fit: cover;
+  background: var(--papel-2);
+}
+:root[data-tema='tinta'] .retrato img { filter: brightness(0.94); }
+@media (prefers-color-scheme: dark) { :root:not([data-tema='papel']) .retrato img { filter: brightness(0.94); } }
+
+.retrato canvas {
   position: absolute;
-  inset: -3px;
-  border: 1px solid var(--petroleo);
-  opacity: 0.45;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
 }
-/* O anel que é EMITIDO. Invisível em repouso — quem pulsa é este, e o de
-   cima continua onde está, para o ponto nunca ficar sem marca. */
-.ponto-vivo::before {
-  content: '';
+
+.retrato__marcas i {
   position: absolute;
-  inset: -3px;
-  border: 1px solid var(--petroleo);
-  opacity: 0;
+  width: 14px;
+  height: 14px;
+  border-color: var(--terra);
+  border-style: solid;
+  border-width: 0;
 }
+.retrato__marcas i:nth-child(1) { top: -9px; left: -9px; border-top-width: 1px; border-left-width: 1px; }
+.retrato__marcas i:nth-child(2) { top: -9px; right: -9px; border-top-width: 1px; border-right-width: 1px; }
+.retrato__marcas i:nth-child(3) { bottom: -9px; left: -9px; border-bottom-width: 1px; border-left-width: 1px; }
+.retrato__marcas i:nth-child(4) { bottom: -9px; right: -9px; border-bottom-width: 1px; border-right-width: 1px; }
 
-/* O fio da chamada. Era `border-bottom`; virou pseudo-elemento porque agora
-   são duas camadas — o fio e o que corre por ele. */
-.fachada__vaga::before {
-  content: '';
-  position: absolute;
-  /* Começa DEPOIS do ponto: o fio é o sublinhado do texto, e um pedaço de
-     fio sobrando à esquerda do ponto seria um rabo sem função. E assim o
-     sinal parte literalmente da borda do ponto — que é o que o gesto diz. */
-  left: var(--trilha-ponto); right: 0; bottom: 0;
-  height: 1px;
-  background: color-mix(in srgb, var(--petroleo) 40%, transparent);
-  transition: background var(--d-micro) var(--saida-expo);
-}
-.fachada__vaga:hover::before,
-.fachada__vaga:focus-visible::before { background: var(--petroleo); }
+/* ── Odômetro: o ano que rola ───────────────────────────────────────────── */
 
-/* O sinal. Pinta por `background-position`, não por `translate`, e a razão é
-   concreta: fundo não vaza da própria caixa. Com transform eu precisaria de
-   `overflow: hidden` no link — e o link é justamente quem PENDURA o ponto
-   para fora, então o overflow decepava o ponto. */
-.fachada__vaga::after {
-  content: '';
-  position: absolute;
-  left: var(--trilha-ponto); right: 0; bottom: 0;
-  height: 1px;
-  /* O pico é petróleo puxado para a cor do texto: no tinta clareia, no papel
-     escurece — nos dois casos DESTACA do fio, que é o mesmo petróleo a 40%.
-     Sem isso o brilho tem a cor do fio e a linha inteira parece só acender. */
-  background-image: linear-gradient(90deg, transparent,
-                    color-mix(in srgb, var(--petroleo) 55%, var(--texto)), transparent);
-  background-size: 26% 100%;
-  background-repeat: no-repeat;
-  background-position: -36% 0;   /* fora da ponta esquerda */
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .ponto-vivo::before      { animation: emite-anel  4s var(--saida-expo) infinite; }
-  /* `linear` de propósito, e é a única curva linear do projeto: as outras
-     animam COISAS, que têm massa e desaceleram. Esta anima um sinal
-     percorrendo um fio, e sinal não freia. Com a curva de saída padrão o
-     brilho chegava a 65% do caminho em 20% do tempo e o resto era espera. */
-  .fachada__vaga::after    { animation: corre-o-fio 4s linear infinite; }
-
-  /* Mesmo gesto, relógio mais rápido. */
-  .fachada__vaga:hover  .ponto-vivo::before,
-  .fachada__vaga:focus-visible .ponto-vivo::before,
-  .fachada__vaga:hover::after,
-  .fachada__vaga:focus-visible::after { animation-duration: 2.4s; }
-}
-
-/* Sobe de 0: sem isso o anel reaparece com um estalo no início de cada
-   ciclo. Chega em scale(2.8) invisível e espera ali o resto do ciclo. */
-@keyframes emite-anel {
-  0%    { transform: scale(1);   opacity: 0;    }
-  4%    { transform: scale(1.1); opacity: 0.55; }
-  17.5% { transform: scale(2.5); opacity: 0;    }
-  100%  { transform: scale(2.5); opacity: 0;    }
-}
-
-/* -36% e 136% são as posições em que uma imagem de 26% de largura fica
-   inteiramente FORA de cada ponta (posição P% assenta a borda esquerda em
-   P × 0.74 da caixa). A travessia ocupa 17.5% do ciclo; o resto é silêncio —
-   0.70s de faísca e 3.30s de espera no ambiente, 0.42s e 1.98s sob o
-   ponteiro. */
-@keyframes corre-o-fio {
-  0%    { background-position: -36% 0; }
-  17.5% { background-position: 136% 0; }
-  100%  { background-position: 136% 0; }
-}
-
-/* ── Rol e verbetes ────────────────────────────────────────────────────────
-   Um rol é uma lista de verbetes; um verbete é uma entrada de catálogo. Vale
-   igual para cargo, recorte e formação — três seções, uma gramática só.
-
-   O realce do hover é ADITIVO: acrescenta luz onde o ponteiro está. Nunca
-   subtrativo — nada no resto da lista apaga. Três coisas acontecem, e nenhuma
-   é sombra:
-     1. o fundo se levanta (--elevado) com um fio inset de 1px no topo;
-     2. um fio-guia cresce na margem esquerda, de cima para baixo;
-     3. a seta do título anda para o canto superior direito.
-
-   Aqui houve um `.rol:hover > .verbete { filter: opacity(0.5) }` que esmaecia
-   os IRMÃOS — o group/list da referência, reproduzido sem Tailwind. Saiu, por
-   duas razões:
-
-   · LEITURA. Ali a lista é uma galeria de projetos, que o olho varre; aqui é
-     currículo, que o olho LÊ. Quem lê move o ponteiro sem intenção e deixa
-     ele parado onde parou — e a cada movimento desses metade da página piscava
-     para 50%. O efeito punia justamente quem estava lendo com atenção.
-
-   · CONTRASTE. Sobre a base #0B0A08, `--texto-tenue` tem 4.54:1; a 50% de
-     opacidade cai para ~1.9:1, e `--texto` despenca de 15:1 para 4.7:1. Ou
-     seja: todo verbete não-apontado reprovava na WCAG 1.4.3 enquanto o
-     ponteiro estivesse na lista. Um realce não pode custar a legibilidade do
-     que ele não está realçando.
-
-   Fica registrado o motivo de o fundo usar `filter` e não `opacity` no que
-   restou: `revela` (a animação scroll-driven em movimento.css) anima opacity,
-   e animação vence declaração. Por isso `revela` mira em __quando e __miolo,
-   nunca no verbete em si.                                                    */
-
-.rol {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  display: grid;
-  gap: var(--e-5);
-}
-
-.verbete {
-  position: relative;
-  isolation: isolate;          /* prende o z-index -1 do ::before aqui dentro */
-  display: grid;
-  gap: var(--e-2);
-}
-
-@media (min-width: 48rem) {
-  .verbete {
-    /* 9.5rem é a medida de "set 2022 — jun 2024" em mono nano: o período mais
-       longo que os dados produzem. Menos que isso e ele quebra em duas linhas
-       justamente nos cargos mais importantes. */
-    grid-template-columns: 9.5rem minmax(0, 1fr);
-    gap: var(--e-4);
-  }
-}
-
-/* A superfície de realce. Único lugar do projeto com raio — e ela não é
-   affordance, é um levantar de fundo. */
-.verbete::before {
-  content: '';
-  position: absolute;
-  z-index: -1;
-  inset: calc(var(--e-4) * -1) calc(var(--e-5) * -1);
-  border-radius: var(--raio-verbete);
-  background: var(--elevado);
-  /* Fio inset, não sombra: a doutrina do projeto é profundidade por fio.
-     box-shadow aqui desenha 1px de linha, nada além disso. */
-  box-shadow: inset 0 1px 0 var(--fio-forte);
-  opacity: 0;
-  transition: opacity var(--d-media) var(--saida-expo);
-}
-.verbete:hover::before,
-.verbete:focus-within::before { opacity: 1; }
-
-/* O fio-guia. Com o esmaecer fora, o fundo elevado sozinho é discreto demais
-   para dizer "é este" — a diferença entre --base e --elevado é de nove níveis
-   de luminância, deliberadamente quase nada. O fio devolve a precisão que o
-   esmaecer dava, mas gastando 2px na margem em vez da legibilidade da seção
-   inteira: cresce de cima para baixo, na direção em que se lê, e some no mesmo
-   tempo. É o único lugar do projeto onde o âmbar aparece sem ser link, e por
-   isso vem a 55% — presença, não aviso. */
-.verbete::after {
-  content: '';
-  position: absolute;
-  z-index: -1;
-  left: calc(var(--e-5) * -1);
-  top: calc(var(--e-4) * -1);
-  bottom: calc(var(--e-4) * -1);
-  width: 2px;
-  border-radius: 2px;
-  background: var(--ambar);
-  opacity: 0;
-  scale: 1 0;
-  transform-origin: top;
-  transition: scale var(--d-media) var(--saida-expo),
-              opacity var(--d-media) var(--saida-expo);
-}
-.verbete:hover::after,
-.verbete:focus-within::after { opacity: 0.55; scale: 1 1; }
-
-/* Quem pediu menos movimento recebe o realce inteiro, sem o crescer. */
-@media (prefers-reduced-motion: reduce) {
-  .verbete::after { transition: opacity var(--d-media) linear; scale: 1 1; }
-}
-
-/* Coluna estreita: o período. É aqui que a referência põe a miniatura do
-   projeto — e é por isto que não há imagem nenhuma nesta página. */
-.verbete__quando {
-  color: var(--texto-tenue);
-  font-size: var(--t-nano);
-  /* Mais apertado que --ls-mono: o período é longo e a coluna é estreita. */
-  letter-spacing: 0.04em;
-  line-height: 1.6;
-  padding-top: 0.35em;         /* alinha ao baseline do título */
-}
-.verbete__dur { display: block; color: var(--fio-forte); }
-
-/* O selo "atual" — derivado de fim === null nos dados e escrito por
-   dinamico.js no atributo data-rotulo-atual. Nunca digitado à mão.
-   attr() só lê o elemento de ORIGEM, por isso o atributo cai no [data-selo]. */
-[data-selo][data-rotulo-atual]:not([data-rotulo-atual=''])::after {
-  content: attr(data-rotulo-atual);
-  display: inline-block;
-  margin-top: 0.6em;
-  padding: 0.16em 0.6em;
-  border: 1px solid var(--petroleo);
-  border-radius: var(--raio-pilula);
-  color: var(--petroleo);
-  font-weight: 500;
-}
-
-.verbete__miolo { min-width: 0; }
-
-.verbete__titulo {
-  font-size: var(--t-d3);
-  font-weight: 600;
-  letter-spacing: -0.02em;
-  margin-bottom: 0.2em;
-}
-
-/* Sem alvo de clique cobrindo o cartão inteiro, ao contrário da referência.
-   Lá cada projeto tem um destino único e óbvio; aqui um cargo é um cargo e um
-   recorte leva a uma conversa. Cartão inteiro clicável seria affordance falsa,
-   então os links ficam explícitos e o realce do hover diz só "é este que você
-   está lendo" — nunca "clique aqui". */
-
-.verbete__seta {
-  display: inline-block;
-  transition: translate var(--d-media) var(--mola);
-}
-.verbete:hover .verbete__seta,
-.verbete:focus-within .verbete__seta { translate: 3px -3px; }
-
-.verbete__sub {
+.odometro {
   display: flex;
-  flex-wrap: wrap;
-  gap: 0.5em;
-  color: var(--texto-tenue);
-  font-size: var(--t-micro);
-  margin-bottom: var(--e-3);
+  font-size: var(--t-ano);
+  font-weight: 700;
+  font-stretch: 118%;
+  line-height: 1;
+  letter-spacing: -0.04em;
+  color: var(--tinta);
+  height: 1em;
+  overflow: hidden;
 }
-.verbete__sep { color: var(--fio-forte); }
-
-/* A prosa sobe acima do alvo: o texto continua selecionável, e arrastar para
-   selecionar não dispara o link nem infla a contagem de cliques. */
-.verbete__prosa,
-.verbete__convite {
-  position: relative;
-  z-index: 1;
-}
-.verbete__prosa {
-  color: var(--texto-suave);
-  font-size: var(--t-peq);
-  max-width: var(--medida-texto);   /* ~75 car/linha em qualquer largura */
-}
-.verbete__prosa + .verbete__prosa { margin-top: var(--e-3); }
-
-/* O problema entra em itálico ótico via eixo de peso, não com <em>. */
-.verbete__prosa--problema { font-weight: 340; }
-
-.verbete__convite {
-  display: inline-block;
-  margin-top: var(--e-3);
-  font-family: var(--f-display);
-  font-size: var(--t-peq);
-  font-weight: 560;
-  color: var(--ambar);
-  border-bottom: 1px solid color-mix(in srgb, var(--ambar) 35%, transparent);
-  padding-bottom: 0.2em;
-  transition: border-color var(--d-micro) var(--saida-expo),
-              letter-spacing var(--d-media) var(--saida-expo);
-}
-.verbete__convite:hover,
-.verbete__convite:focus-visible { border-color: var(--ambar); letter-spacing: 0.012em; }
-
-/* Etiquetas de stack — pílulas no acento frio, para não competirem com o
-   âmbar que marca navegação e chamadas. */
-.verbete__stack {
+.odometro__digito {
   display: flex;
-  flex-wrap: wrap;
-  gap: var(--e-2);
-  list-style: none;
-  padding: 0;
-  margin-top: var(--e-4);
+  flex-direction: column;
+  transform: translateY(calc(var(--d, 0) * -1em));
+  transition: transform 420ms var(--troca);
 }
-/* Uma definição só para a pílula: as etiquetas de stack do cargo e as da
-   seção 004 são visualmente a mesma coisa e não devem divergir. */
-.verbete__stack li,
-.rol-tec li {
-  padding: 0.28em 0.7em;
-  border-radius: var(--raio-pilula);
-  background: var(--petroleo-tenue);
-  color: var(--petroleo);
-  font-family: var(--f-mono);
-  font-size: var(--t-nano);
-  font-weight: 500;
-  letter-spacing: var(--ls-mono);
-  text-transform: uppercase;
-  line-height: 1.5;
-}
+.odometro__digito span { height: 1em; display: block; }
 
-/* O cargo anterior à programação. Presente, sem disputar atenção.
+/* ── Régua da carreira ──────────────────────────────────────────────────── */
 
-   Estava em opacity 0.62, e o mesmo cálculo que derrubou o esmaecer dos
-   irmãos condena esse número: --texto-suave a 62% sobre a base dá 3.09:1,
-   contra os 4.5:1 que a WCAG 1.4.3 pede para texto normal. Só que aqui era
-   permanente, não durava o tempo do ponteiro — o verbete da Unisys ficava
-   ilegível o dia inteiro. 0.82 é o ponto exato em que ele volta a passar
-   (4.59:1), e continua atrás dos outros no olhar.
-
-   O resto da hierarquia não depende de opacidade nenhuma: o título já vem
-   menor e mais leve na linha abaixo, que é como se rebaixa um item sem
-   apagá-lo. E o hover perdeu o salto de opacidade — este verbete recebe agora
-   o mesmo realce dos demais, fundo e fio, um idioma só para a lista toda. */
-.verbete--discreto { opacity: 0.82; }
-.verbete--discreto .verbete__titulo { font-size: var(--t-corpo); font-weight: 500; }
-
-/* Link solto no fim de um rol — "ver currículo completo". */
-.rol-elo {
-  display: inline-flex;
-  align-items: baseline;
-  gap: 0.4em;
+.regua {
+  position: relative;
+  container-type: inline-size;
+  height: 2.75rem;
   margin-top: var(--e-5);
-  font-family: var(--f-display);
-  font-size: var(--t-peq);
-  font-weight: 600;
-  color: var(--texto);
+  border-top: 1px solid var(--fio);
 }
-.rol-elo:hover, .rol-elo:focus-visible { color: var(--ambar); }
-.rol-elo .verbete__seta { transition: translate var(--d-media) var(--mola); }
-.rol-elo:hover .verbete__seta { translate: 3px -3px; }
-
-/* ── Ferramentas: capacidade por camada (004) ──────────────────────────────
-   Terceira forma desta seção, e as duas anteriores ensinaram o mesmo:
-
-     · uma matriz 35×6, onde 77% das células diziam "não" — grade é a forma
-       certa para cruzamento denso, e este dado é esparso;
-     · uma fileira de pontos contando projetos, que todo leitor entendeu como
-       NOTA DE 1 A 5, subestimando justamente quem a lista descreve.
-
-   Daí a regra desta seção: NENHUMA gradação visual entre tecnologias. Nem
-   ponto, nem barra, nem opacidade, nem tamanho. Toda pílula tem o mesmo peso,
-   e a hierarquia vive em duas coisas que não se confundem com nota — a ORDEM
-   (o que é de hoje vem primeiro, decidido pelo build) e a FRASE de cada
-   camada.
-
-   Também não há esmaecer de irmãos aqui, ao contrário do rol de verbetes:
-   naquele, entradas longas pedem foco; numa nuvem de pílulas curtas isso é
-   ruído.                                                                    */
-
-.tecnologias__intro {
-  color: var(--texto-suave);
-  margin-bottom: var(--e-6);
+.regua__traco {
+  position: absolute;
+  top: 0.55rem;
+  left: var(--ini);
+  width: calc(var(--fim) - var(--ini));
+  height: 6px;
+  background: var(--tinta-3);
+  transition: background-color var(--d-estado) var(--saida), transform var(--d-estado) var(--saida);
 }
-
-.tec-camada + .tec-camada { margin-top: var(--e-6); }
-
-.tec-camada__titulo {
-  font-family: var(--f-mono);
-  font-size: var(--t-nano);
-  font-weight: 500;
-  letter-spacing: var(--ls-mono);
-  text-transform: uppercase;
-  color: var(--ambar);
-  padding-bottom: var(--e-2);
-  border-bottom: 1px solid var(--fio);
-  margin-bottom: var(--e-3);
+.regua__traco--paralelo { top: 0.95rem; height: 4px; }
+.regua__traco--ti { background: transparent; border: 1px dashed var(--fio-controle); }
+.regua__traco[data-ativo] { background: var(--terra); }
+.regua__ano {
+  position: absolute;
+  top: 1.45rem;
+  left: var(--ini);
+  font-family: var(--f-dado);
+  font-size: 0.6875rem;
+  color: var(--tinta-3);
+}
+.regua__marca {
+  position: absolute;
+  top: -6px;
+  left: 0;
+  width: 1px;
+  height: 1.5rem;
+  background: var(--terra);
+  translate: 100cqw 0;
 }
 
-/* A frase é quem carrega o nível. Serif, tamanho de leitura — ela é conteúdo,
-   não legenda. */
-.tec-camada__nota {
-  color: var(--texto-suave);
-  font-size: var(--t-peq);
-  max-width: 38rem;
-  margin-bottom: var(--e-4);
+@media (max-width: 47.99rem) {
+  .odometro { font-size: 2rem; }
+  .regua { margin-top: 0; }
+  .regua__ano:not(:first-of-type, :last-of-type) { display: none; }
 }
 
-.rol-tec {
+/* ── Cargo: um capítulo ─────────────────────────────────────────────────── */
+
+.cargo { padding-block: 0 var(--e-8); }
+.cargo:last-child { padding-bottom: 0; }
+
+.cargo__quando {
+  font-family: var(--f-dado);
+  font-size: var(--t-micro);
+  color: var(--tinta-3);
+}
+.cargo__duracao::before { content: '('; }
+.cargo__duracao::after { content: ')'; }
+.cargo__duracao:empty { display: none; }
+
+.cargo__empresa {
+  margin-top: var(--e-2);
+  font-size: var(--t-h3);
+  font-weight: 650;
+  letter-spacing: -0.01em;
+}
+.cargo__papel { color: var(--tinta-2); font-size: var(--t-peq); margin-top: var(--e-1); }
+
+.cargo__topicos { margin-top: var(--e-5); max-width: var(--medida); }
+.cargo__topicos li { position: relative; padding-left: 1.1rem; margin-top: var(--e-2); color: var(--tinta-2); }
+.cargo__topicos li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0.8em;
+  width: 0.5rem;
+  height: 1px;
+  background: var(--fio-controle);
+}
+/* A principal entrega é o título do capítulo, e continua sendo o 1º tópico. */
+.cargo__topicos .cargo__principal {
+  padding-left: 0;
+  margin: 0 0 var(--e-4);
+  font-size: var(--t-entrega);
+  font-weight: 560;
+  line-height: 1.22;
+  letter-spacing: -0.016em;
+  color: var(--tinta);
+  max-width: 30ch;
+}
+.cargo__topicos .cargo__principal::before { display: none; }
+
+.cargo__stack { margin-top: var(--e-4); font-size: var(--t-peq); color: var(--tinta-2); max-width: var(--medida); }
+.cargo__stack span, .projeto__stack span { color: var(--tinta-3); }
+.cargo__levei { margin-top: var(--e-4); font-style: italic; color: var(--tinta-2); max-width: var(--medida); }
+.cargo__levei span { font-style: normal; font-weight: 600; color: var(--tinta); }
+.cargo .previa { margin-top: var(--e-5); max-width: 26rem; }
+
+.cargo--discreto .cargo__topicos .cargo__principal { font-size: var(--t-corpo); font-weight: 450; color: var(--tinta-2); max-width: var(--medida); }
+
+/* ── O caso completo ────────────────────────────────────────────────────── */
+
+.caso { margin-top: var(--e-5); max-width: var(--medida); border-top: 1px solid var(--fio); border-bottom: 1px solid var(--fio); }
+.caso summary {
   display: flex;
-  flex-wrap: wrap;
-  gap: var(--e-2);
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-
-/* ── Contato (006) ─────────────────────────────────────────────────────── */
-
-.contato__chamada {
-  font-family: var(--f-display);
-  font-size: var(--t-d2);
+  justify-content: space-between;
+  align-items: center;
+  padding-block: var(--e-3);
   font-weight: 620;
-  letter-spacing: -0.028em;
-  line-height: 1.14;
-  margin-bottom: var(--e-4);
+  list-style: none;
 }
-.contato__prazo { color: var(--texto-suave); font-weight: 400; }
-.contato__nota { color: var(--texto-suave); margin-bottom: var(--e-6); max-width: 34rem; }
+.caso summary::after {
+  content: '';
+  width: 0.75rem;
+  height: 0.75rem;
+  background:
+    linear-gradient(currentColor, currentColor) center / 100% 1.5px no-repeat,
+    linear-gradient(currentColor, currentColor) center / 1.5px 100% no-repeat;
+  transition: rotate var(--d-estado) var(--saida);
+}
+.caso[open] summary::after { rotate: 45deg; }
+.caso summary:hover { color: var(--terra); }
+.caso__corpo { padding-bottom: var(--e-5); }
+.caso__corpo dt { font-weight: 620; margin-top: var(--e-4); }
+.caso__corpo dd { color: var(--tinta-2); }
 
-.contato__botoes {
+/* ── Demonstração real: criar um campo sem deploy (caso Conexa) ─────────── */
+
+.demo-campo {
+  margin: var(--e-2) 0 var(--e-5);
+  padding: var(--e-5);
+  background: var(--papel-2);
+}
+.demo-campo__titulo { font-weight: 620; margin-bottom: var(--e-3); }
+.demo-campo__criar { display: flex; flex-wrap: wrap; align-items: end; gap: var(--e-3); }
+.demo-campo label { display: grid; gap: var(--e-1); font-size: var(--t-micro); color: var(--tinta-2); }
+.demo-campo input:not([type='checkbox']),
+.demo-campo select,
+.relatorio select {
+  min-height: 2.5rem;
+  padding: 0.4rem 0.6rem;
+  border: 1px solid var(--fio-controle);
+  background: var(--papel);
+  color: var(--tinta);
+  font-size: var(--t-peq);
+}
+.demo-campo input[readonly] { color: var(--tinta-2); }
+.demo-campo__ficha {
+  margin-top: var(--e-4);
   display: grid;
   gap: var(--e-3);
-  list-style: none;
-  padding: 0;
-  margin-bottom: var(--e-6);
+  padding: var(--e-4);
+  border: 1px solid var(--fio);
+  background: var(--papel);
 }
-.botao {
-  --puxao-x: 0px;
-  --puxao-y: 0px;
+.demo-campo__ficha legend { padding-inline: var(--e-2); font-size: var(--t-micro); font-family: var(--f-dado); color: var(--tinta-3); }
+.demo-campo__ficha [data-novo] { animation: chega var(--d-estado) var(--saida); }
+.demo-campo__ficha [data-novo] span::after { content: ' (novo)'; color: var(--terra); }
+.demo-campo__nota { margin-top: var(--e-3); font-size: var(--t-micro); color: var(--tinta-3); }
+@keyframes chega { from { transform: translateY(-6px); } to { transform: none; } }
+
+/* ── Relatório: controles e tabela ──────────────────────────────────────── */
+
+.relatorio__controles {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: end;
+  gap: var(--e-5) var(--e-6);
+  margin-top: var(--e-6);
+}
+.relatorio__colunas { border: 0; display: flex; flex-wrap: wrap; gap: var(--e-2); }
+.relatorio__colunas legend { font-size: var(--t-micro); color: var(--tinta-3); margin-bottom: var(--e-2); }
+.relatorio__colunas label {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--e-2);
+  min-height: 2.5rem;
+  padding-inline: var(--e-3);
+  border: 1px solid var(--fio-controle);
+  font-size: var(--t-peq);
+  cursor: pointer;
+  user-select: none;
+  transition: background-color var(--d-controle) var(--saida), color var(--d-controle) var(--saida), border-color var(--d-controle) var(--saida);
+}
+.relatorio__colunas input { accent-color: var(--terra); width: 1rem; height: 1rem; }
+.relatorio__colunas label:has(input:checked) { border-color: var(--tinta); }
+.relatorio__colunas label:has(input:focus-visible) { outline: var(--foco) solid var(--terra); outline-offset: 2px; }
+.relatorio__filtros { display: flex; flex-wrap: wrap; gap: var(--e-4); }
+.relatorio__filtros label { display: grid; gap: var(--e-1); font-size: var(--t-micro); color: var(--tinta-3); }
+.relatorio__acoes { display: flex; flex-wrap: wrap; gap: var(--e-3); }
+
+.relatorio__folha { margin-top: var(--e-6); }
+.relatorio__impresso { display: none; }
+
+.tabela-rolagem { overflow-x: auto; border-top: 1px solid var(--tinta); }
+.tabela {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--t-peq);
+}
+.tabela th {
+  text-align: left;
+  font-family: var(--f-dado);
+  font-size: var(--t-micro);
+  font-weight: 600;
+  color: var(--tinta-3);
+  padding: var(--e-3) var(--e-4) var(--e-3) 0;
+  border-bottom: 1px solid var(--fio);
+  white-space: nowrap;
+}
+.tabela td {
+  vertical-align: top;
+  padding: var(--e-3) var(--e-4) var(--e-3) 0;
+  border-bottom: 1px solid var(--fio);
+  color: var(--tinta-2);
+  min-width: 8rem;
+}
+.tabela td[data-col='empresa'] { color: var(--tinta); font-weight: 600; }
+.tabela td[data-col='periodo'] { font-family: var(--f-dado); font-size: var(--t-micro); white-space: nowrap; }
+.tabela td[data-col='entrega'] { min-width: 16rem; color: var(--tinta); }
+.tabela tr[data-fora] { display: none; }
+.tabela[data-sem~='empresa'] [data-col='empresa'],
+.tabela[data-sem~='periodo'] [data-col='periodo'],
+.tabela[data-sem~='cargo'] [data-col='cargo'],
+.tabela[data-sem~='entrega'] [data-col='entrega'],
+.tabela[data-sem~='dominio'] [data-col='dominio'],
+.tabela[data-sem~='stack'] [data-col='stack'] { display: none; }
+.relatorio__vazio { padding: var(--e-5) 0; color: var(--tinta-3); }
+
+/* ── Prévia de link (como o WhatsApp monta a partir dos metadados) ──────── */
+
+.previa {
+  display: grid;
+  align-content: start;
+  border: 1px solid var(--fio);
+  background: var(--papel);
+  color: inherit;
+  text-decoration: none;
+  overflow: hidden;
+  transition: border-color var(--d-controle) var(--saida);
+}
+a.previa:hover { border-color: var(--fio-controle); color: inherit; }
+.previa__imagem { display: block; aspect-ratio: 1200 / 630; overflow: hidden; background: var(--papel-2); border-bottom: 1px solid var(--fio); }
+.previa__imagem img { width: 100%; height: 100%; object-fit: cover; transition: transform var(--d-estado) var(--saida); }
+a.previa:hover .previa__imagem img { transform: translateY(-4px) scale(1.012); }
+.previa__texto { display: grid; gap: var(--e-1); padding: var(--e-4); }
+.previa__dominio {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  gap: var(--e-4);
-  padding: var(--e-4) var(--e-5);
-  border: 1px solid var(--fio-controle);
-  font-family: var(--f-mono);
+  gap: var(--e-2);
+  font-family: var(--f-dado);
   font-size: var(--t-micro);
-  letter-spacing: var(--ls-mono);
-  color: var(--texto);
-  translate: var(--puxao-x) var(--puxao-y);
-  transition: border-color var(--d-micro) var(--saida-expo),
-              background   var(--d-micro) var(--saida-expo),
-              color        var(--d-micro) var(--saida-expo),
-              translate    var(--d-media) var(--saida-expo);
+  color: var(--tinta-3);
 }
-.botao:hover, .botao:focus-visible { border-color: var(--ambar); color: var(--ambar); }
-
-.botao--principal {
-  background: var(--ambar);
-  border-color: var(--ambar);
-  color: var(--selecao-fg);
-  font-weight: 600;
+.previa__icone { width: 16px; height: 16px; flex: none; }
+.previa__icone--letra {
+  display: inline-grid;
+  place-items: center;
+  background: var(--tinta);
+  color: var(--papel);
+  font-family: var(--f-texto);
+  font-size: 0.625rem;
+  font-weight: 700;
 }
-.botao--principal:hover, .botao--principal:focus-visible {
-  background: transparent;
-  color: var(--ambar);
+.previa__titulo {
+  font-weight: 650;
+  line-height: var(--lh-media);
+  text-decoration: underline;
+  text-decoration-color: transparent;
+  text-underline-offset: 0.2em;
+  transition: text-decoration-color var(--d-controle) var(--saida);
+}
+a.previa:hover .previa__titulo { text-decoration-color: var(--terra); }
+.previa__descricao {
+  color: var(--tinta-2);
+  font-size: var(--t-peq);
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.previa--sem-imagem .previa__texto { padding-block: var(--e-5); }
+
+/* ── Competências ───────────────────────────────────────────────────────── */
+
+.comp-area__titulo { font-size: var(--t-h3); margin-bottom: var(--e-3); }
+.comp-area__lista li {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  column-gap: var(--e-2);
+  padding-block: 0.3rem;
+}
+.comp__nome { font-weight: 500; }
+.comp-area__lista li.em-uso .comp__nome { font-weight: 650; }
+.comp__meta { font-family: var(--f-dado); font-size: 0.75rem; color: var(--tinta-3); }
+.comp-area__lista li.em-uso .comp__meta { color: var(--terra); }
+.comp-area__subtitulo { margin-top: var(--e-5); font-size: var(--t-corpo); }
+.comp-area__texto { color: var(--tinta-2); margin-top: var(--e-2); max-width: 46ch; }
+
+/* ── Formação ───────────────────────────────────────────────────────────── */
+
+.formacao__titulo { display: block; font-weight: 650; font-size: var(--t-h3); line-height: var(--lh-media); }
+.formacao__inst { display: block; color: var(--tinta-2); margin-top: var(--e-1); }
+.formacao dd { color: var(--tinta-2); margin-top: var(--e-2); max-width: 52ch; }
+.formacao__periodo { font-family: var(--f-dado); font-size: var(--t-micro); color: var(--tinta-3); margin-right: var(--e-2); }
+
+/* ── Contato ────────────────────────────────────────────────────────────── */
+
+.contato__texto { color: var(--tinta-2); max-width: 52ch; font-size: var(--t-h3); line-height: 1.45; }
+.contato__email {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--e-4) var(--e-5);
+  margin-top: var(--e-6);
+}
+.contato__endereco {
+  font-size: clamp(1.5rem, 0.9rem + 3vw, 3.5rem);
+  font-weight: 650;
+  font-stretch: 110%;
+  letter-spacing: -0.03em;
+  line-height: 1.05;
+  text-decoration-thickness: 2px;
+  text-decoration-color: var(--terra);
+  text-underline-offset: 0.16em;
+  overflow-wrap: anywhere;
+}
+.contato__canais, .contato__cv { display: flex; flex-wrap: wrap; gap: var(--e-3) var(--e-6); margin-top: var(--e-6); }
+.contato__cv { margin-top: var(--e-5); font-size: var(--t-peq); }
+
+/* ── Índice de projetos ─────────────────────────────────────────────────── */
+
+.indice-projetos__item {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: var(--e-1) var(--e-4);
+  padding-block: var(--e-5);
+  border-bottom: 1px solid var(--fio);
+  text-decoration: none;
+}
+.indice-projetos__nome {
+  font-size: var(--t-h2);
+  font-weight: 650;
+  font-stretch: 110%;
+  letter-spacing: -0.03em;
+  line-height: 1.05;
+  transition: transform var(--d-estado) var(--saida), color var(--d-controle) var(--saida);
+}
+.indice-projetos__ano { font-family: var(--f-dado); font-size: var(--t-micro); color: var(--tinta-3); align-self: center; }
+.indice-projetos__linha { grid-column: 1 / -1; color: var(--tinta-2); max-width: 58ch; font-size: var(--t-peq); }
+.indice-projetos__item:hover .indice-projetos__nome,
+.indice-projetos__item:focus-visible .indice-projetos__nome { transform: translateX(6px); color: var(--terra); }
+.indice-projetos__painel img { width: 100%; height: 100%; object-fit: cover; }
+.indice-projetos__sem-imagem { display: none; }
+.indice-projetos__painel[data-sem-imagem] img { display: none; }
+.indice-projetos__painel[data-sem-imagem] .indice-projetos__sem-imagem {
+  display: grid;
+  place-items: center;
+  height: 100%;
+  padding: var(--e-6);
+  text-align: center;
+  font-size: var(--t-h2);
+  font-weight: 700;
+  font-stretch: 125%;
+  letter-spacing: -0.04em;
+  line-height: 1;
+  color: var(--tinta-3);
 }
 
-.botao__seta {
-  transition: transform var(--d-media) var(--mola);
-  font-family: var(--f-corpo);
-}
-.botao:hover .botao__seta, .botao:focus-visible .botao__seta { transform: translateX(5px); }
+/* ── Projeto ────────────────────────────────────────────────────────────── */
 
-.contato__curriculo { color: var(--texto-tenue); font-size: var(--t-micro); display: flex; flex-wrap: wrap; gap: 0.6em; }
+.projeto__nome { font-size: var(--t-h2); font-stretch: 110%; letter-spacing: -0.03em; }
+.projeto__meta { display: flex; gap: var(--e-4); font-family: var(--f-dado); font-size: var(--t-micro); color: var(--tinta-3); margin-top: var(--e-2); }
+.projeto__linha { font-size: var(--t-entrega); line-height: 1.3; font-weight: 500; letter-spacing: -0.012em; max-width: 36ch; }
+.projeto__sub { font-size: var(--t-corpo); margin-top: var(--e-6); }
+.projeto__texto p:not(.projeto__linha) { color: var(--tinta-2); max-width: var(--medida); margin-top: var(--e-2); }
+.projeto__decisoes { margin-top: var(--e-2); max-width: var(--medida); }
+.projeto__decisoes li { position: relative; padding-left: 1.1rem; margin-top: var(--e-2); color: var(--tinta-2); }
+.projeto__decisoes li::before { content: ''; position: absolute; left: 0; top: 0.8em; width: 0.5rem; height: 1px; background: var(--fio-controle); }
+.projeto__stack { margin-top: var(--e-5); font-size: var(--t-peq); }
+.projeto__links { display: flex; flex-wrap: wrap; gap: var(--e-3) var(--e-5); margin-top: var(--e-5); }
 
-/* ── Aviso LGPD ────────────────────────────────────────────────────────── */
+.demo-embutido iframe { width: 100%; aspect-ratio: 4 / 5; border: 1px solid var(--fio); background: var(--papel-2); }
 
-/* Faixa de uma linha no rodapé da tela, que só aparece depois da primeira
-   rolagem (rastro.js). Antes era uma caixa de 27rem no canto inferior que,
-   no celular, cobria o topo da página na primeira visita: a primeira coisa
-   que um recrutador via era o aviso, não o nome. Texto e escolhas iguais. */
+/* ── Currículo em uma coluna ────────────────────────────────────────────── */
+
+.cv__acoes { display: flex; flex-wrap: wrap; align-items: center; gap: var(--e-3); padding-bottom: var(--e-6); margin-bottom: var(--e-7); border-bottom: 1px solid var(--fio); }
+.cv__intro { flex-basis: 100%; color: var(--tinta-2); }
+.cv__nome { font-size: var(--t-h1); font-stretch: 110%; letter-spacing: -0.035em; }
+.cv__cargo { font-size: var(--t-h3); font-weight: 600; margin-top: var(--e-3); }
+.cv__contato { color: var(--tinta-2); margin-top: var(--e-2); font-size: var(--t-peq); }
+.cv section { margin-top: var(--e-7); }
+.cv h2 { font-size: var(--t-h3); padding-bottom: var(--e-2); border-bottom: 1px solid var(--tinta); margin-bottom: var(--e-4); }
+.cv p { margin-top: var(--e-2); color: var(--tinta-2); }
+.cv p strong { color: var(--tinta); }
+.cv-item { margin-top: var(--e-5); }
+.cv-item__titulo { font-size: var(--t-corpo); font-weight: 650; letter-spacing: 0; }
+.cv-item__meta { font-size: var(--t-peq); }
+.cv-item ul { margin-top: var(--e-2); list-style: disc; padding-left: 1.2rem; color: var(--tinta-2); }
+.cv-item ul li { margin-top: var(--e-1); }
+.cv-item ul li::marker { color: var(--tinta-3); }
+.cv-item__stack { font-size: var(--t-peq); }
+
+/* ── Documento (privacidade) ────────────────────────────────────────────── */
+
+.doc h1 { font-size: var(--t-h1); letter-spacing: -0.035em; }
+.doc h2 { font-size: var(--t-h3); margin: var(--e-7) 0 var(--e-3); }
+.doc p { color: var(--tinta-2); margin-bottom: var(--e-4); max-width: var(--medida); }
+.doc ul { color: var(--tinta-2); margin: 0 0 var(--e-4) 1.1rem; list-style: disc; }
+.doc li { margin-bottom: var(--e-2); }
+.doc strong { color: var(--tinta); }
+.doc__selo { color: var(--terra) !important; font-weight: 600; margin-top: var(--e-3); }
+.doc__estado { border: 1px solid var(--fio-controle); padding: var(--e-4) var(--e-5); margin-top: var(--e-6); font-size: var(--t-peq); }
+.doc__estado p { margin-bottom: var(--e-3); }
+
+/* ── 404 ────────────────────────────────────────────────────────────────── */
+
+.nao-encontrada__titulo { font-size: clamp(5rem, 3rem + 10vw, 6rem); font-stretch: 125%; letter-spacing: -0.04em; color: var(--terra); }
+.nao-encontrada__texto { margin-top: var(--e-4); color: var(--tinta-2); max-width: 52ch; font-size: var(--t-h3); }
+.nao-encontrada__caminhos { display: flex; flex-wrap: wrap; gap: var(--e-3) var(--e-6); margin-top: var(--e-6); }
+
+/* ── Aviso LGPD: faixa de uma linha, só depois da 1ª rolagem ────────────── */
+
 .aviso-lgpd {
   position: fixed;
   inset-inline: 0;
@@ -562,37 +544,14 @@
   gap: var(--e-2) var(--e-5);
   padding: var(--e-3) var(--margem);
   padding-bottom: max(var(--e-3), env(safe-area-inset-bottom));
-  background: var(--elevado);
-  border-top: 1px solid var(--fio-forte);
-  color: var(--texto-suave);
+  background: var(--papel-2);
+  border-top: 1px solid var(--fio-controle);
+  color: var(--tinta-2);
   font-size: var(--t-micro);
   line-height: 1.45;
-  animation: sobe-aviso var(--d-media) var(--saida-expo) both;
 }
-.aviso-lgpd[hidden] { display: none; }
-.aviso-lgpd p { max-width: 62ch; }
-
-@keyframes sobe-aviso {
-  from { transform: translateY(100%); }
-  to   { transform: none; }
-}
-@media (prefers-reduced-motion: reduce) {
-  .aviso-lgpd { animation: none; }
-}
-
-.aviso-lgpd__acoes {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: var(--e-4);
-  font-size: var(--t-nano);
-}
-.aviso-lgpd__acoes button {
-  border-bottom: 1px solid var(--fio-forte);
-  padding-block: 0.4em 0.15em;
-  color: var(--texto);
-  transition: border-color var(--d-micro) var(--saida-expo), color var(--d-micro) var(--saida-expo);
-}
-.aviso-lgpd__acoes button:hover,
-.aviso-lgpd__acoes button:focus-visible { border-color: var(--ambar); color: var(--ambar); }
-.aviso-lgpd__acoes a { color: var(--texto-tenue); }
+.aviso-lgpd p { max-width: 64ch; }
+.aviso-lgpd__acoes { display: flex; flex-wrap: wrap; align-items: center; gap: var(--e-4); }
+.aviso-lgpd__acoes button { min-height: 2rem; border-bottom: 1px solid var(--fio-controle); font-weight: 600; color: var(--tinta); }
+.aviso-lgpd__acoes button:hover { color: var(--terra); border-color: var(--terra); }
+.aviso-lgpd__acoes a { color: var(--tinta-3); }

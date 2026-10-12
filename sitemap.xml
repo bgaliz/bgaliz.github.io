@@ -1,23 +1,43 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
     <loc>https://bgaliz.github.io/</loc>
-<<<<<<< HEAD
     <lastmod>2026-10-12</lastmod>
-=======
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://bgaliz.github.io/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://bgaliz.github.io/en/"/>
+  </url>
+  <url>
+    <loc>https://bgaliz.github.io/en/</loc>
     <lastmod>2026-10-12</lastmod>
->>>>>>> 361a682 (fix: robôs de ATS passam a ver o site inteiro)
-    <changefreq>monthly</changefreq>
-    <priority>1.0</priority>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://bgaliz.github.io/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://bgaliz.github.io/en/"/>
+  </url>
+  <url>
+    <loc>https://bgaliz.github.io/projetos/</loc>
+    <lastmod>2026-10-12</lastmod>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://bgaliz.github.io/projetos/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://bgaliz.github.io/en/projects/"/>
+  </url>
+  <url>
+    <loc>https://bgaliz.github.io/en/projects/</loc>
+    <lastmod>2026-10-12</lastmod>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://bgaliz.github.io/projetos/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://bgaliz.github.io/en/projects/"/>
+  </url>
+  <url>
+    <loc>https://bgaliz.github.io/curriculo/</loc>
+    <lastmod>2026-10-12</lastmod>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://bgaliz.github.io/curriculo/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://bgaliz.github.io/en/resume/"/>
+  </url>
+  <url>
+    <loc>https://bgaliz.github.io/en/resume/</loc>
+    <lastmod>2026-10-12</lastmod>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://bgaliz.github.io/curriculo/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://bgaliz.github.io/en/resume/"/>
   </url>
   <url>
     <loc>https://bgaliz.github.io/privacidade.html</loc>
-<<<<<<< HEAD
     <lastmod>2026-10-12</lastmod>
-=======
-    <lastmod>2026-10-12</lastmod>
->>>>>>> 361a682 (fix: robôs de ATS passam a ver o site inteiro)
-    <changefreq>yearly</changefreq>
-    <priority>0.2</priority>
   </url>
 </urlset>

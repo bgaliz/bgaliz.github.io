@@ -1,149 +1,92 @@
 /* ═══════════════════════════════════════════════════════════════════════════
    MOVIMENTO
    ───────────────────────────────────────────────────────────────────────────
-   REGRA QUE GOVERNA TUDO NESTE ARQUIVO:
-   o estado FINAL é o padrão do CSS. A animação só se soma por cima, dentro
-   de @supports. Sem suporte a scroll-driven (Firefox estável ainda atrás de
-   flag), sem JS, ou com movimento reduzido — nada fica invisível. ~84% veem
-   a animação, 100% veem o conteúdo.
+   REGRA QUE NÃO SE NEGOCIA: nada nasce invisível. Em 12/out/2026 a versão
+   antiga deixava 81% do texto com opacidade < 0,2 para quem não rolava a
+   página, e quem não rola são justamente os robôs de recrutador. Aqui toda
+   animação parte de um estado já legível e só desloca (transform, eixos da
+   fonte, clip-path). Sem suporte, sem JS ou com movimento reduzido, o
+   conteúdo está todo lá, parado.
+
+   Uma linguagem só: --saida para entradas e respostas, --troca para o que
+   muda de lugar. Controles 140-200 ms, estados 220-260 ms, nada acima de
+   600 ms.
    ═══════════════════════════════════════════════════════════════════════════ */
 
-/* ═══ 1 · ABERTURA COREOGRAFADA ═══════════════════════════════════════════
-   ~900ms, uma vez por sessão, pulável em qualquer tecla ou clique.
-   Só roda com JS: a classe .abrindo é posta por abertura.js.               */
-
-html.abrindo body { overflow: hidden; }
-
-html.abrindo .fachada__palavra {
-  animation: assenta-nome var(--d-longa) var(--saida-expo) both;
-}
-html.abrindo .fachada__linha:nth-child(2) .fachada__palavra { animation-delay: 90ms; }
-
-@keyframes assenta-nome {
-  from {
-    transform: translateY(102%);
-    --eixo-peso: 200;
-    --eixo-largura: 78;
-  }
-  to {
-    transform: translateY(0);
-    --eixo-peso: 760;
-    --eixo-largura: 100;
-  }
-}
-
-/* Papel, lema, índice e pé entram escalonados — stagger real, não o mesmo
-   fade em tudo ao mesmo tempo. */
-html.abrindo .fachada__papel,
-html.abrindo .fachada__lema,
-html.abrindo .fachada__estado,
-html.abrindo .indice,
-html.abrindo .fachada__pe {
-  animation: entra-sutil 620ms var(--entrada-sutil) both;
-}
-html.abrindo .fachada__papel  { animation-delay: 240ms; }
-html.abrindo .fachada__lema   { animation-delay: 330ms; }
-html.abrindo .fachada__estado { animation-delay: 420ms; }
-html.abrindo .indice          { animation-delay: 500ms; }
-html.abrindo .fachada__pe     { animation-delay: 580ms; }
-
-@keyframes entra-sutil {
-  from { opacity: 0; transform: translateY(12px); }
-  to   { opacity: 1; transform: none; }
-}
-
-/* ═══ 2 · REVELAÇÃO AO ENTRAR NA TELA ═════════════════════════════════════
-   Aqui morava a animação dos eixos da fonte variável ligada ao scroll. Ela
-   saiu junto com o hero de tela cheia: numa coluna PRESA, que por definição
-   nunca rola, ela travaria o nome em wght 330 logo no primeiro scroll e o
-   deixaria assim pelo resto da visita. Os @property continuam registrados —
-   a abertura ainda interpola por eles.                                      */
-
-@supports (animation-timeline: view()) {
-  @media (prefers-reduced-motion: no-preference) {
-
-    /* Nunca no .verbete em si: `revela` anima opacity, e o esmaecer dos
-       irmãos usa filter justamente para não colidir com esta animação.
-       Animar opacity no próprio verbete devolveria a colisão. */
-    .secao__cabeca,
-    .verbete__quando,
-    .verbete__miolo,
-    .contato__chamada,
-    .tecnologias {
-      animation: revela linear both;
-      animation-timeline: view();
-      animation-range: entry 8% cover 34%;
-    }
-
-    /* SÓ transform, nunca opacity. Com `both` e timeline de view(), tudo
-       que está abaixo da dobra fica parado no quadro inicial até alguém
-       rolar — e robô não rola. Medido em 12/out/2026: num headless sem
-       rolagem, 145 de 179 blocos de texto estavam com opacidade < 0,2, e o
-       print de página inteira que os scanners de ATS guardam saía em branco.
-       Deslocar sem esmaecer mantém o gesto e deixa o texto sempre legível. */
-    @keyframes revela {
-      from { transform: translateY(18px); }
-      to   { transform: none; }
-    }
-
-    /* Stagger explícito dentro de uma lista: cada item começa um pouco mais
-       tarde no próprio percurso, criando cascata em vez de bloco. O índice
-       vem do HTML (--i), então acrescentar um botão não exige nova regra —
-       a cascata anterior parava no quarto item em silêncio. */
-    .contato__botoes li {
-      animation: revela linear both;
-      animation-timeline: view();
-      animation-range: entry calc(10% + var(--i, 0) * 4%)
-                       cover calc(28% + var(--i, 0) * 4%);
-    }
-
-    /* O número da seção desliza a partir da régua. */
-    .secao__num {
-      animation: desliza-num linear both;
-      animation-timeline: view();
-      animation-range: entry 5% cover 26%;
-    }
-    @keyframes desliza-num {
-      from { transform: translateY(-0.15em) translateX(-14px); }
-      to   { transform: translateY(-0.15em); }
-    }
-  }
-}
-
-/* ═══ 3 · TROCA DE TEMA E IDIOMA (View Transitions) ═══════════════════════
-   A revelação circular parte do próprio botão — as coordenadas vêm de
-   tema.js como --vt-x / --vt-y.                                            */
-
 @media (prefers-reduced-motion: no-preference) {
-  ::view-transition-old(root),
-  ::view-transition-new(root) {
-    animation: none;
-    mix-blend-mode: normal;
-  }
-  ::view-transition-old(root) { z-index: 1; }
-  ::view-transition-new(root) { z-index: 2; }
 
-  html.trocando-tema::view-transition-new(root) {
-    animation: revela-circular 620ms var(--suave-quint) both;
+  /* 1 · O nome se acomoda ao chegar: largura 75 → 125, peso 380 → 700.
+     Legível desde o primeiro quadro (o texto já está lá, só ganha corpo).
+     Uma vez por sessão: abertura.js põe a classe. */
+  html.chegando .cv-topo__nome {
+    animation: assenta-nome 700ms var(--saida) both;
   }
-  @keyframes revela-circular {
-    from { clip-path: circle(0% at var(--vt-x, 50%) var(--vt-y, 0%)); }
-    to   { clip-path: circle(160% at var(--vt-x, 50%) var(--vt-y, 0%)); }
+  @keyframes assenta-nome {
+    from { --largura-nome: 75; --peso-nome: 380; }
+    to   { --largura-nome: 125; --peso-nome: 700; }
   }
 
-  /* Troca de idioma: fade curto, sem geometria — o texto muda de tamanho e
-     um clip circular ficaria estranho. */
-  html.trocando-idioma::view-transition-old(root) {
-    animation: some-curto 140ms var(--saida-expo) both;
+  /* 2 · A marca da régua anda com a leitura da Experiência. Os capítulos vão
+     do mais recente ao mais antigo, então a marca vai da direita (hoje) para
+     a esquerda (2018). */
+  @supports (animation-timeline: view()) {
+    .regua__marca {
+      animation: marca-anda linear both;
+      animation-timeline: --historia;
+      animation-range: contain 0% contain 100%;
+    }
+    @keyframes marca-anda {
+      from { translate: 100cqw 0; }
+      to   { translate: 0 0; }
+    }
+
   }
-  html.trocando-idioma::view-transition-new(root) {
-    animation: some-curto 220ms var(--saida-expo) reverse both;
+
+  /* 3 · (Removido) As prévias subiam 12 px ao entrar na tela, com timeline
+     de view(). O Chrome não pinta camadas animadas por rolagem fora da tela
+     numa captura de página inteira, e era exatamente isso que um robô de
+     screenshot salvava: caixas cinzas no lugar das prévias. Robô vale mais
+     que 12 px de deslocamento. */
+
+  /* 4 · O caso completo abre medindo a própria altura. */
+  .caso::details-content {
+    block-size: 0;
+    overflow: clip;
+    transition: block-size var(--d-estado) var(--saida), content-visibility var(--d-estado) allow-discrete;
   }
-  @keyframes some-curto { to { opacity: 0; } }
+  .caso[open]::details-content { block-size: auto; }
+
+  /* 5 · Painel de prévia da página de projetos: recorte que se abre. */
+  .indice-projetos__painel img { transition: clip-path 260ms var(--saida); }
+  .indice-projetos__painel[data-trocando] img { clip-path: inset(0 0 100% 0); transition: none; }
+
+  /* 6 · Entre páginas (e entre PT e EN), continuidade: a barra fica parada
+     e o conteúdo troca com o esmaecimento curto do próprio navegador. É
+     passageiro, só existe durante a navegação, e robô não navega assim.
+     Navegadores sem suporte simplesmente navegam. */
+  @view-transition { navigation: auto; }
+  .barra { view-transition-name: barra; }
+  ::view-transition-group(root) { animation-duration: 220ms; animation-timing-function: var(--saida); }
 }
 
+/* Movimento reduzido: nada anda; hover e foco continuam. */
 @media (prefers-reduced-motion: reduce) {
-  ::view-transition-group(*),
-  ::view-transition-old(*),
-  ::view-transition-new(*) { animation: none !important; }
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  .odometro__digito { transition: none; }
+}
+
+/* Troca de tema: o tema novo se abre num círculo a partir do botão. */
+@media (prefers-reduced-motion: no-preference) {
+  html.trocando-tema::view-transition-old(root),
+  html.trocando-tema::view-transition-new(root) { animation: none; mix-blend-mode: normal; }
+  html.trocando-tema::view-transition-new(root) { animation: tema-abre 520ms var(--troca) both; }
+  @keyframes tema-abre {
+    from { clip-path: circle(0% at var(--vt-x, 100%) var(--vt-y, 0%)); }
+    to   { clip-path: circle(150% at var(--vt-x, 100%) var(--vt-y, 0%)); }
+  }
 }

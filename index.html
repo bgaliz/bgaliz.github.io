@@ -1,684 +1,726 @@
 <!doctype html>
-<html lang="pt-BR">
+<html lang="pt-BR" data-pagina="inicio">
 <head>
 <meta charset="utf-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-6/m2Bb12eD7tiNRW1bKgafo21kMPASTmpiayhMa1iGw='; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self' https://bgaliz-portfolio.vercel.app; frame-src 'none'; object-src 'none'; base-uri 'self'; form-action 'self'; upgrade-insecure-requests">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-e3vFi78ZkVH6dPiUSyrb5/hKeyNPpmKIbdi4BHEjvKc='; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self' https://bgaliz-portfolio.vercel.app; frame-src 'none'; object-src 'none'; base-uri 'self'; form-action 'self'; upgrade-insecure-requests">
 <meta name="referrer" content="strict-origin-when-cross-origin">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Bruno Galiz | Desenvolvedor Full Stack Pleno (Java, Vue.js, React)</title>
-<meta name="description" data-din="meta.descricao" content="Desenvolvedor full stack desde 2019, em governo, saúde. Vue.js, React, Java, Spring Boot e Node.js. Campo Grande, MS, remoto.">
+<meta name="description" content="Desenvolvedor full stack desde 2019. Hoje mantenho com Vue.js, Java e Spring Boot o sistema de frota do Governo do Tocantins. Antes, migrei o prontuário da Conexa Saúde de JSP para React e publiquei o Cartão de Vacinação de Mato Grosso do Sul nas lojas durante a Covid.">
 <meta name="author" content="Bruno Galiz de Oliveira">
 <link rel="canonical" href="https://bgaliz.github.io/">
+<link rel="alternate" hreflang="pt-BR" href="https://bgaliz.github.io/">
+<link rel="alternate" hreflang="en" href="https://bgaliz.github.io/en/">
+<link rel="alternate" hreflang="x-default" href="https://bgaliz.github.io/">
 
 <meta property="og:type" content="profile">
-<meta property="og:title" content="Bruno Galiz | Desenvolvedor Full Stack Pleno">
-<meta property="og:description" data-din="meta.descricao" content="Desenvolvedor full stack desde 2019, em governo, saúde. Vue.js, React, Java, Spring Boot e Node.js. Campo Grande, MS, remoto.">
+<meta property="og:title" content="Bruno Galiz | Desenvolvedor Full Stack Pleno (Java, Vue.js, React)">
+<meta property="og:description" content="Desenvolvedor full stack desde 2019. Hoje mantenho com Vue.js, Java e Spring Boot o sistema de frota do Governo do Tocantins. Antes, migrei o prontuário da Conexa Saúde de JSP para React e publiquei o Cartão de Vacinação de Mato Grosso do Sul nas lojas durante a Covid.">
 <meta property="og:url" content="https://bgaliz.github.io/">
-<meta property="og:image" content="https://bgaliz.github.io/assets/img/og.png">
+<meta property="og:image" content="https://bgaliz.github.io/assets/img/og/og-pt.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
 <meta property="og:locale" content="pt_BR">
+<meta property="profile:first_name" content="Bruno">
+<meta property="profile:last_name" content="Galiz de Oliveira">
 <meta name="twitter:card" content="summary_large_image">
 
-<link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
-<meta name="theme-color" content="#0B0A08" media="(prefers-color-scheme: dark)">
-<meta name="theme-color" content="#F7F3EA" media="(prefers-color-scheme: light)">
-
-<link rel="preload" href="assets/fonts/display.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="preload" href="assets/fonts/corpo.woff2" as="font" type="font/woff2" crossorigin>
-
-<link rel="stylesheet" href="assets/css/tokens.css">
-<link rel="stylesheet" href="assets/css/base.css">
-<link rel="stylesheet" href="assets/css/layout.css">
-<link rel="stylesheet" href="assets/css/componentes.css">
-<link rel="stylesheet" href="assets/css/movimento.css">
-
-<!-- Tema antes da primeira pintura: sem isto, quem escolheu papel vê um
-     flash preto a cada carregamento. Precisa ser inline e síncrono. -->
-<script>
-  (function () {
-    try {
-      var t = localStorage.getItem('tema');
-      if (t) document.documentElement.dataset.tema = t;
-      var i = localStorage.getItem('idioma');
-      if (!i) i = (navigator.language || 'pt').toLowerCase().startsWith('pt') ? 'pt' : 'en';
-      if (i === 'en') document.documentElement.dataset.idiomaPendente = 'en';
-    } catch (e) {}
-    document.documentElement.classList.add('js');
-  })();
-</script>
-</head>
-
-<body>
-<a class="pular" href="#conteudo" data-en="Skip to content">Pular para o conteúdo</a>
-
-<!-- ═══════════════════════════════════════════════════════════════════════
-     CASCA DE DUAS COLUNAS
-     À esquerda a identidade, presa e sempre visível. À direita o conteúdo,
-     que rola. Abaixo de 64rem as duas empilham.
-     ═══════════════════════════════════════════════════════════════════════ -->
-<div class="casca">
-
-<header class="fachada">
-  <span id="topo" class="ancora"></span>
-
-  <div class="fachada__topo">
-
-    <h1 class="fachada__nome">
-      <span class="fachada__linha"><span class="fachada__palavra">Bruno Galiz</span></span>
-      <span class="fachada__linha"><span class="fachada__palavra">de Oliveira</span></span>
-    </h1>
-
-    <p class="fachada__papel">
-      <strong data-en="Full-Stack Developer">Desenvolvedor Full-Stack</strong>
-      <span class="mono fachada__desde">
-        <span data-en="since">desde</span> <span data-din="perfil.desdeAno">2019</span>
-      </span>
-    </p>
-
-    <p class="fachada__lema" data-en="I build systems that have to ship and stay up, for government, healthcare and the web.">Construo sistemas que precisam entrar no ar e continuar de pé, para governo, saúde e a web.</p>
-
-    <p class="fachada__estado mono">
-      <span class="fachada__lugar">
-        <span data-en="Campo Grande, Brazil">Campo Grande, MS</span>
-        <span aria-hidden="true">·</span>
-        <span data-en="remote">remoto</span>
-      </span>
-      <a class="fachada__vaga" href="#contato" data-cta="ir-contato">
-        <span class="ponto-vivo" aria-hidden="true"></span>
-        <span data-en="open to new roles">aberto a novas oportunidades</span>
-      </a>
-    </p>
-
-    <nav class="indice" aria-label="Seções">
-      <ol class="mono">
-        <li><a href="#perfil" data-secao="perfil" aria-current="true"><span class="indice__num mono" aria-hidden="true">001</span><span class="indice__fio" aria-hidden="true"></span><span class="indice__texto" data-en="About">Sobre</span></a></li>
-        <li><a href="#trajetoria" data-secao="trajetoria"><span class="indice__num mono" aria-hidden="true">002</span><span class="indice__fio" aria-hidden="true"></span><span class="indice__texto" data-en="Experience">Trajetória</span></a></li>
-        <li><a href="#recortes" data-secao="recortes"><span class="indice__num mono" aria-hidden="true">003</span><span class="indice__fio" aria-hidden="true"></span><span class="indice__texto" data-en="Case studies">Recortes</span></a></li>
-        <li><a href="#ferramentas" data-secao="ferramentas"><span class="indice__num mono" aria-hidden="true">004</span><span class="indice__fio" aria-hidden="true"></span><span class="indice__texto" data-en="Stack">Ferramentas</span></a></li>
-        <li><a href="#formacao" data-secao="formacao"><span class="indice__num mono" aria-hidden="true">005</span><span class="indice__fio" aria-hidden="true"></span><span class="indice__texto" data-en="Education">Formação</span></a></li>
-        <li><a href="#contato" data-secao="contato"><span class="indice__num mono" aria-hidden="true">006</span><span class="indice__fio" aria-hidden="true"></span><span class="indice__texto" data-en="Contact">Contato</span></a></li>
-      </ol>
-    </nav>
-
-  </div>
-
-  <div class="fachada__pe">
-    <ul class="sociais">
-      <li>
-        <a href="https://github.com/bgaliz" rel="me noopener" data-cta="github" aria-label="GitHub">
-          <svg viewBox="0 0 16 16" width="20" height="20" fill="currentColor" aria-hidden="true">
-            <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8Z"/>
-          </svg>
-        </a>
-      </li>
-      <li>
-        <a href="https://linkedin.com/in/brunogaliz" rel="me noopener" data-cta="linkedin" aria-label="LinkedIn">
-          <svg viewBox="0 0 16 16" width="20" height="20" fill="currentColor" aria-hidden="true">
-            <path d="M3.8 15.6H.65V5.45h3.15ZM2.23 4.07C1.22 4.07 .4 3.23 .4 2.23a1.83 1.83 0 0 1 3.65 0c0 1.01-.82 1.84-1.83 1.84ZM15.6 15.6h-3.14V10.66c0-1.18-.02-2.69-1.64-2.69-1.64 0-1.89 1.28-1.89 2.6V15.6h-3.15V5.45h3.02v1.38h.04c.42-.8 1.45-1.64 2.98-1.64 3.19 0 3.78 2.1 3.78 4.83V15.6Z"/>
-          </svg>
-        </a>
-      </li>
-    </ul>
-
-    <div class="fachada__acoes">
-      <button class="alternador" id="alternar-idioma" type="button"
-              aria-label="Mudar para inglês" data-en-label="Switch to Portuguese">
-        <span class="mono" aria-hidden="true"><b>PT</b><em>/</em><i>EN</i></span>
-      </button>
-      <button class="alternador" id="alternar-tema" type="button"
-              aria-label="Mudar para tema claro" data-en-label="Switch to light theme">
-        <svg viewBox="0 0 16 16" width="15" height="15" aria-hidden="true" class="icone-tema">
-          <!-- Região em espaço de usuário: por padrão a máscara se recorta na
-               caixa do objeto + 10%, e o traço do anel encosta nessa borda. -->
-          <mask id="mascara-lua" maskUnits="userSpaceOnUse" x="0" y="0" width="16" height="16">
-            <rect width="16" height="16" fill="#fff"/>
-            <!-- 45° acima-direita, a 4.2 do centro: remove 138° e deixa um
-                 arco de 222° — crescente cheio, legível a 15px. -->
-            <circle class="icone-tema__mordida" cx="10.97" cy="5.03" r="4.35" fill="#000"/>
-          </mask>
-          <circle cx="8" cy="8" r="3.4" fill="none" stroke="currentColor" stroke-width="1.3"
-                  mask="url(#mascara-lua)"/>
-          <g class="icone-tema__raios" stroke="currentColor" stroke-width="1.3" stroke-linecap="round">
-            <path d="M8 .8v2M8 13.2v2M.8 8h2M13.2 8h2M2.9 2.9l1.4 1.4M11.7 11.7l1.4 1.4M13.1 2.9l-1.4 1.4M4.3 11.7l-1.4 1.4"/>
-          </g>
-        </svg>
-      </button>
-    </div>
-  </div>
-</header>
-
-
-<main id="conteudo" class="fluxo">
-
-<!-- ═══════════════════════════════════════════════════════════════════════
-     001 · SOBRE
-     ═══════════════════════════════════════════════════════════════════════ -->
-<section id="perfil" class="secao" data-secao-obs="perfil">
-  <div class="secao__cabeca">
-    <span class="secao__num mono">001</span>
-    <h2 class="secao__titulo" data-en="About">Sobre</h2>
-  </div>
-
-  <p class="verbete__prosa" data-en="I work on systems that have to ship and stay up. In practice that has meant migrating medical records from JSP to React, building reports that respect the filter the user just applied, and shipping public-health apps to both app stores during the pandemic.">Trabalho com sistemas que precisam entrar no ar e continuar de pé. Na prática isso já significou migrar prontuário médico de JSP para React, construir relatório que respeita o filtro que o usuário acabou de aplicar, e publicar aplicativo de saúde pública nas duas lojas durante a pandemia.</p>
-
-  <p class="verbete__prosa" data-en="Right now I am at AZ Tecnologia, on the vehicle-control system for the State of Tocantins: Vue on the front, Java 11 and Spring Boot behind it, and tables large enough that turning them into a report is the actual problem. Before that came telemedicine at Conexa Saúde and the MS Digital portal at the State of Mato Grosso do Sul.">Hoje estou na AZ Tecnologia, no sistema de controle veicular do Governo do Tocantins: Vue na frente, Java 11 e Spring Boot atrás, e tabelas grandes o bastante para que transformá-las em relatório seja o problema de verdade. Antes disso vieram a telemedicina na Conexa Saúde e o portal MS Digital no Governo de Mato Grosso do Sul.</p>
-
-  <p class="verbete__prosa" data-en="Seven companies across five domains, and the pattern is the same in all of them: legacy that cannot stop working, a user who needs something the screen does not offer yet, and a deadline. That is the work I like.">Sete empresas em cinco domínios, e o padrão se repete em todos: legado que não pode parar de funcionar, um usuário que precisa de algo que a tela ainda não oferece, e um prazo. É esse o trabalho de que eu gosto.</p>
-</section>
-
-
-<!-- ═══════════════════════════════════════════════════════════════════════
-     002 · TRAJETÓRIA
-     Períodos e durações são slots data-din: calculados, nunca escritos.
-     ═══════════════════════════════════════════════════════════════════════ -->
-<section id="trajetoria" class="secao" data-secao-obs="trajetoria">
-  <div class="secao__cabeca">
-    <span class="secao__num mono">002</span>
-    <h2 class="secao__titulo" data-en="Experience">Trajetória</h2>
-    <p class="secao__nota mono">
-      <span data-din="linha.faixa">2018 - 2026</span>
-      <span aria-hidden="true">·</span>
-      <span data-din="contagem.empresas">7</span>
-      <span data-en="companies">empresas</span>
-      <span aria-hidden="true">·</span>
-      <span data-din="contagem.dominios">5</span>
-      <span data-en="domains">domínios</span>
-    </p>
-  </div>
-
-  <ol class="rol">
-
-    <li class="verbete" data-atual="sim">
-      <div class="verbete__quando mono" data-selo>
-        <span data-din="cargo.az.periodo">ago 2025 - atual</span>
-        <span class="verbete__dur" data-din="cargo.az.duracao">1 ano e 3 meses</span>
-      </div>
-      <div class="verbete__miolo">
-        <h3 class="verbete__titulo">AZ Tecnologia em Gestão</h3>
-        <p class="verbete__sub mono">
-          <span data-en="Full-Stack Developer">Desenvolvedor Full-Stack</span>
-          <span class="verbete__sep" aria-hidden="true">·</span>
-          <span data-en="remote">remoto</span>
-        </p>
-        <p class="verbete__prosa" data-en="Vehicle control system for the State of Tocantins. Public fleet management, with large tables that need to become reports for public accountability.">Sistema de controle veicular do Governo do Tocantins. Gestão da frota pública, com tabelas grandes que precisam virar relatório para prestação de contas.</p>
-        <ul class="verbete__stack">
-          <li>Vue</li><li>Java 11</li><li>Spring Boot</li><li>JPAQuery</li>
-          <li>PostgreSQL</li><li>OracleDB</li><li>Docker</li><li>Grafana</li>
-        </ul>
-      </div>
-    </li>
-
-    <li class="verbete">
-      <div class="verbete__quando mono">
-        <span data-din="cargo.easy.periodo">ago 2024 - set 2024</span>
-        <span class="verbete__dur" data-din="cargo.easy.duracao">2 meses</span>
-      </div>
-      <div class="verbete__miolo">
-        <h3 class="verbete__titulo">Easy Imóveis</h3>
-        <p class="verbete__sub mono">
-          <span data-en="Front-end Developer · freelance">Desenvolvedor Front-end · freelancer</span>
-          <span class="verbete__sep" aria-hidden="true">·</span>
-          <span data-en="remote">remoto</span>
-        </p>
-        <p class="verbete__prosa" data-en="Property search platform with custom filters. Interactive maps, form flows and reusable components.">Plataforma de busca de imóveis com filtros personalizados. Mapas interativos, fluxos de formulário e componentes reutilizáveis.</p>
-        <ul class="verbete__stack">
-          <li>Nuxt</li><li>Vue</li><li>TypeScript</li><li>Tailwind</li><li>shadcn/ui</li><li>Docker</li>
-        </ul>
-      </div>
-    </li>
-
-    <li class="verbete">
-      <div class="verbete__quando mono">
-        <span data-din="cargo.conexa.periodo">set 2022 - jun 2024</span>
-        <span class="verbete__dur" data-din="cargo.conexa.duracao">1 ano e 10 meses</span>
-      </div>
-      <div class="verbete__miolo">
-        <h3 class="verbete__titulo">Conexa Saúde</h3>
-        <p class="verbete__sub mono">
-          <span data-en="Front-end Developer">Desenvolvedor Front-end</span>
-          <span class="verbete__sep" aria-hidden="true">·</span>
-          <span data-en="remote">remoto</span>
-        </p>
-        <p class="verbete__prosa" data-en="Telemedicine platform. Migrated medical-record modules from legacy JSP to React and built customizable records.">Plataforma de telemedicina. Migração de módulos de prontuário de JSP legado para React, e prontuário customizável por clínica.</p>
-        <ul class="verbete__stack">
-          <li>React</li><li>React Hooks</li><li>Vue</li><li>TypeScript</li><li>JSP</li><li>Scrum</li>
-        </ul>
-      </div>
-    </li>
-
-    <li class="verbete">
-      <div class="verbete__quando mono">
-        <span data-din="cargo.calango.periodo">fev 2022 - jan 2023</span>
-        <span class="verbete__dur" data-din="cargo.calango.duracao">1 ano</span>
-      </div>
-      <div class="verbete__miolo">
-        <h3 class="verbete__titulo">Calango Doido</h3>
-        <p class="verbete__sub mono">
-          <span data-en="Front-end Developer · freelance">Desenvolvedor Front-end · freelancer</span>
-          <span class="verbete__sep" aria-hidden="true">·</span>
-          <span data-en="Campo Grande, Brazil">Campo Grande, MS</span>
-        </p>
-        <p class="verbete__prosa" data-en="NFT collection. Browser memory game built from the connected wallet’s tokens, plus the collection landing page.">Coleção de NFTs. Jogo da memória no navegador montado com os tokens da carteira conectada, mais a landing page da coleção.</p>
-        <ul class="verbete__stack">
-          <li>Next.js</li><li>TypeScript</li><li>Web3.js</li><li>MetaMask</li><li>Vercel</li>
-        </ul>
-      </div>
-    </li>
-
-    <li class="verbete">
-      <div class="verbete__quando mono">
-        <span data-din="cargo.sgi.periodo">ago 2020 - jun 2022</span>
-        <span class="verbete__dur" data-din="cargo.sgi.duracao">1 ano e 11 meses</span>
-      </div>
-      <div class="verbete__miolo">
-        <h3 class="verbete__titulo">SGI · Governo de MS</h3>
-        <p class="verbete__sub mono">
-          <span data-en="Full-Stack Developer">Desenvolvedor Full-Stack</span>
-          <span class="verbete__sep" aria-hidden="true">·</span>
-          <span data-en="Campo Grande, Brazil">Campo Grande, MS</span>
-        </p>
-        <p class="verbete__prosa" data-en="MS Digital portal. Public-health apps with Ionic during Covid (SUS Card, Vaccination Card and Free Pass), shipped to both app stores.">Portal MS Digital. Aplicativos de saúde pública com Ionic durante a Covid (Cartão SUS, Cartão de Vacinação e Passe Livre), publicados nas duas lojas.</p>
-        <p>
-          <a class="verbete__convite" href="https://www.msdigital.ms.gov.br" rel="noopener" data-cta="msdigital">msdigital.ms.gov.br <span class="verbete__seta" aria-hidden="true">↗</span></a>
-        </p>
-        <ul class="verbete__stack">
-          <li>Angular</li><li>React</li><li>Ionic</li><li>Node.js</li><li>Sequelize</li><li>Jest</li><li>SQL Server</li>
-        </ul>
-      </div>
-    </li>
-
-    <li class="verbete">
-      <div class="verbete__quando mono">
-        <span data-din="cargo.reduza.periodo">jan 2019 - jul 2020</span>
-        <span class="verbete__dur" data-din="cargo.reduza.duracao">1 ano e 7 meses</span>
-      </div>
-      <div class="verbete__miolo">
-        <h3 class="verbete__titulo">Reduza</h3>
-        <p class="verbete__sub mono">
-          <span data-en="Full-Stack Developer">Desenvolvedor Full-Stack</span>
-          <span class="verbete__sep" aria-hidden="true">·</span>
-          <span data-en="Campo Grande, Brazil">Campo Grande, MS</span>
-        </p>
-        <p class="verbete__prosa" data-en="Coupon and price-comparison platform. Scraping bots in Node.js with automated refresh cycles, and real-time cross-store comparison.">Plataforma de cupons e comparação de preços. Robôs de coleta em Node.js com ciclos de atualização automatizados, e comparação entre lojas em tempo real.</p>
-        <p>
-          <a class="verbete__convite" href="https://www.reduza.com.br" rel="noopener" data-cta="reduza">www.reduza.com.br <span class="verbete__seta" aria-hidden="true">↗</span></a>
-        </p>
-        <ul class="verbete__stack">
-          <li>Angular</li><li>Sass</li><li>TypeScript</li><li>Node.js</li><li>MongoDB</li><li>Redis</li>
-        </ul>
-      </div>
-    </li>
-
-    <li class="verbete verbete--discreto">
-      <div class="verbete__quando mono">
-        <span data-din="cargo.unisys.periodo">fev 2018 - jan 2019</span>
-      </div>
-      <div class="verbete__miolo">
-        <h3 class="verbete__titulo">Unisys</h3>
-        <p class="verbete__sub mono">
-          <span data-en="IT Service Desk">Service Desk de TI</span>
-        </p>
-        <p class="verbete__prosa" data-en="Remote support, Active Directory access management and network setup. Before programming professionally.">Suporte remoto, gestão de acessos em Active Directory e configuração de rede. Antes de programar profissionalmente.</p>
-      </div>
-    </li>
-
-  </ol>
-
-  <a class="rol-elo" href="curriculo/bruno-galiz-pt.pdf" data-cta="cv-pt" download>
-    <span data-en="View full résumé">Ver currículo completo</span>
-    <span class="verbete__seta" aria-hidden="true">↗</span>
-  </a>
-</section>
-
-
-<!-- ═══════════════════════════════════════════════════════════════════════
-     003 · RECORTES
-     Três domínios distintos. Cada caso tem problema, solução e convite.
-     ═══════════════════════════════════════════════════════════════════════ -->
-<section id="recortes" class="secao" data-secao-obs="recortes">
-  <div class="secao__cabeca">
-    <span class="secao__num mono">003</span>
-    <h2 class="secao__titulo" data-en="Case studies">Recortes</h2>
-    <p class="secao__nota mono">
-      <span data-din="contagem.recortesDominios">2</span>
-      <span data-en="domains">domínios</span>
-      <span aria-hidden="true">·</span>
-      <span data-din="contagem.recortes">2</span>
-      <span data-en="problems">problemas</span>
-    </p>
-  </div>
-
-  <ol class="rol">
-
-    <li class="verbete">
-      <div class="verbete__quando mono">
-        <span data-en="government">governo</span>
-        <span class="verbete__dur" data-din="caso.az.anos">2025 - atual</span>
-      </div>
-      <div class="verbete__miolo">
-        <h3 class="verbete__titulo">Controle Veicular</h3>
-        <p class="verbete__sub mono">
-          <span>AZ Tecnologia</span>
-          <span class="verbete__sep" aria-hidden="true">·</span>
-          <span data-en="State of Tocantins">Governo do Tocantins</span>
-        </p>
-        <p class="verbete__prosa verbete__prosa--problema" data-en="The fleet table has dozens of columns, and every department needs a different cut of it for public accountability. The report was fixed: it always came out the same, whatever the user was actually looking at.">A tabela da frota tem dezenas de colunas, e cada setor precisa de um recorte diferente para prestação de contas. O relatório era fixo: saía sempre igual, independente do que o usuário estivesse olhando na tela.</p>
-        <p class="verbete__prosa" data-en="I made the columns dynamic: the user adds or removes them from the table, and the report comes out with exactly the ones left. The active filter carries over too, so what you see on screen is what lands in the PDF or the spreadsheet. I also reworked menu items and the responsive behaviour of the layout.">Tornei as colunas dinâmicas: o usuário insere ou remove colunas da tabela, e o relatório sai com exatamente as que ficaram. O filtro ativo vai junto: o que está na tela é o que cai no PDF ou na planilha. Também refiz itens de menu e o comportamento responsivo do layout.</p>
-        <ul class="verbete__stack">
-          <li>Vue</li><li>Java 11</li><li>Spring Boot</li><li>Maven</li>
-          <li>JPAQuery</li><li>PostgreSQL</li><li>Docker</li>
-        </ul>
-        <p>
-          <a class="verbete__convite" href="#contato" data-cta="caso-az" data-en="Need reports your users can actually shape? Let’s talk →">Precisa de relatório que o usuário consiga moldar? Vamos conversar →</a>
-        </p>
-      </div>
-    </li>
-
-    <li class="verbete">
-      <div class="verbete__quando mono">
-        <span data-en="healthcare">saúde</span>
-        <span class="verbete__dur" data-din="caso.conexa.anos">2022 - 2024</span>
-      </div>
-      <div class="verbete__miolo">
-        <h3 class="verbete__titulo" data-en="Electronic medical record">Prontuário eletrônico</h3>
-        <p class="verbete__sub mono">
-          <span>Conexa Saúde</span>
-          <span class="verbete__sep" aria-hidden="true">·</span>
-          <span data-en="telemedicine">telemedicina</span>
-        </p>
-        <p class="verbete__prosa verbete__prosa--problema" data-en="The record ran on legacy JSP, and every clinic needed different fields. Each new field meant a ticket, a deploy and a wait. The product team was the bottleneck for something that was really just configuration.">O prontuário rodava em JSP legado, e cada clínica precisava de campos diferentes. Cada campo novo virava chamado, deploy e espera. O time de produto era gargalo de uma coisa que, no fundo, era configuração.</p>
-        <p class="verbete__prosa" data-en="I migrated record modules from JSP to React with Hooks and TypeScript, and modularized the forms. Then came the part that removed the bottleneck: the clinic itself creates the fields it needs, with no deploy in between. I also maintained the business-rule configuration modules in Vue.">Migrei módulos do prontuário de JSP para React com Hooks e TypeScript, e modularizei os formulários. Aí veio a parte que tirou o gargalo: a própria clínica cria os campos de que precisa, sem deploy no meio. Também mantive os módulos de configuração de regra de negócio em Vue.</p>
-        <ul class="verbete__stack">
-          <li>React</li><li>React Hooks</li><li>Vue</li><li>TypeScript</li><li>JSP</li><li>Scrum</li>
-        </ul>
-        <p>
-          <a class="verbete__convite" href="#contato" data-cta="caso-conexa" data-en="Need to unblock a front-end nobody wants to touch? →">Precisa destravar um front que ninguém quer mexer? →</a>
-        </p>
-      </div>
-    </li>
-
-  </ol>
-</section>
-
-
-<!-- ═══════════════════════════════════════════════════════════════════════
-     004 · FERRAMENTAS — capacidade por camada
-     O corte é a camada, porque é o que um cliente pergunta. O nível vive na
-     frase de cada bloco, nunca num marcador: já houve aqui uma fileira de
-     pontos contando projetos, e todo leitor entendeu como nota de 1 a 5.
-     Nada de ponto, estrela, barra ou contagem — em hipótese nenhuma.
-
-     A prova de "onde cada uma foi usada" é dada em Trajetória, cargo por
-     cargo. Esta seção não a repete invertida.
-
-     ATENÇÃO: o conteúdo de cada lista .rol-tec é gerado por
-     ferramentas/construir.mjs a partir de perfil.js. Não escrever item à mão
-     aqui — o build sobrescreve. Manter a linha de abertura de cada lista
-     exatamente como está: o script casa nela por expressão regular. E não
-     repetir essa linha dentro de comentário, sob pena de o regex casar no
-     próprio comentário e engolir a lista seguinte.
-     ═══════════════════════════════════════════════════════════════════════ -->
-<section id="ferramentas" class="secao" data-secao-obs="ferramentas">
-  <div class="secao__cabeca">
-    <span class="secao__num mono">004</span>
-    <h2 class="secao__titulo" data-en="Stack">Ferramentas</h2>
-    <p class="secao__nota mono" data-en="what I can own, by layer">o que eu assumo, por camada</p>
-  </div>
-
-  <p class="tecnologias__intro" data-en="Listing forty technologies makes none of them credible. These are the ones I have shipped to production, grouped by what they let me take on. Each role above says which were used where.">Listar quarenta tecnologias não torna nenhuma delas crível. Estas são as que eu coloquei em produção, agrupadas pelo que me permitem assumir. Cada cargo acima diz quais foram usadas onde.</p>
-
-  <div class="tecnologias">
-
-    <section class="tec-camada">
-      <h3 class="tec-camada__titulo" data-en="Product front-end">Front-end de produto</h3>
-      <p class="tec-camada__nota" data-en="Where I live. It was in React with Hooks and TypeScript that I migrated Conexa’s medical record, and it is in Vue that I maintain the Tocantins fleet screen today.">Onde eu moro. Foi em React com Hooks e TypeScript que migrei o prontuário da Conexa, e é em Vue que mantenho a tela de frota do Tocantins hoje.</p>
-      <ul class="rol-tec" data-camada="front">
-          <li>Vue.js</li>
-          <li>TypeScript</li>
-          <li>React</li>
-          <li>Next.js</li>
-          <li>Nuxt.js</li>
-          <li>Tailwind CSS</li>
-          <li>shadcn/ui</li>
-          <li>Sass</li>
-          <li>Figma</li>
-        </ul>
-    </section>
-
-    <section class="tec-camada">
-      <h3 class="tec-camada__titulo" data-en="Back-end and data">Back-end e dados</h3>
-      <p class="tec-camada__nota" data-en="API, query, and whatever database the client already has. Java 11 with Spring Boot today; Node with Express and Reduza’s scraping bots before that.">API, consulta e o banco que o cliente já tem. Java 11 com Spring Boot hoje; Node com Express e os robôs de coleta da Reduza antes disso.</p>
-      <ul class="rol-tec" data-camada="back">
-          <li>Node.js</li>
-          <li>PostgreSQL</li>
-          <li>Java 11</li>
-          <li>Spring Boot</li>
-          <li>Maven</li>
-          <li>JPAQuery</li>
-          <li>Express.js</li>
-          <li>MongoDB</li>
-          <li>OracleDB</li>
-          <li>SQL Server</li>
-          <li>Redis</li>
-        </ul>
-    </section>
-
-    <section class="tec-camada">
-      <h3 class="tec-camada__titulo" data-en="Shipping and operating">Entrega e operação</h3>
-      <p class="tec-camada__nota" data-en="From commit to production, and what to look at when it falls over.">Do commit ao ar, e o que olhar quando cai.</p>
-      <ul class="rol-tec" data-camada="entrega">
-          <li>Git</li>
-          <li>Docker</li>
-          <li>Scrum</li>
-          <li>Jest</li>
-          <li>Grafana</li>
-          <li>Vercel</li>
-        </ul>
-    </section>
-
-    <section class="tec-camada">
-      <h3 class="tec-camada__titulo" data-en="Legacy I kept running">Legado que mantive de pé</h3>
-      <p class="tec-camada__nota" data-en="Systems that cannot stop. In government and healthcare that is half the job: I migrated the medical record from JSP to React without taking down what was already live.">Sistema que não pode parar. Em governo e saúde isso é metade do trabalho: migrei o prontuário de JSP para React sem derrubar o que já estava no ar.</p>
-      <ul class="rol-tec" data-camada="legado">
-          <li>JSP</li>
-          <li>Angular</li>
-          <li>jQuery</li>
-          <li>PHP</li>
-          <li>Bootstrap</li>
-          <li>Sequelize</li>
-        </ul>
-    </section>
-
-    <section class="tec-camada">
-      <h3 class="tec-camada__titulo" data-en="Off the beaten path">Fora da rotina</h3>
-      <p class="tec-camada__nota" data-en="Two forays that shipped anyway: public-health apps on both app stores during Covid, and a board built from the tokens in the connected wallet.">Duas incursões que renderam produto publicado: aplicativos de saúde pública nas duas lojas durante a Covid, e um tabuleiro montado com os tokens da carteira conectada.</p>
-      <ul class="rol-tec" data-camada="margem">
-          <li>Ionic</li>
-          <li>Web3.js</li>
-          <li>MetaMask</li>
-        </ul>
-    </section>
-
-  </div>
-</section>
-
-
-<!-- ═══════════════════════════════════════════════════════════════════════
-     005 · FORMAÇÃO
-     ═══════════════════════════════════════════════════════════════════════ -->
-<section id="formacao" class="secao" data-secao-obs="formacao">
-  <div class="secao__cabeca">
-    <span class="secao__num mono">005</span>
-    <h2 class="secao__titulo" data-en="Education">Formação</h2>
-  </div>
-
-  <ol class="rol">
-
-    <li class="verbete">
-      <div class="verbete__quando mono">
-        <span data-din="formacao.ucdb.periodo">2014 - 2018</span>
-        <span class="verbete__dur" data-din="formacao.ucdb.ha">há 7 anos</span>
-      </div>
-      <div class="verbete__miolo">
-        <h3 class="verbete__titulo" data-en="B.Sc. in Computer Engineering">Bacharelado em Engenharia da Computação</h3>
-        <p class="verbete__sub mono"><span>Universidade Católica Dom Bosco</span></p>
-        <ul class="verbete__stack">
-          <li data-en="Data Structures">Estruturas de Dados</li>
-          <li data-en="Networking">Redes</li>
-          <li data-en="Operating Systems">Sistemas Operacionais</li>
-          <li data-en="Databases">Bancos de Dados</li>
-          <li data-en="Software Engineering">Engenharia de Software</li>
-          <li data-en="Compilers">Compiladores</li>
-        </ul>
-      </div>
-    </li>
-
-    <li class="verbete">
-      <div class="verbete__quando mono">
-        <span>2018</span>
-      </div>
-      <div class="verbete__miolo">
-        <h3 class="verbete__titulo" data-en="Software Development Course">Curso de Desenvolvimento de Software</h3>
-        <p class="verbete__sub mono"><span>High Tech</span></p>
-        <ul class="verbete__stack"><li>Vue.js</li><li>Node.js</li><li>MongoDB</li></ul>
-      </div>
-    </li>
-
-    <li class="verbete">
-      <div class="verbete__quando mono">
-        <span data-din="idioma.en.anos">15</span> <span data-en="years">anos</span>
-      </div>
-      <div class="verbete__miolo">
-        <h3 class="verbete__titulo" data-en="English · advanced">Inglês · avançado</h3>
-        <p class="verbete__sub mono"><span data-din="idioma.en.cursos">Wizard (2011-2013), inFlux (2021-2023)</span></p>
-        <ul class="verbete__stack">
-          <li data-en="Portuguese · native">Português · nativo</li>
-        </ul>
-      </div>
-    </li>
-
-  </ol>
-</section>
-
-
-<!-- ═══════════════════════════════════════════════════════════════════════
-     006 · CONTATO
-     ═══════════════════════════════════════════════════════════════════════ -->
-<section id="contato" class="secao" data-secao-obs="contato">
-  <div class="secao__cabeca">
-    <span class="secao__num mono">006</span>
-    <h2 class="secao__titulo" data-en="Contact">Contato</h2>
-  </div>
-
-  <div class="contato">
-    <!-- A chamada fala com quem contrata, não com cliente de freela: o
-         leitor desta página é recrutador. O prazo de resposta saiu (soava
-         como promessa de prestador de serviço). -->
-    <p class="contato__chamada">
-      <span data-en="Looking for a full stack developer for a remote team?">Procurando um desenvolvedor full stack para um time remoto?</span>
-    </p>
-
-    <p class="contato__nota" data-en="Send me the job description, or just the stack and the team context. E-mail is the fastest way to reach me; LinkedIn and WhatsApp work too.">Me mande a descrição da vaga, ou só a stack e o contexto do time. E-mail é o caminho mais rápido; LinkedIn e WhatsApp também funcionam.</p>
-
-    <ul class="contato__botoes">
-      <li style="--i:0">
-        <a class="botao botao--principal" data-cta="whatsapp"
-           href="https://wa.me/5567981142011?text=Ol%C3%A1%20Bruno%2C%20vi%20seu%20portf%C3%B3lio%20e%20queria%20falar%20sobre%20uma%20vaga" rel="noopener">
-          <span>WhatsApp</span>
-          <span class="botao__seta" aria-hidden="true">→</span>
-        </a>
-      </li>
-      <li style="--i:1">
-        <a class="botao" data-cta="email"
-           href="mailto:brunogaliz2@gmail.com?subject=Vaga%20-%20desenvolvedor%20full%20stack">
-          <span>brunogaliz2@gmail.com</span>
-          <span class="botao__seta" aria-hidden="true">→</span>
-        </a>
-      </li>
-      <li style="--i:2">
-        <a class="botao" data-cta="linkedin-contato" href="https://linkedin.com/in/brunogaliz" rel="me noopener">
-          <span>LinkedIn</span><span class="botao__seta" aria-hidden="true">→</span>
-        </a>
-      </li>
-      <li style="--i:3">
-        <a class="botao" data-cta="github-contato" href="https://github.com/bgaliz" rel="me noopener">
-          <span>GitHub</span><span class="botao__seta" aria-hidden="true">→</span>
-        </a>
-      </li>
-    </ul>
-
-    <p class="contato__curriculo mono">
-      <span data-en="Résumé:">Currículo:</span>
-      <a href="curriculo/bruno-galiz-pt.pdf" data-cta="cv-pt" download>PDF · português</a>
-      <span aria-hidden="true">·</span>
-      <a href="curriculo/bruno-galiz-en.pdf" data-cta="cv-en" download>PDF · english</a>
-    </p>
-  </div>
-</section>
-
-<footer class="rodape">
-  <p class="mono">
-    <span data-din="site.ano">2026</span> · Bruno Galiz de Oliveira
-    <span class="rodape__sep" aria-hidden="true">·</span>
-    <span data-en="Campo Grande, Brazil">Campo Grande, MS </span>
-  </p>
-  <p class="mono rodape__meta">
-    <span data-en="updated">atualizado em</span>
-    <time data-din="site.atualizado" datetime="2026-10-12">12 out 2026</time>
-    <span class="rodape__sep" aria-hidden="true">·</span>
-    <a href="privacidade.html" data-en="Privacy">Privacidade</a>
-  </p>
-</footer>
-
-</main>
-
-</div><!-- /.casca -->
-
-<aside class="aviso-lgpd" id="aviso-lgpd" hidden>
-  <p data-en="I log visits anonymously: no cookies, and your IP is never stored. It tells me whether what I send is being opened.">Registro visitas de forma anônima: sem cookies e sem guardar seu IP. É como eu sei se está havendo ou não visitas ao site.</p>
-  <div class="aviso-lgpd__acoes mono">
-    <button type="button" data-lgpd="aceitar" data-en="Got it">Entendi</button>
-    <button type="button" data-lgpd="recusar" data-en="No thanks">Não quero</button>
-    <a href="privacidade.html" data-en="Details">Detalhes</a>
-  </div>
-</aside>
-
-<script type="application/ld+json" id="dados-estruturados">
+<link rel="icon" href="/assets/img/favicon.svg" type="image/svg+xml">
+<link rel="me" href="https://github.com/bgaliz">
+<link rel="me" href="https://www.linkedin.com/in/brunogaliz">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#EFF0EC" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#121417" media="(prefers-color-scheme: dark)">
+
+<link rel="preload" href="/assets/fonts/mona.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" as="image" href="/assets/img/retrato/bruno-3x4-960.webp" type="image/webp" imagesrcset="/assets/img/retrato/bruno-3x4-480.webp 480w, /assets/img/retrato/bruno-3x4-960.webp 960w" imagesizes="(min-width: 64rem) 22rem, 70vw" fetchpriority="high">
+<link rel="stylesheet" href="/assets/css/tokens.css">
+<link rel="stylesheet" href="/assets/css/base.css">
+<link rel="stylesheet" href="/assets/css/layout.css">
+<link rel="stylesheet" href="/assets/css/componentes.css">
+<link rel="stylesheet" href="/assets/css/movimento.css">
+<link rel="stylesheet" href="/assets/css/impressao.css" media="print">
+
+<script>(function(){try{var t=localStorage.getItem('tema');if(t)document.documentElement.dataset.tema=t;}catch(e){}document.documentElement.classList.add('js');})();</script>
+<script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "Person",
-  "name": "Bruno Galiz de Oliveira",
-  "givenName": "Bruno",
-  "familyName": "Galiz de Oliveira",
-  "jobTitle": "Desenvolvedor Full Stack Pleno",
-  "email": "mailto:brunogaliz2@gmail.com",
-  "url": "https://bgaliz.github.io/",
-  "image": "https://bgaliz.github.io/assets/img/og.png",
-  "address": {
-    "@type": "PostalAddress",
-    "addressLocality": "Campo Grande",
-    "addressRegion": "MS",
-    "addressCountry": "BR"
-  },
-  "sameAs": [
-    "https://github.com/bgaliz",
-    "https://linkedin.com/in/brunogaliz"
-  ],
-  "alumniOf": {
-    "@type": "CollegeOrUniversity",
-    "name": "Universidade Católica Dom Bosco"
-  },
-  "knowsLanguage": [
-    { "@type": "Language", "name": "Portuguese" },
-    { "@type": "Language", "name": "English" }
-  ],
-  "knowsAbout": [
-    "Vue.js", "React", "Next.js", "Nuxt.js", "TypeScript", "Node.js",
-    "Java", "Spring Boot", "PostgreSQL", "Docker"
+  "@graph": [
+    {
+      "@type": "ProfilePage",
+      "@id": "https://bgaliz.github.io/#pagina",
+      "url": "https://bgaliz.github.io/",
+      "inLanguage": "pt-BR",
+      "dateModified": "2026-10-12",
+      "mainEntity": {
+        "@id": "https://bgaliz.github.io/#pessoa"
+      }
+    },
+    {
+      "@type": "Person",
+      "@id": "https://bgaliz.github.io/#pessoa",
+      "name": "Bruno Galiz",
+      "alternateName": "Bruno Galiz de Oliveira",
+      "givenName": "Bruno",
+      "familyName": "Galiz de Oliveira",
+      "jobTitle": "Desenvolvedor Full Stack Pleno",
+      "description": "Desenvolvedor full stack desde 2019. Hoje mantenho com Vue.js, Java e Spring Boot o sistema de frota do Governo do Tocantins. Antes, migrei o prontuário da Conexa Saúde de JSP para React e publiquei o Cartão de Vacinação de Mato Grosso do Sul nas lojas durante a Covid.",
+      "url": "https://bgaliz.github.io/",
+      "image": "https://bgaliz.github.io/assets/img/retrato/bruno-3x4-960.jpg",
+      "email": "mailto:brunogaliz2@gmail.com",
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Campo Grande",
+        "addressRegion": "MS",
+        "addressCountry": "BR"
+      },
+      "sameAs": [
+        "https://github.com/bgaliz",
+        "https://www.linkedin.com/in/brunogaliz"
+      ],
+      "knowsLanguage": [
+        {
+          "@type": "Language",
+          "name": "Portuguese",
+          "alternateName": "pt"
+        },
+        {
+          "@type": "Language",
+          "name": "English",
+          "alternateName": "en"
+        }
+      ],
+      "knowsAbout": [
+        "Vue.js",
+        "React",
+        "TypeScript",
+        "Tailwind CSS",
+        "Java 11",
+        "Spring Boot",
+        "APIs REST",
+        "Python",
+        "FastAPI",
+        "JPAQuery",
+        "Maven",
+        "PostgreSQL",
+        "OracleDB",
+        "MongoDB",
+        "Supabase",
+        "Git",
+        "Docker",
+        "CI/CD",
+        "Grafana",
+        "pytest",
+        "Vercel",
+        "Capacitor",
+        "Unity",
+        "IA aplicada ao desenvolvimento",
+        "Scrum",
+        "JavaScript",
+        "Angular",
+        "Next.js",
+        "Nuxt.js",
+        "HTML e CSS",
+        "Sass",
+        "shadcn/ui",
+        "React Flow",
+        "jQuery",
+        "JSP",
+        "Figma",
+        "Web3.js",
+        "MetaMask",
+        "Bootstrap",
+        "Node.js",
+        "Express",
+        "Microsserviços",
+        "Sequelize",
+        "PHP",
+        "SQL Server",
+        "Redis",
+        "Kubernetes",
+        "Nuvem (AWS, Azure, GCP)",
+        "Jest",
+        "Ionic",
+        "Publicação na App Store e na Google Play",
+        "Migração de sistema legado",
+        "SEO"
+      ],
+      "hasOccupation": {
+        "@type": "Occupation",
+        "name": "Desenvolvedor Full Stack",
+        "occupationalCategory": "15-1252.00",
+        "skills": "Vue.js, React, TypeScript, Tailwind CSS, Java 11, Spring Boot, APIs REST, Python, FastAPI, JPAQuery, Maven, PostgreSQL, OracleDB, MongoDB, Supabase, Git, Docker, CI/CD, Grafana, pytest, Vercel, Capacitor, Unity, IA aplicada ao desenvolvimento, Scrum, JavaScript, Angular, Next.js, Nuxt.js, HTML e CSS, Sass, shadcn/ui, React Flow, jQuery, JSP, Figma, Web3.js, MetaMask, Bootstrap, Node.js, Express, Microsserviços, Sequelize, PHP, SQL Server, Redis, Kubernetes, Nuvem (AWS, Azure, GCP), Jest, Ionic, Publicação na App Store e na Google Play, Migração de sistema legado, SEO",
+        "occupationLocation": {
+          "@type": "Country",
+          "name": "Brasil"
+        }
+      },
+      "worksFor": {
+        "@type": "OrganizationRole",
+        "roleName": "Desenvolvedor Full Stack",
+        "startDate": "2025-08",
+        "description": "Relatórios em PDF e Excel que respeitam as colunas e o filtro escolhidos na tela.",
+        "worksFor": {
+          "@type": "Organization",
+          "name": "AZ Tecnologia em Gestão"
+        }
+      },
+      "alumniOf": [
+        {
+          "@type": "OrganizationRole",
+          "roleName": "Desenvolvedor Front-end (freelancer)",
+          "startDate": "2024-08",
+          "endDate": "2024-09",
+          "description": "Otimização de desempenho da página de busca de imóveis.",
+          "alumniOf": {
+            "@type": "Organization",
+            "name": "Easy Imóveis"
+          }
+        },
+        {
+          "@type": "OrganizationRole",
+          "roleName": "Desenvolvedor Front-end",
+          "startDate": "2022-09",
+          "endDate": "2024-06",
+          "description": "Modularização do prontuário eletrônico e migração de JSP para React.",
+          "alumniOf": {
+            "@type": "Organization",
+            "name": "Conexa Saúde"
+          }
+        },
+        {
+          "@type": "OrganizationRole",
+          "roleName": "Desenvolvedor Front-end (freelancer)",
+          "startDate": "2022-02",
+          "endDate": "2023-01",
+          "description": "Conexão do front-end React com carteiras digitais Web3 (MetaMask) para ler os NFTs de cada usuário.",
+          "alumniOf": {
+            "@type": "Organization",
+            "name": "Calango Doido NFT"
+          }
+        },
+        {
+          "@type": "OrganizationRole",
+          "roleName": "Desenvolvedor Full Stack",
+          "startDate": "2020-08",
+          "endDate": "2022-06",
+          "description": "Cartão de Vacinação digital durante a pandemia de Covid, publicado na App Store e na Google Play.",
+          "alumniOf": {
+            "@type": "Organization",
+            "name": "SGI, Governo de Mato Grosso do Sul"
+          }
+        },
+        {
+          "@type": "OrganizationRole",
+          "roleName": "Desenvolvedor Full Stack",
+          "startDate": "2019-01",
+          "endDate": "2020-07",
+          "description": "Crawlers de preço em Node.js e uma página web por loja, otimizada para SEO.",
+          "alumniOf": {
+            "@type": "Organization",
+            "name": "Reduza"
+          }
+        },
+        {
+          "@type": "OrganizationRole",
+          "startDate": "2014-02",
+          "endDate": "2018-12",
+          "alumniOf": {
+            "@type": "CollegeOrUniversity",
+            "name": "Universidade Católica Dom Bosco"
+          }
+        }
+      ],
+      "hasCredential": {
+        "@type": "EducationalOccupationalCredential",
+        "credentialCategory": "degree",
+        "name": "Bacharelado em Engenharia da Computação",
+        "recognizedBy": {
+          "@type": "CollegeOrUniversity",
+          "name": "Universidade Católica Dom Bosco"
+        }
+      }
+    }
   ]
 }
 </script>
+</head>
 
-<script type="module" src="assets/js/principal.js"></script>
+<body class="pagina-inicio">
+<a class="pular" href="#conteudo">Pular para o conteúdo</a>
+<header class="barra" data-barra>
+  <a class="barra__marca" href="/" aria-label="Bruno Galiz, Experiência">
+    <span class="barra__miniatura" aria-hidden="true"><img src="/assets/img/retrato/bruno-56.webp" width="28" height="28" alt="" decoding="async"></span>
+    <span class="barra__nome">Bruno Galiz</span>
+  </a>
+  <nav class="barra__nav" aria-label="Principal">
+    <a href="#experiencia">Experiência</a>
+    <a href="/projetos/">Projetos</a>
+    <a href="/curriculo/">Currículo</a>
+  </nav>
+  <div class="barra__acoes">
+    <a class="barra__idioma" href="/en/" hreflang="en" lang="en" data-idioma="en" translate="no">EN</a>
+    <button class="barra__tema" type="button" data-tema-alternar
+            aria-label="Mudar para tema escuro"
+            data-rotulo-claro="Mudar para tema claro"
+            data-rotulo-escuro="Mudar para tema escuro">
+      <svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><circle cx="8" cy="8" r="6.25" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M8 1.75a6.25 6.25 0 0 1 0 12.5z" fill="currentColor"/></svg>
+    </button>
+  </div>
+</header>
+<main id="conteudo">
+<header class="cv-topo" id="topo">
+  <div class="cv-topo__texto">
+    <h1 class="cv-topo__nome" data-nome><span>Bruno</span> <span>Galiz</span></h1>
+    <p class="cv-topo__cargo">Desenvolvedor Full Stack Pleno</p>
+    <p class="cv-topo__stack">Java, Spring Boot, Vue.js, React, TypeScript, Node.js</p>
+    <p class="cv-topo__local">Campo Grande, MS. Remoto.</p>
+    <p class="cv-topo__estado"><span class="ponto-vivo" aria-hidden="true"></span>Aberto a vagas full stack remotas, CLT ou PJ</p>
+    <ul class="cv-topo__acoes" role="list">
+      <li><a class="botao botao--principal" href="/curriculo/bruno-galiz-pt.pdf" download data-cta="cv-pt"><span>Baixar currículo</span><span class="botao__seta" aria-hidden="true">↓</span></a></li>
+      <li><a class="elo" href="https://www.linkedin.com/in/brunogaliz" rel="me noopener" data-cta="linkedin">LinkedIn</a></li>
+      <li><a class="elo" href="https://github.com/bgaliz" rel="me noopener" data-cta="github">GitHub</a></li>
+      <li><a class="elo" href="mailto:brunogaliz2@gmail.com?subject=Vaga%20de%20desenvolvedor%20full%20stack" data-cta="email">brunogaliz2@gmail.com</a></li>
+    </ul>
+  </div>
+  <figure class="retrato" data-retrato>
+    <picture>
+      <source type="image/webp" srcset="/assets/img/retrato/bruno-3x4-480.webp 480w, /assets/img/retrato/bruno-3x4-960.webp 960w" sizes="(min-width: 64rem) 22rem, 70vw">
+      <img src="/assets/img/retrato/bruno-3x4-960.jpg" width="960" height="1280" alt="Bruno Galiz" fetchpriority="high" decoding="async">
+    </picture>
+    <span class="retrato__marcas" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+  </figure>
+</header>
+<section class="secao secao--resumo" id="resumo" aria-labelledby="t-resumo" data-secao-obs="resumo">
+  <h2 class="secao__titulo" id="t-resumo">Resumo profissional</h2>
+  <p class="resumo">Desenvolvedor full stack desde 2019. Hoje mantenho com Vue.js, Java e Spring Boot o sistema de frota do Governo do Tocantins. Antes, migrei o prontuário da Conexa Saúde de JSP para React e publiquei o Cartão de Vacinação de Mato Grosso do Sul nas lojas durante a Covid.</p>
+</section>
+<section class="secao secao--experiencia" id="experiencia" aria-labelledby="t-exp" data-secao-obs="experiencia">
+  <h2 class="secao__titulo" id="t-exp">Experiência profissional</h2>
+  <div class="historia">
+    <div class="historia__tempo" aria-hidden="true">
+      <p class="odometro" data-odometro><span class="odometro__digito" style="--d:2"><span>0</span><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span><span>8</span><span>9</span></span><span class="odometro__digito" style="--d:0"><span>0</span><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span><span>8</span><span>9</span></span><span class="odometro__digito" style="--d:2"><span>0</span><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span><span>8</span><span>9</span></span><span class="odometro__digito" style="--d:5"><span>0</span><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span><span>8</span><span>9</span></span></p>
+      <div class="regua"><span class="regua__traco" data-cargo="az" style="--ini:84.26%;--fim:100.00%"></span><span class="regua__traco regua__traco--paralelo" data-cargo="easy" style="--ini:73.15%;--fim:75.00%"></span><span class="regua__traco" data-cargo="conexa" style="--ini:51.85%;--fim:72.22%"></span><span class="regua__traco regua__traco--paralelo" data-cargo="calango" style="--ini:45.37%;--fim:56.48%"></span><span class="regua__traco" data-cargo="sgi" style="--ini:28.70%;--fim:50.00%"></span><span class="regua__traco" data-cargo="reduza" style="--ini:11.11%;--fim:28.70%"></span><span class="regua__traco regua__traco--ti" data-cargo="unisys" style="--ini:0.93%;--fim:12.04%"></span><span class="regua__ano" style="--ini:0.00%">2018</span><span class="regua__ano" style="--ini:22.22%">2020</span><span class="regua__ano" style="--ini:44.44%">2022</span><span class="regua__ano" style="--ini:66.67%">2024</span><span class="regua__ano" style="--ini:88.89%">2026</span><span class="regua__marca" data-regua-marca></span></div>
+    </div>
+    <ol class="historia__cargos" role="list">
+      <li class="cargo" id="cargo-az" data-ano="2025" data-cargo="az">
+        <article aria-labelledby="t-cargo-az">
+        <p class="cargo__quando"><time datetime="2025-08">ago 2025</time> - atual <span class="cargo__duracao" data-din="cargo.az.duracao">1 ano e 3 meses</span></p>
+        <h3 class="cargo__empresa" id="t-cargo-az">AZ Tecnologia em Gestão</h3>
+        <p class="cargo__papel">Desenvolvedor Full Stack, remoto. Sistema de Controle Veicular do Governo do Tocantins.</p>
+        <ul class="cargo__topicos">
+          <li class="cargo__principal">Relatórios em PDF e Excel que respeitam as colunas e o filtro escolhidos na tela.</li>
+          <li>Tornei dinâmicas as colunas da tabela da frota: o usuário escolhe quais aparecem, e o relatório sai com exatamente essas.</li>
+          <li>Crio e mantenho APIs REST em Java 11 e Spring Boot, com consultas em JPAQuery sobre PostgreSQL e OracleDB.</li>
+          <li>Refiz itens de menu e o layout responsivo do front em Vue.js com TypeScript.</li>
+        </ul>
+        <p class="cargo__stack"><span>Tecnologias:</span> Vue.js, TypeScript, Java 11, Spring Boot, Maven, JPAQuery, PostgreSQL, OracleDB, MongoDB, Docker, CI/CD, Grafana</p>
+        <details class="caso" data-rastro="caso-az">
+          <summary>O caso completo</summary>
+          <dl class="caso__corpo">
+            <dt>Problema</dt><dd>A tabela da frota tem dezenas de colunas, e cada setor precisa de um recorte diferente para prestação de contas. O relatório era fixo: saía sempre igual, independente do que o usuário estivesse vendo na tela.</dd>
+            <dt>Decisão</dt><dd>Tornei as colunas dinâmicas e fiz o filtro ativo seguir junto para a exportação. O que está na tela é o que cai no PDF ou na planilha.</dd>
+            <dt>Resultado</dt><dd>Cada setor tira o próprio recorte sem pedir um relatório novo para o time.</dd>
+          </dl>
+        </details>
+        </article>
+      </li>
+      <li class="cargo" id="cargo-easy" data-ano="2024" data-cargo="easy">
+        <article aria-labelledby="t-cargo-easy">
+        <p class="cargo__quando"><time datetime="2024-08">ago 2024</time> - <time datetime="2024-09">set 2024</time> <span class="cargo__duracao" data-din="cargo.easy.duracao">2 meses</span></p>
+        <h3 class="cargo__empresa" id="t-cargo-easy">Easy Imóveis</h3>
+        <p class="cargo__papel">Desenvolvedor Front-end (freelancer), remoto. Plataforma de busca de imóveis.</p>
+        <ul class="cargo__topicos">
+          <li class="cargo__principal">Otimização de desempenho da página de busca de imóveis.</li>
+          <li>Construí filtros personalizados, mapas interativos e fluxos de formulário com componentes reutilizáveis em Nuxt e Vue.js.</li>
+        </ul>
+        <p class="cargo__stack"><span>Tecnologias:</span> Nuxt.js, Vue.js, TypeScript, Tailwind CSS, shadcn/ui, PHP, Docker, Bootstrap</p>
+        </article>
+      </li>
+      <li class="cargo" id="cargo-conexa" data-ano="2022" data-cargo="conexa">
+        <article aria-labelledby="t-cargo-conexa">
+        <p class="cargo__quando"><time datetime="2022-09">set 2022</time> - <time datetime="2024-06">jun 2024</time> <span class="cargo__duracao" data-din="cargo.conexa.duracao">1 ano e 10 meses</span></p>
+        <h3 class="cargo__empresa" id="t-cargo-conexa">Conexa Saúde</h3>
+        <p class="cargo__papel">Desenvolvedor Front-end, remoto. Plataforma de telemedicina.</p>
+        <ul class="cargo__topicos">
+          <li class="cargo__principal">Modularização do prontuário eletrônico e migração de JSP para React.</li>
+          <li>Migrei módulos do prontuário de JSP legado para React com Hooks e TypeScript, sem tirar do ar o que já funcionava.</li>
+          <li>Transformei os formulários em módulos configuráveis: cada clínica cria os campos de que precisa, sem deploy.</li>
+          <li>Mantive os módulos de regras de negócio em Vue.js, num time Scrum.</li>
+        </ul>
+        <p class="cargo__stack"><span>Tecnologias:</span> React, Vue.js, TypeScript, JavaScript, JSP</p>
+        <details class="caso" data-rastro="caso-conexa">
+          <summary>O caso completo</summary>
+          <dl class="caso__corpo">
+            <dt>Problema</dt><dd>O prontuário rodava em JSP legado, e cada clínica precisava de campos diferentes. Cada campo novo virava chamado, deploy e espera. O time de produto era gargalo de uma coisa que, no fundo, era configuração.</dd>
+            <dt>Decisão</dt><dd>Migrei os módulos para React aos poucos, convivendo com o JSP, e modularizei os formulários para que o campo virasse dado, não código.</dd>
+            <dt>Resultado</dt><dd>A própria clínica cria os campos de que precisa, sem deploy no meio.</dd>
+          </dl>
+          <div class="demo-campo" data-demo-campo>
+            <p class="demo-campo__titulo">Experimente: crie um campo no prontuário</p>
+            <form class="demo-campo__criar">
+              <label>Nome do campo <input name="rotulo" maxlength="40" autocomplete="off" placeholder="Ex.: Alergias" required></label>
+              <label>Tipo <select name="tipo"><option value="text">texto</option><option value="date">data</option><option value="checkbox">sim ou não</option></select></label>
+              <button type="submit" class="botao">Criar campo</button>
+            </form>
+            <fieldset class="demo-campo__ficha">
+              <legend>Prontuário da clínica</legend>
+              <label>Paciente <input value="Maria Souza" readonly></label>
+              <label>Queixa principal <input value="Dor de cabeça há 3 dias" readonly></label>
+            </fieldset>
+            <p class="demo-campo__nota">Dados de exemplo. No sistema real, o campo vira configuração da clínica, e nenhum deploy acontece.</p>
+          </div>
+        </details>
+        </article>
+      </li>
+      <li class="cargo" id="cargo-calango" data-ano="2022" data-cargo="calango">
+        <article aria-labelledby="t-cargo-calango">
+        <p class="cargo__quando"><time datetime="2022-02">fev 2022</time> - <time datetime="2023-01">jan 2023</time> <span class="cargo__duracao" data-din="cargo.calango.duracao">1 ano</span></p>
+        <h3 class="cargo__empresa" id="t-cargo-calango">Calango Doido NFT</h3>
+        <p class="cargo__papel">Desenvolvedor Front-end (freelancer), Campo Grande, MS, em paralelo. Coleção de NFTs.</p>
+        <ul class="cargo__topicos">
+          <li class="cargo__principal">Conexão do front-end React com carteiras digitais Web3 (MetaMask) para ler os NFTs de cada usuário.</li>
+          <li>Montei um jogo da memória no navegador com os tokens da carteira conectada.</li>
+          <li>Publiquei a landing page da coleção em Next.js, na Vercel.</li>
+        </ul>
+        <p class="cargo__stack"><span>Tecnologias:</span> Next.js, React, TypeScript, Web3.js, MetaMask, Tailwind CSS, Figma, Vercel</p>
+        <a class="previa" href="https://calango-doido.vercel.app" rel="noopener" data-cta="previa-calango"><span class="previa__imagem"><img src="/assets/img/previas/calango.webp" width="1200" height="630" alt="" fetchpriority="low"></span>
+    <span class="previa__texto">
+      <span class="previa__dominio"><img class="previa__icone" src="/assets/img/previas/calango-icone.webp" width="16" height="16" alt="" fetchpriority="low" decoding="async">calango-doido.vercel.app</span>
+      <span class="previa__titulo">Calango Doido</span>
+      <span class="previa__descricao">Coleção de NFTs.</span>
+    </span></a>
+        </article>
+      </li>
+      <li class="cargo" id="cargo-sgi" data-ano="2020" data-cargo="sgi">
+        <article aria-labelledby="t-cargo-sgi">
+        <p class="cargo__quando"><time datetime="2020-08">ago 2020</time> - <time datetime="2022-06">jun 2022</time> <span class="cargo__duracao" data-din="cargo.sgi.duracao">1 ano e 11 meses</span></p>
+        <h3 class="cargo__empresa" id="t-cargo-sgi">SGI, Governo de Mato Grosso do Sul</h3>
+        <p class="cargo__papel">Desenvolvedor Full Stack, Campo Grande, MS. Superintendência de Gestão da Informação (SGI) do Governo de Mato Grosso do Sul.</p>
+        <ul class="cargo__topicos">
+          <li class="cargo__principal">Cartão de Vacinação digital durante a pandemia de Covid, publicado na App Store e na Google Play.</li>
+          <li>Participei também do Cartão SUS e do Passe Livre, em Ionic com Angular.</li>
+          <li>Preparei os builds no Android Studio e no Xcode e fiz as publicações nas lojas.</li>
+          <li>Trabalhei no portal MS Digital e em APIs REST em Node.js com Sequelize e SQL Server.</li>
+        </ul>
+        <p class="cargo__stack"><span>Tecnologias:</span> Angular, React, Ionic, Node.js, Sequelize, TypeScript, JavaScript, Jest, SQL Server, Figma</p>
+        <a class="previa" href="https://www.msdigital.ms.gov.br" rel="noopener" data-cta="previa-sgi"><span class="previa__imagem"><img src="/assets/img/previas/sgi.webp" width="1200" height="630" alt="" fetchpriority="low"></span>
+    <span class="previa__texto">
+      <span class="previa__dominio"><img class="previa__icone" src="/assets/img/previas/sgi-icone.webp" width="16" height="16" alt="" fetchpriority="low" decoding="async">msdigital.ms.gov.br</span>
+      <span class="previa__titulo">MS Digital</span>
+      <span class="previa__descricao">Superintendência de Gestão da Informação (SGI) do Governo de Mato Grosso do Sul.</span>
+    </span></a>
+        </article>
+      </li>
+      <li class="cargo" id="cargo-reduza" data-ano="2019" data-cargo="reduza">
+        <article aria-labelledby="t-cargo-reduza">
+        <p class="cargo__quando"><time datetime="2019-01">jan 2019</time> - <time datetime="2020-07">jul 2020</time> <span class="cargo__duracao" data-din="cargo.reduza.duracao">1 ano e 7 meses</span></p>
+        <h3 class="cargo__empresa" id="t-cargo-reduza">Reduza</h3>
+        <p class="cargo__papel">Desenvolvedor Full Stack, Campo Grande, MS. Plataforma de cupons e comparação de preços.</p>
+        <ul class="cargo__topicos">
+          <li class="cargo__principal">Crawlers de preço em Node.js e uma página web por loja, otimizada para SEO.</li>
+          <li>Escrevi robôs de coleta com ciclos de atualização automáticos, com dados em MongoDB e Redis.</li>
+          <li>Construí a comparação de preço entre lojas em tempo real, com front em Angular.</li>
+        </ul>
+        <p class="cargo__stack"><span>Tecnologias:</span> Node.js, Express, MongoDB, Redis, Angular, Sass, TypeScript, JavaScript, jQuery, HTML e CSS</p>
+        <a class="previa" href="https://www.reduza.com.br" rel="noopener" data-cta="previa-reduza"><span class="previa__imagem"><img src="/assets/img/previas/reduza.webp" width="1200" height="630" alt="" fetchpriority="low"></span>
+    <span class="previa__texto">
+      <span class="previa__dominio"><img class="previa__icone" src="/assets/img/previas/reduza-icone.webp" width="16" height="16" alt="" fetchpriority="low" decoding="async">reduza.com.br</span>
+      <span class="previa__titulo">Procurando site de desconto? Reduza preços com apenas 1 clique</span>
+      <span class="previa__descricao">Já imaginou reduzir preços em lojas online com apenas um clique? Faça como milhares de pessoas e economize nas lojas Centauro, Ricardo Eletro, Americanas, Walmart e outras</span>
+    </span></a>
+        </article>
+      </li>
+      <li class="cargo cargo--discreto" id="cargo-unisys" data-ano="2018" data-cargo="unisys">
+        <article aria-labelledby="t-cargo-unisys">
+        <p class="cargo__quando"><time datetime="2018-02">fev 2018</time> - <time datetime="2019-01">jan 2019</time></p>
+        <h3 class="cargo__empresa" id="t-cargo-unisys">Unisys</h3>
+        <p class="cargo__papel">Service Desk de TI</p>
+        <ul class="cargo__topicos">
+          <li class="cargo__principal">Suporte remoto, gestão de acessos no Active Directory e configuração de rede, antes de programar profissionalmente.</li>
+        </ul>
+        </article>
+      </li>
+    </ol>
+  </div>
+  <section class="relatorio" id="relatorio" aria-labelledby="t-relatorio" data-relatorio data-secao-obs="relatorio">
+    <div class="relatorio__cabeca">
+      <h3 class="relatorio__titulo" id="t-relatorio">Monte o relatório de mim</h3>
+      <p class="relatorio__texto">Escolha as colunas e o filtro. O PDF sai igual à tela, que é exatamente o que eu faço no trabalho.</p>
+    </div>
+    <form class="relatorio__controles" data-relatorio-controles hidden>
+      <fieldset class="relatorio__colunas">
+        <legend>Colunas</legend>
+        <label><input type="checkbox" name="col" value="empresa" checked> Empresa</label>
+        <label><input type="checkbox" name="col" value="periodo" checked> Período</label>
+        <label><input type="checkbox" name="col" value="cargo" checked> Cargo</label>
+        <label><input type="checkbox" name="col" value="entrega" checked> Principal entrega</label>
+        <label><input type="checkbox" name="col" value="dominio"> Área</label>
+        <label><input type="checkbox" name="col" value="stack" checked> Tecnologias</label>
+      </fieldset>
+      <div class="relatorio__filtros">
+        <label>Tecnologia
+          <select name="tec"><option value="">todas</option><option value="angular">Angular</option><option value="bootstrap">Bootstrap</option><option value="ci">CI/CD</option><option value="docker">Docker</option><option value="express">Express</option><option value="figma">Figma</option><option value="grafana">Grafana</option><option value="html">HTML e CSS</option><option value="ionic">Ionic</option><option value="java">Java 11</option><option value="js">JavaScript</option><option value="jest">Jest</option><option value="jpaquery">JPAQuery</option><option value="jquery">jQuery</option><option value="jsp">JSP</option><option value="maven">Maven</option><option value="metamask">MetaMask</option><option value="legado">Migração de sistema legado</option><option value="mongo">MongoDB</option><option value="next">Next.js</option><option value="node">Node.js</option><option value="nuxt">Nuxt.js</option><option value="oracle">OracleDB</option><option value="php">PHP</option><option value="postgres">PostgreSQL</option><option value="mobile">Publicação na App Store e na Google Play</option><option value="react">React</option><option value="redis">Redis</option><option value="sass">Sass</option><option value="seo">SEO</option><option value="sequelize">Sequelize</option><option value="shadcn">shadcn/ui</option><option value="spring">Spring Boot</option><option value="sqlserver">SQL Server</option><option value="tailwind">Tailwind CSS</option><option value="ts">TypeScript</option><option value="vercel">Vercel</option><option value="vue">Vue.js</option><option value="web3">Web3.js</option></select>
+        </label>
+        <label>Área
+          <select name="dominio"><option value="">todas</option><option value="governo">governo</option><option value="imobiliario">imobiliário</option><option value="saude">saúde</option><option value="web3">Web3</option><option value="ecommerce">e-commerce</option></select>
+        </label>
+      </div>
+      <div class="relatorio__acoes">
+        <button type="button" class="botao botao--principal" data-relatorio-pdf><span>Gerar PDF</span></button>
+        <button type="button" class="botao" data-relatorio-copiar data-rotulo-ok="Copiado"><span>Copiar como texto</span></button>
+      </div>
+    </form>
+    <div class="relatorio__folha" data-relatorio-folha>
+      <div class="relatorio__impresso">
+        <img src="/assets/img/retrato/bruno-reticula.webp" width="240" height="320" alt="" fetchpriority="low">
+        <p><strong>Bruno Galiz</strong>, Desenvolvedor Full Stack Pleno<br>brunogaliz2@gmail.com, bgaliz.github.io</p>
+      </div>
+      <div class="tabela-rolagem">
+        <table class="tabela">
+          <thead><tr><th scope="col" data-col="empresa">Empresa</th><th scope="col" data-col="periodo">Período</th><th scope="col" data-col="cargo">Cargo</th><th scope="col" data-col="entrega">Principal entrega</th><th scope="col" data-col="dominio">Área</th><th scope="col" data-col="stack">Tecnologias</th></tr></thead>
+          <tbody>
+          <tr data-stack="vue ts java spring maven jpaquery postgres oracle mongo docker ci grafana git scrum rest" data-dominio="governo">
+            <td data-col="empresa">AZ Tecnologia em Gestão</td>
+            <td data-col="periodo">ago 2025 - atual</td>
+            <td data-col="cargo">Desenvolvedor Full Stack</td>
+            <td data-col="entrega">Relatórios em PDF e Excel que respeitam as colunas e o filtro escolhidos na tela.</td>
+            <td data-col="dominio">governo</td>
+            <td data-col="stack">Vue.js, TypeScript, Java 11, Spring Boot, Maven, JPAQuery, PostgreSQL, OracleDB, MongoDB, Docker, CI/CD, Grafana</td>
+          </tr>
+          <tr data-stack="nuxt vue ts tailwind shadcn php docker bootstrap git scrum rest" data-dominio="imobiliario">
+            <td data-col="empresa">Easy Imóveis</td>
+            <td data-col="periodo">ago 2024 - set 2024</td>
+            <td data-col="cargo">Desenvolvedor Front-end (freelancer)</td>
+            <td data-col="entrega">Otimização de desempenho da página de busca de imóveis.</td>
+            <td data-col="dominio">imobiliário</td>
+            <td data-col="stack">Nuxt.js, Vue.js, TypeScript, Tailwind CSS, shadcn/ui, PHP, Docker, Bootstrap</td>
+          </tr>
+          <tr data-stack="react vue ts js jsp legado git scrum rest" data-dominio="saude">
+            <td data-col="empresa">Conexa Saúde</td>
+            <td data-col="periodo">set 2022 - jun 2024</td>
+            <td data-col="cargo">Desenvolvedor Front-end</td>
+            <td data-col="entrega">Modularização do prontuário eletrônico e migração de JSP para React.</td>
+            <td data-col="dominio">saúde</td>
+            <td data-col="stack">React, Vue.js, TypeScript, JavaScript, JSP</td>
+          </tr>
+          <tr data-stack="next react ts web3 metamask tailwind figma vercel git scrum rest" data-dominio="web3">
+            <td data-col="empresa">Calango Doido NFT</td>
+            <td data-col="periodo">fev 2022 - jan 2023</td>
+            <td data-col="cargo">Desenvolvedor Front-end (freelancer)</td>
+            <td data-col="entrega">Conexão do front-end React com carteiras digitais Web3 (MetaMask) para ler os NFTs de cada usuário.</td>
+            <td data-col="dominio">Web3</td>
+            <td data-col="stack">Next.js, React, TypeScript, Web3.js, MetaMask, Tailwind CSS, Figma, Vercel</td>
+          </tr>
+          <tr data-stack="angular react ionic mobile node sequelize ts js jest sqlserver figma git scrum rest" data-dominio="governo">
+            <td data-col="empresa">SGI, Governo de Mato Grosso do Sul</td>
+            <td data-col="periodo">ago 2020 - jun 2022</td>
+            <td data-col="cargo">Desenvolvedor Full Stack</td>
+            <td data-col="entrega">Cartão de Vacinação digital durante a pandemia de Covid, publicado na App Store e na Google Play.</td>
+            <td data-col="dominio">governo</td>
+            <td data-col="stack">Angular, React, Ionic, Node.js, Sequelize, TypeScript, JavaScript, Jest, SQL Server, Figma</td>
+          </tr>
+          <tr data-stack="node express mongo redis angular sass ts js jquery html seo git scrum rest" data-dominio="ecommerce">
+            <td data-col="empresa">Reduza</td>
+            <td data-col="periodo">jan 2019 - jul 2020</td>
+            <td data-col="cargo">Desenvolvedor Full Stack</td>
+            <td data-col="entrega">Crawlers de preço em Node.js e uma página web por loja, otimizada para SEO.</td>
+            <td data-col="dominio">e-commerce</td>
+            <td data-col="stack">Node.js, Express, MongoDB, Redis, Angular, Sass, TypeScript, JavaScript, jQuery, HTML e CSS</td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+</section>
+<section class="secao secao--projetos" id="projetos" aria-labelledby="t-projetos" data-secao-obs="projetos">
+  <h2 class="secao__titulo" id="t-projetos">Projetos pessoais</h2>
+  <p class="secao__intro">O que eu construo fora do trabalho, para aprender e para usar.</p>
+  <ul class="faixa" role="list">
+    <li class="faixa__item"><div class="previa previa--sem-imagem previa--sem-link">
+    <span class="previa__texto">
+      <span class="previa__dominio"><span class="previa__icone previa__icone--letra" aria-hidden="true">A</span>Código sob pedido</span>
+      <span class="previa__titulo">AssetForge</span>
+      <span class="previa__descricao">Gerador de assets de jogo prontos para a Unity: de uma descrição em texto (ou de uma imagem) até FBX Humanoid com texturas, prefab e animações.</span>
+    </span></div></li>
+    <li class="faixa__item"><div class="previa previa--sem-imagem previa--sem-link">
+    <span class="previa__texto">
+      <span class="previa__dominio"><span class="previa__icone previa__icone--letra" aria-hidden="true">C</span>Código sob pedido</span>
+      <span class="previa__titulo">Copiloto de Trading</span>
+      <span class="previa__descricao">Sistema de apoio à decisão para operar no MetaTrader 5, em modo observação: analisa o gráfico, calcula o risco e explica, mas nunca envia ordem.</span>
+    </span></div></li>
+    <li class="faixa__item"><a class="previa" href="https://e-connect-play.vercel.app" rel="noopener" data-cta="projeto-eplay"><span class="previa__imagem"><img src="/assets/img/previas/eplay.webp" width="1200" height="630" alt="" fetchpriority="low"></span>
+    <span class="previa__texto">
+      <span class="previa__dominio"><img class="previa__icone" src="/assets/img/previas/eplay-icone.webp" width="16" height="16" alt="" fetchpriority="low" decoding="async">e-connect-play.vercel.app</span>
+      <span class="previa__titulo">E-PLAY</span>
+      <span class="previa__descricao">Agende seus jogos, pontue no ranking, faca planos de leitura biblica e acompanhe as lives da E-PLAY.</span>
+    </span></a></li>
+    <li class="faixa__item"><a class="previa" href="https://cronometro-speacher.vercel.app" rel="noopener" data-cta="projeto-cronometro"><span class="previa__imagem"><img src="/assets/img/previas/cronometro.webp" width="1200" height="630" alt="" fetchpriority="low"></span>
+    <span class="previa__texto">
+      <span class="previa__dominio"><img class="previa__icone" src="/assets/img/previas/cronometro-icone.webp" width="16" height="16" alt="" fetchpriority="low" decoding="async">cronometro-speacher.vercel.app</span>
+      <span class="previa__titulo">Cronômetro de Oradores</span>
+      <span class="previa__descricao">Controle preciso do tempo para oradores em reuniões e eventos. Alertas visuais e sonoros, registro de participantes e exportação em PDF.</span>
+    </span></a></li>
+    <li class="faixa__item"><a class="previa" href="https://github.com/bgaliz/Mini-n8n-Project-Front" rel="noopener" data-cta="projeto-minin8n"><span class="previa__imagem"><img src="/assets/img/previas/minin8n.webp" width="1200" height="630" alt="" fetchpriority="low"></span>
+    <span class="previa__texto">
+      <span class="previa__dominio"><img class="previa__icone" src="/assets/img/previas/minin8n-icone.webp" width="16" height="16" alt="" fetchpriority="low" decoding="async">github.com</span>
+      <span class="previa__titulo">bgaliz/Mini-n8n-Project-Front</span>
+      <span class="previa__descricao">Editor visual de fluxos de automação, no estilo do n8n, que dispara mensagens por um bot do Telegram.</span>
+    </span></a></li>
+  </ul>
+  <p><a class="elo elo--seta" href="/projetos/">Ver todos os projetos<span aria-hidden="true"> →</span></a></p>
+</section>
+<section class="secao secao--competencias" id="competencias" aria-labelledby="t-comp" data-secao-obs="competencias">
+  <h2 class="secao__titulo" id="t-comp">Competências técnicas</h2>
+  <div class="competencias">
+    <div class="comp-area comp-area--front">
+      <h3 class="comp-area__titulo">Front-end</h3>
+      <ul class="comp-area__lista" role="list">
+        <li class="em-uso"><span class="comp__nome">Vue.js</span> <span class="comp__meta">desde 2022, em uso</span></li>
+        <li class="em-uso"><span class="comp__nome">React</span> <span class="comp__meta">desde 2020, em uso</span></li>
+        <li class="em-uso"><span class="comp__nome">TypeScript</span> <span class="comp__meta">desde 2019, em uso</span></li>
+        <li><span class="comp__nome">JavaScript</span> <span class="comp__meta">desde 2019</span></li>
+        <li><span class="comp__nome">Angular</span> <span class="comp__meta">desde 2019</span></li>
+        <li><span class="comp__nome">Next.js</span> <span class="comp__meta">desde 2022</span></li>
+        <li><span class="comp__nome">Nuxt.js</span> <span class="comp__meta">desde 2024</span></li>
+        <li class="em-uso"><span class="comp__nome">Tailwind CSS</span> <span class="comp__meta">desde 2022, em uso</span></li>
+        <li><span class="comp__nome">HTML e CSS</span> <span class="comp__meta">desde 2019</span></li>
+        <li><span class="comp__nome">Sass</span> <span class="comp__meta">desde 2019</span></li>
+        <li><span class="comp__nome">shadcn/ui</span> <span class="comp__meta">desde 2024</span></li>
+        <li><span class="comp__nome">React Flow</span> <span class="comp__meta">desde 2025, em projetos</span></li>
+        <li><span class="comp__nome">jQuery</span> <span class="comp__meta">desde 2019</span></li>
+        <li><span class="comp__nome">JSP</span> <span class="comp__meta">desde 2022</span></li>
+        <li><span class="comp__nome">Figma</span> <span class="comp__meta">desde 2020</span></li>
+        <li><span class="comp__nome">Web3.js</span> <span class="comp__meta">desde 2022</span></li>
+        <li><span class="comp__nome">MetaMask</span> <span class="comp__meta">desde 2022</span></li>
+        <li><span class="comp__nome">Bootstrap</span> <span class="comp__meta">desde 2024</span></li>
+      </ul>
+    </div>
+    <div class="comp-area comp-area--back">
+      <h3 class="comp-area__titulo">Back-end e APIs</h3>
+      <ul class="comp-area__lista" role="list">
+        <li class="em-uso"><span class="comp__nome">Java 11</span> <span class="comp__meta">desde 2025, em uso</span></li>
+        <li class="em-uso"><span class="comp__nome">Spring Boot</span> <span class="comp__meta">desde 2025, em uso</span></li>
+        <li class="em-uso"><span class="comp__nome">APIs REST</span> <span class="comp__meta">desde 2019, em uso</span></li>
+        <li><span class="comp__nome">Node.js</span> <span class="comp__meta">desde 2019</span></li>
+        <li><span class="comp__nome">Express</span> <span class="comp__meta">desde 2019</span></li>
+        <li><span class="comp__nome">Microsserviços</span></li>
+        <li class="em-uso"><span class="comp__nome">Python</span> <span class="comp__meta">desde 2026, em uso, em projetos</span></li>
+        <li class="em-uso"><span class="comp__nome">FastAPI</span> <span class="comp__meta">desde 2026, em uso, em projetos</span></li>
+        <li class="em-uso"><span class="comp__nome">JPAQuery</span> <span class="comp__meta">desde 2025, em uso</span></li>
+        <li class="em-uso"><span class="comp__nome">Maven</span> <span class="comp__meta">desde 2025, em uso</span></li>
+        <li><span class="comp__nome">Sequelize</span> <span class="comp__meta">desde 2020</span></li>
+        <li><span class="comp__nome">PHP</span> <span class="comp__meta">desde 2024</span></li>
+      </ul>
+    </div>
+    <div class="comp-area comp-area--dados">
+      <h3 class="comp-area__titulo">Bancos de dados</h3>
+      <ul class="comp-area__lista" role="list">
+        <li class="em-uso"><span class="comp__nome">PostgreSQL</span> <span class="comp__meta">desde 2025, em uso</span></li>
+        <li class="em-uso"><span class="comp__nome">OracleDB</span> <span class="comp__meta">desde 2025, em uso</span></li>
+        <li><span class="comp__nome">SQL Server</span> <span class="comp__meta">desde 2020</span></li>
+        <li class="em-uso"><span class="comp__nome">MongoDB</span> <span class="comp__meta">desde 2019, em uso</span></li>
+        <li><span class="comp__nome">Redis</span> <span class="comp__meta">desde 2019</span></li>
+        <li class="em-uso"><span class="comp__nome">Supabase</span> <span class="comp__meta">desde 2026, em uso, em projetos</span></li>
+      </ul>
+    </div>
+    <div class="comp-area comp-area--entrega">
+      <h3 class="comp-area__titulo">Entrega e operação</h3>
+      <ul class="comp-area__lista" role="list">
+        <li class="em-uso"><span class="comp__nome">Git</span> <span class="comp__meta">desde 2019, em uso</span></li>
+        <li class="em-uso"><span class="comp__nome">Docker</span> <span class="comp__meta">desde 2024, em uso</span></li>
+        <li class="em-uso"><span class="comp__nome">CI/CD</span> <span class="comp__meta">desde 2025, em uso</span></li>
+        <li><span class="comp__nome">Kubernetes</span></li>
+        <li><span class="comp__nome">Nuvem (AWS, Azure, GCP)</span></li>
+        <li class="em-uso"><span class="comp__nome">Grafana</span> <span class="comp__meta">desde 2025, em uso</span></li>
+        <li><span class="comp__nome">Jest</span> <span class="comp__meta">desde 2020</span></li>
+        <li class="em-uso"><span class="comp__nome">pytest</span> <span class="comp__meta">desde 2026, em uso, em projetos</span></li>
+        <li class="em-uso"><span class="comp__nome">Vercel</span> <span class="comp__meta">desde 2022, em uso</span></li>
+      </ul>
+    </div>
+    <div class="comp-area comp-area--mobile">
+      <h3 class="comp-area__titulo">Mobile e jogos</h3>
+      <ul class="comp-area__lista" role="list">
+        <li><span class="comp__nome">Ionic</span> <span class="comp__meta">desde 2020</span></li>
+        <li class="em-uso"><span class="comp__nome">Capacitor</span> <span class="comp__meta">desde 2026, em uso, em projetos</span></li>
+        <li><span class="comp__nome">Publicação na App Store e na Google Play</span> <span class="comp__meta">desde 2020</span></li>
+        <li class="em-uso"><span class="comp__nome">Unity</span> <span class="comp__meta">desde 2026, em uso, em projetos</span></li>
+      </ul>
+    </div>
+    <div class="comp-area comp-area--ia">
+      <h3 class="comp-area__titulo">IA no desenvolvimento</h3>
+      <ul class="comp-area__lista" role="list">
+        <li class="em-uso"><span class="comp__nome">IA aplicada ao desenvolvimento</span> <span class="comp__meta">desde 2026, em uso, em projetos</span></li>
+      </ul>
+      <h4 class="comp-area__subtitulo">Como eu trabalho</h4>
+      <p class="comp-area__texto">Uso IA no dia a dia para explorar código, refatorar e revisar, sempre com teste e revisão humana antes de ir para produção. Nos projetos pessoais isso fica documentado: o Copiloto de Trading tem 743 testes automatizados e o AssetForge, 73.</p>
+    </div>
+    <div class="comp-area comp-area--metodo">
+      <h3 class="comp-area__titulo">Métodos</h3>
+      <ul class="comp-area__lista" role="list">
+        <li class="em-uso"><span class="comp__nome">Scrum</span> <span class="comp__meta">desde 2019, em uso</span></li>
+        <li><span class="comp__nome">Migração de sistema legado</span> <span class="comp__meta">desde 2022</span></li>
+        <li><span class="comp__nome">SEO</span> <span class="comp__meta">desde 2019</span></li>
+      </ul>
+    </div>
+  </div>
+</section>
+<section class="secao secao--formacao" id="formacao" aria-labelledby="t-form" data-secao-obs="formacao">
+  <h2 class="secao__titulo" id="t-form">Formação e idiomas</h2>
+  <dl class="formacao">
+    <div class="formacao__item">
+      <dt><span class="formacao__titulo">Bacharelado em Engenharia da Computação</span> <span class="formacao__inst">Universidade Católica Dom Bosco</span></dt>
+      <dd><span class="formacao__periodo">2014 - 2018</span> Estruturas de dados, redes, sistemas operacionais, bancos de dados, engenharia de software e compiladores.</dd>
+    </div>
+    <div class="formacao__item">
+      <dt><span class="formacao__titulo">Curso de Desenvolvimento de Software</span> <span class="formacao__inst">High Tech</span></dt>
+      <dd><span class="formacao__periodo">2018 - 2018</span> Vue.js, Node.js e MongoDB.</dd>
+    </div>
+    <div class="formacao__item">
+      <dt><span class="formacao__titulo">Português</span></dt>
+      <dd>nativo</dd>
+    </div>
+    <div class="formacao__item">
+      <dt><span class="formacao__titulo">Inglês</span></dt>
+      <dd>avançado. Wizard (2011-2013), inFlux (2021-2023)</dd>
+    </div>
+  </dl>
+</section>
+<section class="secao secao--contato" id="contato" aria-labelledby="t-contato" data-secao-obs="contato">
+  <h2 class="secao__titulo" id="t-contato">Contato</h2>
+  <p class="contato__texto">O caminho mais rápido é e-mail. LinkedIn e WhatsApp também funcionam. Pode mandar a descrição da vaga direto.</p>
+  <div class="contato__email">
+    <a class="contato__endereco" href="mailto:brunogaliz2@gmail.com?subject=Vaga%20de%20desenvolvedor%20full%20stack" data-cta="email">brunogaliz2@gmail.com</a>
+    <button type="button" class="botao" data-copiar="brunogaliz2@gmail.com" data-copiar-rastro="email" data-rotulo-ok="Copiado"><span>Copiar e-mail</span></button>
+  </div>
+  <ul class="contato__canais" role="list">
+    <li><a class="elo" href="https://www.linkedin.com/in/brunogaliz" rel="me noopener" data-cta="linkedin-contato">LinkedIn</a></li>
+    <li><a class="elo" href="https://wa.me/5567981142011?text=Ol%C3%A1%20Bruno%2C%20vi%20seu%20portf%C3%B3lio%20e%20queria%20falar%20sobre%20uma%20vaga." rel="noopener" data-cta="whatsapp">WhatsApp</a></li>
+    <li><a class="elo" href="https://github.com/bgaliz" rel="me noopener" data-cta="github-contato">GitHub</a></li>
+  </ul>
+  <ul class="contato__cv" role="list">
+    <li><a href="/curriculo/bruno-galiz-pt.pdf" download data-cta="cv-pt">Currículo em PDF (português)</a></li>
+    <li><a href="/curriculo/bruno-galiz-en.pdf" download data-cta="cv-en">Currículo em PDF (inglês)</a></li>
+  </ul>
+</section>
+</main>
+<footer class="rodape">
+  <p class="rodape__colofao">Feito em HTML, CSS e JavaScript, sem framework. Datas calculadas, nunca digitadas. Visitas contadas sem cookies.</p>
+  <p class="rodape__meta">
+    <span>Bruno Galiz de Oliveira</span>
+    <span>Atualizado em <time data-din="site.atualizado" datetime="2026-10-12">12 out 2026</time></span>
+    <a href="/privacidade.html">Privacidade</a>
+  </p>
+</footer>
+<aside class="aviso-lgpd" id="aviso-lgpd" hidden>
+  <p>Registro visitas de forma anônima: sem cookies e sem guardar seu IP. É como eu sei se está havendo ou não visitas ao site.</p>
+  <div class="aviso-lgpd__acoes">
+    <button type="button" data-lgpd="aceitar">Entendi</button>
+    <button type="button" data-lgpd="recusar">Não quero</button>
+    <a href="/privacidade.html">Detalhes</a>
+  </div>
+</aside>
+<script type="module" src="/assets/js/principal.js"></script>
 </body>
 </html>

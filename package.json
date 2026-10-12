@@ -2,13 +2,22 @@
   "name": "portfolio-bruno-galiz",
   "private": true,
   "type": "module",
-  "description": "Portfolio em HTML/CSS/JS puro. Sem dependencias, sem bundler.",
+  "description": "Portfólio e currículo vivo de Bruno Galiz. HTML, CSS e JS sem framework; uma fonte de conteúdo gera todas as saídas.",
   "scripts": {
     "construir": "node ferramentas/construir.mjs",
     "verificar": "node ferramentas/verificar-tempo.mjs",
+    "robo": "node ferramentas/verificar-robo.mjs",
+    "previas": "node ferramentas/coletar-previas.mjs",
+    "pdf": "node ferramentas/gerar-pdf.mjs",
+    "og": "node ferramentas/gerar-og.mjs",
+    "retrato": "node ferramentas/gerar-retrato.mjs",
+    "tudo": "npm run verificar && npm run construir && npm run pdf && npm run robo",
     "servir": "python3 -m http.server 8000"
   },
   "dependencies": {
     "@neondatabase/serverless": "^1.0.2"
+  },
+  "devDependencies": {
+    "playwright": "1.64.0"
   }
 }

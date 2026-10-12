@@ -1,0 +1,24 @@
+# Bruno Galiz
+
+> Desenvolvedor full stack desde 2019. Hoje mantenho com Vue.js, Java e Spring Boot o sistema de frota do Governo do Tocantins. Antes, migrei o prontuário da Conexa Saúde de JSP para React e publiquei o Cartão de Vacinação de Mato Grosso do Sul nas lojas durante a Covid.
+
+Desenvolvedor Full Stack Pleno em Campo Grande, MS, Brasil, trabalhando remoto. Java, Spring Boot, Vue.js, React, TypeScript e Node.js. Aberto a vagas full stack remotas. Contato: brunogaliz2@gmail.com.
+
+## Currículo
+
+- [Currículo em texto puro (português)](https://bgaliz.github.io/cv.txt): experiência, projetos, competências e formação, em uma coluna
+- [Résumé in plain text (English)](https://bgaliz.github.io/en/cv.txt): same content in English
+- [JSON Resume (português)](https://bgaliz.github.io/curriculo.json): formato aberto jsonresume.org
+- [JSON Resume (English)](https://bgaliz.github.io/resume.json): open jsonresume.org format
+- [Currículo em PDF](https://bgaliz.github.io/curriculo/bruno-galiz-pt.pdf): versão para ATS, sem foto
+
+## Páginas
+
+- [Início](https://bgaliz.github.io/): currículo completo com a trajetória em modo história
+- [Projetos pessoais](https://bgaliz.github.io/projetos/): Copiloto de Trading, AssetForge, E-PLAY, Cronômetro de Oradores e Mini n8n
+- [English version](https://bgaliz.github.io/en/)
+
+## Perfis
+
+- [GitHub](https://github.com/bgaliz)
+- [LinkedIn](https://www.linkedin.com/in/brunogaliz)

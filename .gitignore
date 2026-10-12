@@ -13,3 +13,10 @@ node_modules/
 
 # Config local por maquina (contem caminhos absolutos)
 .claude/settings.local.json
+# Playwright CLI output (may contain credentials)
+.playwright-cli/
+
+# Originais de imagem: só os derivados vão para o site publicado
+assets/img/origem/
+# Referências de design de terceiros (o DESIGN.md do projeto é versionado)
+.referencias/

@@ -1,0 +1,409 @@
+{
+  "$schema": "https://raw.githubusercontent.com/jsonresume/resume-schema/v1.0.0/schema.json",
+  "basics": {
+    "name": "Bruno Galiz de Oliveira",
+    "label": "Mid-level Full Stack Developer",
+    "image": "https://bgaliz.github.io/assets/img/retrato/bruno-3x4-960.jpg",
+    "email": "brunogaliz2@gmail.com",
+    "url": "https://bgaliz.github.io/en/",
+    "summary": "Full stack developer since 2019. Today I maintain the State of Tocantins fleet system with Vue.js, Java and Spring Boot. Before that, I migrated Conexa Saúde's medical record from JSP to React and shipped Mato Grosso do Sul's Covid Vaccination Card to both app stores.",
+    "location": {
+      "city": "Campo Grande",
+      "region": "MS",
+      "countryCode": "BR"
+    },
+    "profiles": [
+      {
+        "network": "GitHub",
+        "username": "bgaliz",
+        "url": "https://github.com/bgaliz"
+      },
+      {
+        "network": "LinkedIn",
+        "username": "brunogaliz",
+        "url": "https://www.linkedin.com/in/brunogaliz"
+      }
+    ]
+  },
+  "work": [
+    {
+      "name": "AZ Tecnologia em Gestão",
+      "position": "Full Stack Developer",
+      "startDate": "2025-08",
+      "summary": "Vehicle Control System for the State of Tocantins.",
+      "highlights": [
+        "PDF and Excel reports that follow the columns and the filter chosen on screen.",
+        "Made the fleet table columns dynamic: users pick which ones show, and the report comes out with exactly those.",
+        "Build and maintain REST APIs in Java 11 and Spring Boot, with JPAQuery queries over PostgreSQL and OracleDB.",
+        "Reworked menu items and the responsive layout of the Vue.js and TypeScript front end."
+      ],
+      "keywords": [
+        "Vue.js",
+        "TypeScript",
+        "Java 11",
+        "Spring Boot",
+        "Maven",
+        "JPAQuery",
+        "PostgreSQL",
+        "OracleDB",
+        "MongoDB",
+        "Docker",
+        "CI/CD",
+        "Grafana",
+        "Git",
+        "Scrum",
+        "REST APIs"
+      ]
+    },
+    {
+      "name": "Easy Imóveis",
+      "position": "Front-end Developer (freelance)",
+      "startDate": "2024-08",
+      "endDate": "2024-09",
+      "summary": "Property search platform.",
+      "highlights": [
+        "Performance optimization of the property search page.",
+        "Built custom filters, interactive maps and form flows with reusable components in Nuxt and Vue.js."
+      ],
+      "keywords": [
+        "Nuxt.js",
+        "Vue.js",
+        "TypeScript",
+        "Tailwind CSS",
+        "shadcn/ui",
+        "PHP",
+        "Docker",
+        "Bootstrap",
+        "Git",
+        "Scrum",
+        "REST APIs"
+      ]
+    },
+    {
+      "name": "Conexa Saúde",
+      "position": "Front-end Developer",
+      "startDate": "2022-09",
+      "endDate": "2024-06",
+      "summary": "Telemedicine platform.",
+      "highlights": [
+        "Modularization of the electronic medical record and migration from JSP to React.",
+        "Migrated medical record modules from legacy JSP to React with Hooks and TypeScript, without taking down what was already live.",
+        "Turned the forms into configurable modules: each clinic creates the fields it needs, with no deploy.",
+        "Maintained the business-rule modules in Vue.js, on a Scrum team."
+      ],
+      "keywords": [
+        "React",
+        "Vue.js",
+        "TypeScript",
+        "JavaScript",
+        "JSP",
+        "Legacy system migration",
+        "Git",
+        "Scrum",
+        "REST APIs"
+      ]
+    },
+    {
+      "name": "Calango Doido NFT",
+      "position": "Front-end Developer (freelance)",
+      "url": "https://calango-doido.vercel.app",
+      "startDate": "2022-02",
+      "endDate": "2023-01",
+      "summary": "NFT collection.",
+      "highlights": [
+        "Connected the React front end to Web3 digital wallets (MetaMask) to read each user's NFTs.",
+        "Built a browser memory game from the tokens in the connected wallet.",
+        "Shipped the collection landing page in Next.js, on Vercel."
+      ],
+      "keywords": [
+        "Next.js",
+        "React",
+        "TypeScript",
+        "Web3.js",
+        "MetaMask",
+        "Tailwind CSS",
+        "Figma",
+        "Vercel",
+        "Git",
+        "Scrum",
+        "REST APIs"
+      ]
+    },
+    {
+      "name": "SGI, Governo de Mato Grosso do Sul",
+      "position": "Full Stack Developer",
+      "url": "https://www.msdigital.ms.gov.br",
+      "startDate": "2020-08",
+      "endDate": "2022-06",
+      "summary": "Information Management Office (SGI), State of Mato Grosso do Sul.",
+      "highlights": [
+        "Digital Vaccination Card during the Covid pandemic, shipped to the App Store and Google Play.",
+        "Also worked on the SUS Card and the Free Pass apps, in Ionic with Angular.",
+        "Prepared the builds in Android Studio and Xcode and handled the store releases.",
+        "Worked on the MS Digital portal and on REST APIs in Node.js with Sequelize and SQL Server."
+      ],
+      "keywords": [
+        "Angular",
+        "React",
+        "Ionic",
+        "Publishing to the App Store and Google Play",
+        "Node.js",
+        "Sequelize",
+        "TypeScript",
+        "JavaScript",
+        "Jest",
+        "SQL Server",
+        "Figma",
+        "Git",
+        "Scrum",
+        "REST APIs"
+      ]
+    },
+    {
+      "name": "Reduza",
+      "position": "Full Stack Developer",
+      "url": "https://www.reduza.com.br",
+      "startDate": "2019-01",
+      "endDate": "2020-07",
+      "summary": "Coupon and price-comparison platform.",
+      "highlights": [
+        "Price crawlers in Node.js and one web page per store, optimized for SEO.",
+        "Wrote scraping bots with automatic refresh cycles, with data in MongoDB and Redis.",
+        "Built real-time price comparison across stores, with an Angular front end."
+      ],
+      "keywords": [
+        "Node.js",
+        "Express",
+        "MongoDB",
+        "Redis",
+        "Angular",
+        "Sass",
+        "TypeScript",
+        "JavaScript",
+        "jQuery",
+        "HTML and CSS",
+        "SEO",
+        "Git",
+        "Scrum",
+        "REST APIs"
+      ]
+    }
+  ],
+  "projects": [
+    {
+      "name": "AssetForge",
+      "description": "Game asset generator ready for Unity: from a text description (or an image) to a Humanoid FBX with textures, prefab and animations.",
+      "highlights": [
+        "Clean Architecture in Python, with an AI provider router that switches services when a free quota runs out.",
+        "Headless Blender and MakeHuman generate fully rigged characters, plus a library of 45 free animations.",
+        "A Unity package imports everything on its own: Humanoid Avatar, URP materials, prefab and a locomotion Animator. 73 tests."
+      ],
+      "keywords": [
+        "Python",
+        "FastAPI",
+        "pytest",
+        "Unity",
+        "AI-assisted development"
+      ],
+      "startDate": "2026-09",
+      "type": "application"
+    },
+    {
+      "name": "Copiloto de Trading",
+      "description": "Decision-support system for trading on MetaTrader 5, in observation mode: it reads the chart, sizes the risk and explains, but never places an order.",
+      "highlights": [
+        "Never shows a confidence percentage: it shows \"3 of 4 criteria aligned\", checkable item by item on the chart.",
+        "Logs every trade in a journal, to measure whether there is a real edge.",
+        "Has 743 automated tests; the autonomous executor runs on a demo account only, reviewed weekly."
+      ],
+      "keywords": [
+        "Python",
+        "FastAPI",
+        "pytest",
+        "Docker",
+        "AI-assisted development"
+      ],
+      "startDate": "2026-08",
+      "type": "application"
+    },
+    {
+      "name": "E-PLAY",
+      "description": "App for the E-PLAY community: schedule matches, score on a leaderboard, read the Bible as a group and follow the live streams.",
+      "highlights": [
+        "React with Capacitor builds the Android APK from the same web code, with builds on GitHub Actions.",
+        "Supabase on the back end: Google sign-in, LGPD consent and a public profile with privacy controls.",
+        "Rule-based automatic moderation (block, warn, ban), an offline Bible with search, and a color-blind mode with 4 options."
+      ],
+      "keywords": [
+        "React",
+        "TypeScript",
+        "Capacitor",
+        "Supabase",
+        "PostgreSQL",
+        "Tailwind CSS",
+        "CI/CD",
+        "AI-assisted development"
+      ],
+      "startDate": "2026-07",
+      "endDate": "2026-08",
+      "url": "https://e-connect-play.vercel.app",
+      "type": "application"
+    },
+    {
+      "name": "Cronômetro de Oradores",
+      "description": "Speaking-time control for speakers at meetings and events, with visual and audio alerts, a speaker log and PDF export.",
+      "highlights": [
+        "Timer and bell logic in dedicated hooks, kept apart from the UI.",
+        "On-screen QR code and PDF export of the speaker log."
+      ],
+      "keywords": [
+        "React",
+        "TypeScript",
+        "Tailwind CSS",
+        "Vercel"
+      ],
+      "startDate": "2026-05",
+      "endDate": "2026-06",
+      "url": "https://cronometro-speacher.vercel.app",
+      "type": "application"
+    },
+    {
+      "name": "Mini n8n",
+      "description": "Visual automation-flow editor, in the style of n8n, that sends messages through a Telegram bot.",
+      "highlights": [
+        "React front end with React Flow: the flow is built by dragging nodes.",
+        "REST API in Node.js and Express that talks to the Telegram API, with a configurable delay between sends to avoid being blocked."
+      ],
+      "keywords": [
+        "React",
+        "React Flow",
+        "Tailwind CSS",
+        "Node.js",
+        "Express",
+        "REST APIs"
+      ],
+      "startDate": "2025-07",
+      "endDate": "2025-07",
+      "url": "https://github.com/bgaliz/Mini-n8n-Project-Front",
+      "type": "application"
+    }
+  ],
+  "skills": [
+    {
+      "name": "Front end",
+      "keywords": [
+        "Vue.js",
+        "React",
+        "TypeScript",
+        "JavaScript",
+        "Angular",
+        "Next.js",
+        "Nuxt.js",
+        "Tailwind CSS",
+        "HTML and CSS",
+        "Sass",
+        "shadcn/ui",
+        "React Flow",
+        "jQuery",
+        "JSP",
+        "Figma",
+        "Web3.js",
+        "MetaMask",
+        "Bootstrap"
+      ]
+    },
+    {
+      "name": "Back end and APIs",
+      "keywords": [
+        "Java 11",
+        "Spring Boot",
+        "REST APIs",
+        "Node.js",
+        "Express",
+        "Microservices",
+        "Python",
+        "FastAPI",
+        "JPAQuery",
+        "Maven",
+        "Sequelize",
+        "PHP"
+      ]
+    },
+    {
+      "name": "Databases",
+      "keywords": [
+        "PostgreSQL",
+        "OracleDB",
+        "SQL Server",
+        "MongoDB",
+        "Redis",
+        "Supabase"
+      ]
+    },
+    {
+      "name": "Delivery and operations",
+      "keywords": [
+        "Git",
+        "Docker",
+        "CI/CD",
+        "Kubernetes",
+        "Cloud (AWS, Azure, GCP)",
+        "Grafana",
+        "Jest",
+        "pytest",
+        "Vercel"
+      ]
+    },
+    {
+      "name": "Mobile and games",
+      "keywords": [
+        "Ionic",
+        "Capacitor",
+        "Publishing to the App Store and Google Play",
+        "Unity"
+      ]
+    },
+    {
+      "name": "AI in development",
+      "keywords": [
+        "AI-assisted development"
+      ]
+    },
+    {
+      "name": "Methods",
+      "keywords": [
+        "Scrum",
+        "Legacy system migration",
+        "SEO"
+      ]
+    }
+  ],
+  "education": [
+    {
+      "institution": "Universidade Católica Dom Bosco",
+      "studyType": "B.Sc. in Computer Engineering",
+      "startDate": "2014-02",
+      "endDate": "2018-12"
+    },
+    {
+      "institution": "High Tech",
+      "studyType": "Software Development Course",
+      "startDate": "2018-01",
+      "endDate": "2018-12"
+    }
+  ],
+  "languages": [
+    {
+      "language": "Portuguese",
+      "fluency": "native"
+    },
+    {
+      "language": "English",
+      "fluency": "advanced"
+    }
+  ],
+  "meta": {
+    "canonical": "https://bgaliz.github.io/resume.json",
+    "lastModified": "2026-10-12"
+  }
+}

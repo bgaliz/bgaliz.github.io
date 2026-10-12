@@ -1,0 +1,122 @@
+Bruno Galiz de Oliveira
+Desenvolvedor Full Stack Pleno
+Java, Spring Boot, Vue.js, React, TypeScript, Node.js
+Campo Grande, MS, Brasil. Remoto.
+brunogaliz2@gmail.com | https://www.linkedin.com/in/brunogaliz | https://github.com/bgaliz | https://bgaliz.github.io/
+
+RESUMO PROFISSIONAL
+
+Desenvolvedor full stack desde 2019. Hoje mantenho com Vue.js, Java e Spring Boot o sistema de frota do Governo do Tocantins. Antes, migrei o prontuário da Conexa Saúde de JSP para React e publiquei o Cartão de Vacinação de Mato Grosso do Sul nas lojas durante a Covid.
+
+EXPERIÊNCIA PROFISSIONAL
+
+Desenvolvedor Full Stack | AZ Tecnologia em Gestão
+ago 2025 - atual | remoto
+Sistema de Controle Veicular do Governo do Tocantins.
+- Relatórios em PDF e Excel que respeitam as colunas e o filtro escolhidos na tela.
+- Tornei dinâmicas as colunas da tabela da frota: o usuário escolhe quais aparecem, e o relatório sai com exatamente essas.
+- Crio e mantenho APIs REST em Java 11 e Spring Boot, com consultas em JPAQuery sobre PostgreSQL e OracleDB.
+- Refiz itens de menu e o layout responsivo do front em Vue.js com TypeScript.
+Tecnologias: Vue.js, TypeScript, Java 11, Spring Boot, Maven, JPAQuery, PostgreSQL, OracleDB, MongoDB, Docker, CI/CD, Grafana
+
+Desenvolvedor Front-end (freelancer) | Easy Imóveis
+ago 2024 - set 2024 | remoto
+Plataforma de busca de imóveis.
+- Otimização de desempenho da página de busca de imóveis.
+- Construí filtros personalizados, mapas interativos e fluxos de formulário com componentes reutilizáveis em Nuxt e Vue.js.
+Tecnologias: Nuxt.js, Vue.js, TypeScript, Tailwind CSS, shadcn/ui, PHP, Docker, Bootstrap
+
+Desenvolvedor Front-end | Conexa Saúde
+set 2022 - jun 2024 | remoto
+Plataforma de telemedicina.
+- Modularização do prontuário eletrônico e migração de JSP para React.
+- Migrei módulos do prontuário de JSP legado para React com Hooks e TypeScript, sem tirar do ar o que já funcionava.
+- Transformei os formulários em módulos configuráveis: cada clínica cria os campos de que precisa, sem deploy.
+- Mantive os módulos de regras de negócio em Vue.js, num time Scrum.
+Tecnologias: React, Vue.js, TypeScript, JavaScript, JSP
+
+Desenvolvedor Front-end (freelancer) | Calango Doido NFT
+fev 2022 - jan 2023 | Campo Grande, MS
+Coleção de NFTs.
+- Conexão do front-end React com carteiras digitais Web3 (MetaMask) para ler os NFTs de cada usuário.
+- Montei um jogo da memória no navegador com os tokens da carteira conectada.
+- Publiquei a landing page da coleção em Next.js, na Vercel.
+Tecnologias: Next.js, React, TypeScript, Web3.js, MetaMask, Tailwind CSS, Figma, Vercel
+
+Desenvolvedor Full Stack | SGI, Governo de Mato Grosso do Sul
+ago 2020 - jun 2022 | Campo Grande, MS
+Superintendência de Gestão da Informação (SGI) do Governo de Mato Grosso do Sul.
+- Cartão de Vacinação digital durante a pandemia de Covid, publicado na App Store e na Google Play.
+- Participei também do Cartão SUS e do Passe Livre, em Ionic com Angular.
+- Preparei os builds no Android Studio e no Xcode e fiz as publicações nas lojas.
+- Trabalhei no portal MS Digital e em APIs REST em Node.js com Sequelize e SQL Server.
+Tecnologias: Angular, React, Ionic, Node.js, Sequelize, TypeScript, JavaScript, Jest, SQL Server, Figma
+
+Desenvolvedor Full Stack | Reduza
+jan 2019 - jul 2020 | Campo Grande, MS
+Plataforma de cupons e comparação de preços.
+- Crawlers de preço em Node.js e uma página web por loja, otimizada para SEO.
+- Escrevi robôs de coleta com ciclos de atualização automáticos, com dados em MongoDB e Redis.
+- Construí a comparação de preço entre lojas em tempo real, com front em Angular.
+Tecnologias: Node.js, Express, MongoDB, Redis, Angular, Sass, TypeScript, JavaScript, jQuery, HTML e CSS
+
+Service Desk de TI | Unisys
+fev 2018 - jan 2019
+- Suporte remoto, gestão de acessos no Active Directory e configuração de rede, antes de programar profissionalmente.
+
+PROJETOS PESSOAIS
+
+AssetForge (2026 - atual)
+Gerador de assets de jogo prontos para a Unity: de uma descrição em texto (ou de uma imagem) até FBX Humanoid com texturas, prefab e animações.
+- Clean Architecture em Python, com um roteador de provedores de IA que troca de serviço quando a cota gratuita acaba.
+- Blender sem interface e MakeHuman geram personagens já com esqueleto, mais uma biblioteca de 45 animações livres.
+- Um pacote Unity importa tudo sozinho: Avatar Humanoid, materiais URP, prefab e Animator de locomoção. 73 testes.
+Tecnologias: Python, FastAPI, pytest, Unity, IA aplicada ao desenvolvimento
+
+Copiloto de Trading (2026 - atual)
+Sistema de apoio à decisão para operar no MetaTrader 5, em modo observação: analisa o gráfico, calcula o risco e explica, mas nunca envia ordem.
+- Nunca mostra percentual de confiança: mostra "3 de 4 critérios alinhados", verificável item a item no gráfico.
+- Registra cada operação num diário, para medir se existe vantagem de verdade.
+- Tem 743 testes automatizados; o executor autônomo roda só em conta demo, com revisão semanal.
+Tecnologias: Python, FastAPI, pytest, Docker, IA aplicada ao desenvolvimento
+
+E-PLAY (2026)
+Aplicativo da comunidade E-PLAY: agendar partidas, pontuar num ranking, ler a Bíblia em grupo e acompanhar as lives.
+- React com Capacitor gera o APK Android a partir do mesmo código web, com build pelo GitHub Actions.
+- Supabase no back-end: login Google, aceite de LGPD e perfil público com controle de privacidade.
+- Moderação automática por regras (bloqueia, adverte, bane), Bíblia offline com busca e modo daltônico com 4 opções.
+Tecnologias: React, TypeScript, Capacitor, Supabase, PostgreSQL, Tailwind CSS, CI/CD, IA aplicada ao desenvolvimento
+https://e-connect-play.vercel.app
+
+Cronômetro de Oradores (2026)
+Controle do tempo de fala de oradores em reuniões e eventos, com alertas visuais e sonoros, registro de participantes e exportação em PDF.
+- Lógica do cronômetro e do sino em hooks próprios, separada da tela.
+- QR code na tela e exportação do registro dos oradores em PDF.
+Tecnologias: React, TypeScript, Tailwind CSS, Vercel
+https://cronometro-speacher.vercel.app
+
+Mini n8n (2025)
+Editor visual de fluxos de automação, no estilo do n8n, que dispara mensagens por um bot do Telegram.
+- Front em React com React Flow: o fluxo é montado arrastando nós.
+- API REST em Node.js e Express que conversa com a API do Telegram, com intervalo configurável entre envios para evitar bloqueio.
+Tecnologias: React, React Flow, Tailwind CSS, Node.js, Express, APIs REST
+https://github.com/bgaliz/Mini-n8n-Project-Front
+
+COMPETÊNCIAS TÉCNICAS
+
+Front-end: Vue.js (desde 2022), React (desde 2020), TypeScript (desde 2019), JavaScript (desde 2019), Angular (desde 2019), Next.js (desde 2022), Nuxt.js (desde 2024), Tailwind CSS (desde 2022), HTML e CSS (desde 2019), Sass (desde 2019), shadcn/ui (desde 2024), React Flow (desde 2025), jQuery (desde 2019), JSP (desde 2022), Figma (desde 2020), Web3.js (desde 2022), MetaMask (desde 2022), Bootstrap (desde 2024)
+Back-end e APIs: Java 11 (desde 2025), Spring Boot (desde 2025), APIs REST (desde 2019), Node.js (desde 2019), Express (desde 2019), Microsserviços, Python (desde 2026), FastAPI (desde 2026), JPAQuery (desde 2025), Maven (desde 2025), Sequelize (desde 2020), PHP (desde 2024)
+Bancos de dados: PostgreSQL (desde 2025), OracleDB (desde 2025), SQL Server (desde 2020), MongoDB (desde 2019), Redis (desde 2019), Supabase (desde 2026)
+Entrega e operação: Git (desde 2019), Docker (desde 2024), CI/CD (desde 2025), Kubernetes, Nuvem (AWS, Azure, GCP), Grafana (desde 2025), Jest (desde 2020), pytest (desde 2026), Vercel (desde 2022)
+Mobile e jogos: Ionic (desde 2020), Capacitor (desde 2026), Publicação na App Store e na Google Play (desde 2020), Unity (desde 2026)
+IA no desenvolvimento: IA aplicada ao desenvolvimento (desde 2026)
+Métodos: Scrum (desde 2019), Migração de sistema legado (desde 2022), SEO (desde 2019)
+
+Como eu trabalho: Uso IA no dia a dia para explorar código, refatorar e revisar, sempre com teste e revisão humana antes de ir para produção. Nos projetos pessoais isso fica documentado: o Copiloto de Trading tem 743 testes automatizados e o AssetForge, 73.
+
+FORMAÇÃO E IDIOMAS
+
+Bacharelado em Engenharia da Computação | Universidade Católica Dom Bosco | 2014 - 2018
+Curso de Desenvolvimento de Software | High Tech | 2018 - 2018
+Português: nativo
+Inglês: avançado

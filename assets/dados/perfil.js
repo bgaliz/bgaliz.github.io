@@ -1,131 +1,166 @@
 /**
- * FONTE ÚNICA DE VERDADE — ESTRUTURA E DATAS
+ * FONTE ÚNICA DE VERDADE: ESTRUTURA E DATAS
  * ══════════════════════════════════════════════════════════════════════════
  * Toda data do projeto vive aqui e em nenhum outro lugar. Nenhum número
- * temporal deve ser escrito à mão no HTML — use slots `data-din` e deixe
- * `tempo.js` + `dinamico.js` calcularem.
+ * temporal é escrito à mão: slots `data-din` no HTML, calculados por
+ * `tempo.js` + `dinamico.js`, e injetados no build por `construir.mjs`.
  *
- * ── ONDE MORA A PROSA ────────────────────────────────────────────────────
- * Os textos corridos (contexto dos cargos, o que foi feito, bio) NÃO estão
- * aqui: eles vivem só no index.html. Motivo: o HTML precisa contê-los de
- * qualquer forma, para o crawler e para quem está sem JS. Mantê-los também
- * neste arquivo faria o navegador baixar o mesmo texto duas vezes e, pior,
- * criaria duas cópias que divergiriam na primeira edição apressada.
+ * O TEXTO vive em `conteudo/curriculo.mjs` (PT e EN lado a lado). O build
+ * junta os dois e gera tudo: páginas PT e EN, JSON-LD, JSON Resume, currículo
+ * em texto puro, llms.txt e os PDFs. Uma fonte, todas as saídas, para que as
+ * versões nunca mais se contradigam como os três currículos se contradiziam.
  *
- * A divisão é: prosa no HTML, estrutura e datas aqui.
- *
- * Formato de data: 'AAAA-MM'. `fim: null` significa "em curso" — o rótulo
+ * Formato de data: 'AAAA-MM'. `fim: null` significa "em curso": o rótulo
  * "atual"/"current" é DERIVADO disso, nunca escrito.
  *
  * ── DECISÕES DE RECONCILIAÇÃO DOS 3 CURRÍCULOS ───────────────────────────
- * 1. MÉTRICAS REMOVIDAS. Os currículos se contradizem entre si:
- *      • SGI/Ionic ....... "10.000 usuários" (PT) vs "50.000+" (EN)
- *      • Easy Imóveis .... "10% mais rápido" (PT) vs "40%" (EN)
- *      • Reduza .......... "SEO +30%" (PT) vs "cupons +40%" (EN)
- *    Número que muda conforme o documento não sobrevive à pergunta "como
- *    você mediu?". Trocados por especificidade técnica no HTML.
+ * 1. MÉTRICAS REMOVIDAS. Os currículos se contradizem entre si (10.000 vs
+ *    50.000 usuários; 10% vs 40%; SEO +30% vs cupons +40%). Número que muda
+ *    conforme o documento não sobrevive à pergunta "como você mediu?". Só
+ *    volta o que o Bruno confirmar e souber explicar.
+ * 2. E-MAIL: brunogaliz2@gmail.com (documentos mais recentes).
+ * 3. INÍCIO DA GRADUAÇÃO: fev/2014 (mais específico que o jan/2014 do LinkedIn).
+ * 4. UNISYS entra com `contaComoDev: false`: mostra a progressão TI → dev sem
+ *    inflar o tempo de carreira.
+ * 5. IDADE fica fora: data de nascimento não existe em nenhum dos currículos.
+ * 6. LACUNA de 10 meses (out/2024 → jul/2025), mais 1 mês em jul/2024. Fica
+ *    visível na régua da trajetória, sem texto (decisão do Bruno, out/2026).
+ * 7. CALANGO DOIDO foi freelance em paralelo a SGI e Conexa: o tempo de
+ *    carreira é UNIÃO de intervalos, não soma (81 meses reais, não 91).
  *
- * 2. E-MAIL. Currículos PT/EN trazem brunogaliz2@gmail.com; o LinkedIn traz
- *    brunogaliz@hotmail.com. Adotado o gmail (documentos mais recentes).
- *
- * 3. INÍCIO DA GRADUAÇÃO. LinkedIn diz jan/2014; currículos dizem fev/2014.
- *    Adotado fev/2014 (mais específico).
- *
- * 4. UNISYS entra na linha do tempo, mas com `contaComoDev: false` — mostra
- *    a progressão TI → dev sem inflar o tempo de carreira.
- *
- * 5. DATA DE NASCIMENTO não existe em nenhum dos 3 currículos. Idade fica
- *    fora — não se inventa dado.
- *
- * 6. LACUNA de 10 meses entre Easy Imóveis (set/2024) e AZ (ago/2025), mais
- *    uma de 1 mês em jul/2024. Se houve freela ou estudo no período,
- *    acrescente uma entrada em EXPERIENCIAS — trilho, durações e totais se
- *    recalculam sozinhos. (Confirmado por `npm run verificar`.)
- *
- * 7. CALANGO DOIDO foi freelance, e `recorte: false` reflete isso: o cargo
- *    continua na trajetória (002) e sua stack continua em ferramentas (004),
- *    mas sai dos recortes (003) e, por consequência, da meta description —
- *    que era onde "Web3" aparecia como se fosse eixo da carreira. Trabalho
- *    executado é uma coisa; trabalho em destaque é outra.
+ * ── AUDITORIA DE STACK (out/2026) ────────────────────────────────────────
+ * Os robôs de recrutador (Gupy, LinkedIn, Eightfold, SeekOut) calculam tempo
+ * por tecnologia a partir das datas de cada cargo. Antes desta auditoria, Git
+ * só constava na Conexa, e o cálculo saía "Git: 1 ano e 10 meses". O Bruno
+ * confirmou: Git, Scrum e APIs REST em todos os cargos de dev; na AZ também
+ * TypeScript, CI/CD e criação de APIs REST.
  * ══════════════════════════════════════════════════════════════════════════
  */
 
 export const PERFIL = {
-  nome: 'Bruno Galiz de Oliveira',
+  nome: 'Bruno Galiz',
+  nomeCompleto: 'Bruno Galiz de Oliveira',
   iniciais: 'BGO',
 
   /** Primeiro cargo de desenvolvedor. Base do "desde 2019". */
   inicioCarreira: '2019-01',
 
-  /** Estado que muda sem ser tempo — um único ponto de edição. */
+  /** Estado que muda sem ser tempo: um único ponto de edição. */
   disponivel: true,
-  prazoRespostaH: 24,
 
   contato: {
     email: 'brunogaliz2@gmail.com',
     telefoneE164: '5567981142011',
-    linkedin: 'https://linkedin.com/in/brunogaliz',
+    linkedin: 'https://www.linkedin.com/in/brunogaliz',
     github: 'https://github.com/bgaliz',
     site: 'https://bgaliz.github.io',
   },
+
+  local: { cidade: 'Campo Grande', estado: 'MS', pais: 'BR', fuso: 'America/Campo_Grande' },
 };
+
+/* Práticas que o Bruno confirmou em todos os cargos de desenvolvimento. */
+const SEMPRE = ['git', 'scrum', 'rest'];
 
 /* ══════════════════════════════════════════════════════════════════════════
    EXPERIÊNCIAS
-   A ordem aqui é irrelevante: `tempo.js` ordena por data. Acrescentar um
-   cargo não exige tocar em nada além deste array e do trecho no HTML.
+   A ordem aqui é irrelevante: `tempo.js` ordena por data. A principal entrega
+   de cada cargo (o que o robô pesa primeiro) está em conteudo/curriculo.mjs.
+   `url` alimenta a prévia de link (metadados do site, como no WhatsApp).
    ══════════════════════════════════════════════════════════════════════════ */
 
 export const EXPERIENCIAS = [
   {
     id: 'az', empresa: 'AZ Tecnologia em Gestão',
-    inicio: '2025-08', fim: null,        // ⇒ "atual" / "current" derivado
-    dominio: 'governo', contaComoDev: true, recorte: true,
-    stack: ['vue', 'java', 'spring', 'maven', 'jpaquery', 'postgres', 'oracle', 'mongo', 'docker', 'grafana'],
+    inicio: '2025-08', fim: null,
+    dominio: 'governo', contaComoDev: true, modalidade: 'remoto',
+    stack: ['vue', 'ts', 'java', 'spring', 'maven', 'jpaquery', 'postgres', 'oracle',
+            'mongo', 'docker', 'ci', 'grafana', ...SEMPRE],
   },
   {
     id: 'easy', empresa: 'Easy Imóveis',
     inicio: '2024-08', fim: '2024-09',
-    dominio: 'imobiliario', contaComoDev: true, recorte: false,
-    stack: ['nuxt', 'vue', 'ts', 'tailwind', 'shadcn', 'php', 'docker', 'bootstrap'],
+    dominio: 'imobiliario', contaComoDev: true, modalidade: 'remoto', freelance: true,
+    stack: ['nuxt', 'vue', 'ts', 'tailwind', 'shadcn', 'php', 'docker', 'bootstrap', ...SEMPRE],
   },
   {
     id: 'conexa', empresa: 'Conexa Saúde',
     inicio: '2022-09', fim: '2024-06',
-    dominio: 'saude', contaComoDev: true, recorte: true,
-    stack: ['react', 'vue', 'ts', 'jsp', 'git', 'scrum'],
+    dominio: 'saude', contaComoDev: true, modalidade: 'remoto',
+    stack: ['react', 'vue', 'ts', 'js', 'jsp', 'legado', ...SEMPRE],
   },
   {
-    id: 'calango', empresa: 'Calango Doido',
+    id: 'calango', empresa: 'Calango Doido NFT',
     inicio: '2022-02', fim: '2023-01',
-    // Freelance: entra na trajetória, fica fora dos recortes — ver decisão 7.
-    dominio: 'web3', contaComoDev: true, recorte: false,
-    stack: ['next', 'react', 'ts', 'web3', 'metamask', 'tailwind', 'figma', 'vercel'],
+    dominio: 'web3', contaComoDev: true, modalidade: 'campoGrande', freelance: true,
+    url: 'https://calango-doido.vercel.app',
+    stack: ['next', 'react', 'ts', 'web3', 'metamask', 'tailwind', 'figma', 'vercel', ...SEMPRE],
   },
   {
-    id: 'sgi', empresa: 'SGI · Governo de MS',
+    id: 'sgi', empresa: 'SGI, Governo de Mato Grosso do Sul',
     inicio: '2020-08', fim: '2022-06',
-    dominio: 'governo', contaComoDev: true, recorte: false,
-    stack: ['angular', 'react', 'ionic', 'node', 'sequelize', 'ts', 'jest', 'sqlserver', 'figma'],
+    dominio: 'governo', contaComoDev: true, modalidade: 'campoGrande',
+    url: 'https://www.msdigital.ms.gov.br',
+    stack: ['angular', 'react', 'ionic', 'mobile', 'node', 'sequelize', 'ts', 'js', 'jest',
+            'sqlserver', 'figma', ...SEMPRE],
   },
   {
     id: 'reduza', empresa: 'Reduza',
     inicio: '2019-01', fim: '2020-07',
-    dominio: 'ecommerce', contaComoDev: true, recorte: false,
-    stack: ['angular', 'sass', 'ts', 'jquery', 'node', 'express', 'mongo', 'redis'],
+    dominio: 'ecommerce', contaComoDev: true, modalidade: 'campoGrande',
+    url: 'https://www.reduza.com.br',
+    stack: ['node', 'express', 'mongo', 'redis', 'angular', 'sass', 'ts', 'js', 'jquery',
+            'html', 'seo', ...SEMPRE],
   },
   {
     id: 'unisys', empresa: 'Unisys',
     inicio: '2018-02', fim: '2019-01',
-    dominio: 'ti',
-    contaComoDev: false,                 // não infla o tempo de carreira
-    recorte: false, discreto: true,
+    dominio: 'ti', contaComoDev: false, discreto: true,
     stack: [],
   },
 ];
 
 /* ══════════════════════════════════════════════════════════════════════════
-   FORMAÇÃO, IDIOMAS E CURSOS
+   PROJETOS PESSOAIS
+   Só os que o Bruno escolheu. Os repositórios do período da lacuna 2024–25
+   ficam de fora por decisão dele. `privado: true` = código sob pedido; a
+   prévia de link é montada da `url` pública, quando existe.
+   ══════════════════════════════════════════════════════════════════════════ */
+
+export const PROJETOS = [
+  {
+    id: 'copiloto', nome: 'Copiloto de Trading',
+    inicio: '2026-08', fim: null, privado: true,
+    stack: ['python', 'fastapi', 'pytest', 'docker', 'ia'],
+  },
+  {
+    id: 'assetforge', nome: 'AssetForge',
+    inicio: '2026-09', fim: null, privado: true,
+    stack: ['python', 'fastapi', 'pytest', 'unity', 'ia'],
+  },
+  {
+    id: 'eplay', nome: 'E-PLAY',
+    inicio: '2026-07', fim: '2026-08', privado: true,
+    url: 'https://e-connect-play.vercel.app',
+    stack: ['react', 'ts', 'capacitor', 'supabase', 'postgres', 'tailwind', 'ci', 'ia'],
+  },
+  {
+    id: 'cronometro', nome: 'Cronômetro de Oradores',
+    inicio: '2026-05', fim: '2026-06', privado: true,
+    url: 'https://cronometro-speacher.vercel.app',
+    stack: ['react', 'ts', 'tailwind', 'vercel'],
+  },
+  {
+    id: 'minin8n', nome: 'Mini n8n',
+    inicio: '2025-07', fim: '2025-07', privado: false,
+    url: 'https://github.com/bgaliz/Mini-n8n-Project-Front',
+    repos: ['https://github.com/bgaliz/Mini-n8n-Project-Front', 'https://github.com/bgaliz/Mini-n8n-Project-Back'],
+    stack: ['react', 'reactflow', 'tailwind', 'node', 'express', 'rest'],
+  },
+];
+
+/* ══════════════════════════════════════════════════════════════════════════
+   FORMAÇÃO E IDIOMAS
    ══════════════════════════════════════════════════════════════════════════ */
 
 export const FORMACAO = [
@@ -139,7 +174,7 @@ export const IDIOMAS = [
   { id: 'pt', cursos: [] },
   {
     id: 'en',
-    desde: '2011-01',                    // alimenta o "há N anos" dinâmico
+    desde: '2011-01',
     cursos: [
       { nome: 'Wizard', inicio: '2011-01', fim: '2013-12' },
       { nome: 'inFlux', inicio: '2021-01', fim: '2023-12' },
@@ -148,77 +183,81 @@ export const IDIOMAS = [
 ];
 
 /* ══════════════════════════════════════════════════════════════════════════
-   TECNOLOGIAS — alimenta a seção 004. DOIS eixos, e nenhum deles é nota.
+   COMPETÊNCIAS
+   `area` agrupa pelo corte que as vagas usam (amostra de 69 vagas da Gupy,
+   out/2026). O "desde AAAA" e o "em uso" são DERIVADOS de cargos e projetos
+   que citam o id: nada aqui é nota, e nada é escrito à mão.
 
-   `camada` AGRUPA. É o corte que um cliente pergunta ("você faz meu
-   back-end?"), e o único que os cartões de cargo não dão:
-     front   → interface de produto
-     back    → API, regra de negócio e o banco
-     entrega → do commit ao ar, e o que olhar quando cai
-     legado  → sistema que não pode parar (metade do trabalho em governo
-               e saúde — é força, não débito)
-     margem  → fora da rotina, mas rendeu produto publicado
-
-   `grupo` ORDENA dentro da camada, e é honestidade calibrada, não vaidade:
-     diario    → uso todo dia, discuto em profundidade
-     entrego   → entrego bem quando o projeto pede
-     historico → já entreguei com, não é o que uso hoje
-
-   Por que ordena em vez de aparecer: pôr o mais recente na frente comunica
-   "onde eu moro" sem escrever número nenhum. Já houve aqui uma fileira de
-   pontos contando projetos, e todo mundo leu como nota de 1 a 5 — qualquer
-   marcador ordinal vai ser lido assim. O nível vive na prosa do index.html.
-
-   `EXPERIENCIAS[].stack` referencia estes ids — é o que torna a stack
-   verificável em vez de declaratória, e é em Trajetória que essa prova é
-   mostrada, cargo por cargo.
+   `semData: true` marca o que o Bruno confirmou ter, mas ainda sem dizer em
+   qual cargo: aparece sem ano até a atribuição existir (nunca se inventa).
+   A ordem dentro de cada área é a ordem deste array.
    ══════════════════════════════════════════════════════════════════════════ */
 
+export const AREAS = ['front', 'back', 'dados', 'entrega', 'mobile', 'ia', 'metodo'];
+
 export const TECNOLOGIAS = [
-  { id: 'vue',       nome: 'Vue.js',       camada: 'front',   grupo: 'diario' },
-  { id: 'ts',        nome: 'TypeScript',   camada: 'front',   grupo: 'diario' },
-  { id: 'react',     nome: 'React',        camada: 'front',   grupo: 'entrego' },
-  { id: 'next',      nome: 'Next.js',      camada: 'front',   grupo: 'entrego' },
-  { id: 'nuxt',      nome: 'Nuxt.js',      camada: 'front',   grupo: 'entrego' },
-  { id: 'tailwind',  nome: 'Tailwind CSS', camada: 'front',   grupo: 'entrego' },
-  { id: 'shadcn',    nome: 'shadcn/ui',    camada: 'front',   grupo: 'entrego' },
-  { id: 'sass',      nome: 'Sass',         camada: 'front',   grupo: 'entrego' },
-  { id: 'figma',     nome: 'Figma',        camada: 'front',   grupo: 'entrego' },
+  { id: 'vue',        nome: 'Vue.js',          area: 'front' },
+  { id: 'react',      nome: 'React',           area: 'front' },
+  { id: 'ts',         nome: 'TypeScript',      area: 'front' },
+  { id: 'js',         nome: 'JavaScript',      area: 'front' },
+  { id: 'angular',    nome: 'Angular',         area: 'front' },
+  { id: 'next',       nome: 'Next.js',         area: 'front' },
+  { id: 'nuxt',       nome: 'Nuxt.js',         area: 'front' },
+  { id: 'tailwind',   nome: 'Tailwind CSS',    area: 'front' },
+  { id: 'html',       nome: 'HTML e CSS',      en: 'HTML and CSS', area: 'front' },
+  { id: 'sass',       nome: 'Sass',            area: 'front' },
+  { id: 'shadcn',     nome: 'shadcn/ui',       area: 'front' },
+  { id: 'reactflow',  nome: 'React Flow',      area: 'front' },
+  { id: 'jquery',     nome: 'jQuery',          area: 'front' },
+  { id: 'jsp',        nome: 'JSP',             area: 'front' },
+  { id: 'figma',      nome: 'Figma',           area: 'front' },
+  { id: 'web3',       nome: 'Web3.js',         area: 'front' },
+  { id: 'metamask',   nome: 'MetaMask',        area: 'front' },
 
-  { id: 'node',      nome: 'Node.js',      camada: 'back',    grupo: 'diario' },
-  { id: 'postgres',  nome: 'PostgreSQL',   camada: 'back',    grupo: 'diario' },
-  { id: 'java',      nome: 'Java 11',      camada: 'back',    grupo: 'entrego' },
-  { id: 'spring',    nome: 'Spring Boot',  camada: 'back',    grupo: 'entrego' },
-  { id: 'maven',     nome: 'Maven',        camada: 'back',    grupo: 'entrego' },
-  { id: 'jpaquery',  nome: 'JPAQuery',     camada: 'back',    grupo: 'entrego' },
-  { id: 'express',   nome: 'Express.js',   camada: 'back',    grupo: 'entrego' },
-  { id: 'mongo',     nome: 'MongoDB',      camada: 'back',    grupo: 'entrego' },
-  { id: 'oracle',    nome: 'OracleDB',     camada: 'back',    grupo: 'entrego' },
-  { id: 'sqlserver', nome: 'SQL Server',   camada: 'back',    grupo: 'historico' },
-  { id: 'redis',     nome: 'Redis',        camada: 'back',    grupo: 'historico' },
+  { id: 'java',       nome: 'Java 11',         area: 'back' },
+  { id: 'spring',     nome: 'Spring Boot',     area: 'back' },
+  { id: 'rest',       nome: 'APIs REST',       en: 'REST APIs', area: 'back' },
+  { id: 'node',       nome: 'Node.js',         area: 'back' },
+  { id: 'express',    nome: 'Express',         area: 'back' },
+  { id: 'microsservicos', nome: 'Microsserviços', en: 'Microservices', area: 'back', semData: true },
+  { id: 'python',     nome: 'Python',          area: 'back' },
+  { id: 'fastapi',    nome: 'FastAPI',         area: 'back' },
+  { id: 'jpaquery',   nome: 'JPAQuery',        area: 'back' },
+  { id: 'maven',      nome: 'Maven',           area: 'back' },
+  { id: 'sequelize',  nome: 'Sequelize',       area: 'back' },
+  { id: 'php',        nome: 'PHP',             area: 'back' },
 
-  { id: 'git',       nome: 'Git',          camada: 'entrega', grupo: 'diario' },
-  { id: 'docker',    nome: 'Docker',       camada: 'entrega', grupo: 'diario' },
-  { id: 'scrum',     nome: 'Scrum',        camada: 'entrega', grupo: 'diario' },
-  { id: 'jest',      nome: 'Jest',         camada: 'entrega', grupo: 'entrego' },
-  { id: 'grafana',   nome: 'Grafana',      camada: 'entrega', grupo: 'entrego' },
-  { id: 'vercel',    nome: 'Vercel',       camada: 'entrega', grupo: 'entrego' },
+  { id: 'postgres',   nome: 'PostgreSQL',      area: 'dados' },
+  { id: 'oracle',     nome: 'OracleDB',        area: 'dados' },
+  { id: 'sqlserver',  nome: 'SQL Server',      area: 'dados' },
+  { id: 'mongo',      nome: 'MongoDB',         area: 'dados' },
+  { id: 'redis',      nome: 'Redis',           area: 'dados' },
+  { id: 'supabase',   nome: 'Supabase',        area: 'dados' },
 
-  { id: 'jsp',       nome: 'JSP',          camada: 'legado',  grupo: 'historico' },
-  { id: 'angular',   nome: 'Angular',      camada: 'legado',  grupo: 'historico' },
-  { id: 'jquery',    nome: 'jQuery',       camada: 'legado',  grupo: 'historico' },
-  { id: 'php',       nome: 'PHP',          camada: 'legado',  grupo: 'historico' },
-  { id: 'bootstrap', nome: 'Bootstrap',    camada: 'legado',  grupo: 'historico' },
-  { id: 'sequelize', nome: 'Sequelize',    camada: 'legado',  grupo: 'historico' },
+  { id: 'git',        nome: 'Git',             area: 'entrega' },
+  { id: 'docker',     nome: 'Docker',          area: 'entrega' },
+  { id: 'ci',         nome: 'CI/CD',           area: 'entrega' },
+  { id: 'k8s',        nome: 'Kubernetes',      area: 'entrega', semData: true },
+  { id: 'nuvem',      nome: 'Nuvem (AWS, Azure, GCP)', en: 'Cloud (AWS, Azure, GCP)', area: 'entrega', semData: true },
+  { id: 'grafana',    nome: 'Grafana',         area: 'entrega' },
+  { id: 'jest',       nome: 'Jest',            area: 'entrega' },
+  { id: 'pytest',     nome: 'pytest',          area: 'entrega' },
+  { id: 'vercel',     nome: 'Vercel',          area: 'entrega' },
+  { id: 'bootstrap',  nome: 'Bootstrap',       area: 'front' },
 
-  // Não é legado: rendeu app nas duas lojas e um jogo em produção. Chamar
-  // de legado seria mentira; esconder jogaria fora alcance real.
-  { id: 'ionic',     nome: 'Ionic',        camada: 'margem',  grupo: 'historico' },
-  { id: 'web3',      nome: 'Web3.js',      camada: 'margem',  grupo: 'historico' },
-  { id: 'metamask',  nome: 'MetaMask',     camada: 'margem',  grupo: 'historico' },
+  { id: 'ionic',      nome: 'Ionic',           area: 'mobile' },
+  { id: 'capacitor',  nome: 'Capacitor',       area: 'mobile' },
+  { id: 'mobile',     nome: 'Publicação na App Store e na Google Play', en: 'Publishing to the App Store and Google Play', area: 'mobile' },
+  { id: 'unity',      nome: 'Unity',           area: 'mobile' },
+
+  { id: 'ia',         nome: 'IA aplicada ao desenvolvimento', en: 'AI-assisted development', area: 'ia' },
+
+  { id: 'scrum',      nome: 'Scrum',           area: 'metodo' },
+  { id: 'legado',     nome: 'Migração de sistema legado', en: 'Legacy system migration', area: 'metodo' },
+  { id: 'seo',        nome: 'SEO',             area: 'metodo' },
 ];
 
-/** Rótulos de domínio — a CONTAGEM de domínios é derivada de EXPERIENCIAS. */
+/** Rótulos de domínio. A CONTAGEM de domínios é derivada de EXPERIENCIAS. */
 export const DOMINIOS = {
   governo:     { pt: 'governo',     en: 'government' },
   saude:       { pt: 'saúde',       en: 'healthcare' },

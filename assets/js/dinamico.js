@@ -39,7 +39,6 @@ export function calcularSlots(idioma = 'pt', ref = new Date()) {
   s['perfil.anosCarreira'] = String(anosDesde(PERFIL.inicioCarreira, ref));
   s['perfil.anosCarreiraTexto'] =
     formatarDuracao({ anos: anosDesde(PERFIL.inicioCarreira, ref), meses: 0 }, idioma);
-  s['perfil.prazoResposta'] = String(PERFIL.prazoRespostaH);
 
   const comoDev = EXPERIENCIAS.filter((e) => e.contaComoDev);
   s['perfil.mesesAtivos'] = formatarDuracao(uniaoDeMeses(comoDev, ref), idioma);
@@ -50,19 +49,6 @@ export function calcularSlots(idioma = 'pt', ref = new Date()) {
     s[`cargo.${e.id}.duracao`]  = formatarDuracao(duracao(e.inicio, e.fim, ref), idioma);
     s[`cargo.${e.id}.anoInicio`] = e.inicio.slice(0, 4);
     s[`cargo.${e.id}.rotuloAtual`] = e.fim == null ? r.atual : '';
-  }
-
-  /* ── Etiquetas dos recortes (003) ─────────────────────────────────────── */
-  // Faixa curta, só com anos. Em curso vira "2025 - atual"; encerrada no
-  // mesmo ano vira só o ano; caso contrário, "2022 - 2024".
-  for (const e of EXPERIENCIAS) {
-    if (!e.recorte) continue;
-    const ini = e.inicio.slice(0, 4);
-    if (e.fim == null) s[`caso.${e.id}.anos`] = `${ini} - ${r.atual}`;
-    else {
-      const fim = e.fim.slice(0, 4);
-      s[`caso.${e.id}.anos`] = ini === fim ? ini : `${ini} - ${fim}`;
-    }
   }
 
   /* ── Formação ─────────────────────────────────────────────────────────── */
@@ -91,10 +77,6 @@ export function calcularSlots(idioma = 'pt', ref = new Date()) {
     new Set(EXPERIENCIAS.filter((e) => e.dominio !== 'ti').map((e) => e.dominio)).size
   );
   s['contagem.tecnologias'] = String(TECNOLOGIAS.length);
-  s['contagem.recortes'] = String(EXPERIENCIAS.filter((e) => e.recorte).length);
-  s['contagem.recortesDominios'] = String(
-    new Set(EXPERIENCIAS.filter((e) => e.recorte).map((e) => e.dominio)).size
-  );
 
   /* ── Linha do tempo e site ────────────────────────────────────────────── */
   const faixa = faixaDaLinha(EXPERIENCIAS, ref);
@@ -107,8 +89,7 @@ export function calcularSlots(idioma = 'pt', ref = new Date()) {
   s['site.atualizadoISO'] = ref.toISOString().slice(0, 10);
 
   /* ── Meta description: também embute tempo, também é gerada ───────────── */
-  const dominios = [...new Set(EXPERIENCIAS.filter((e) => e.recorte).map((e) => e.dominio))]
-    .map((d) => DOMINIOS[d][idioma]).join(', ');
+  const dominios = ['governo', 'saude'].map((d) => DOMINIOS[d][idioma]).join(idioma === 'pt' ? ' e ' : ' and ');
   s['meta.descricao'] = idioma === 'pt'
     ? `Desenvolvedor full stack desde ${s['perfil.desdeAno']}, em ${dominios}. Vue.js, React, Java, Spring Boot e Node.js. Campo Grande, MS, remoto.`
     : `Full stack developer since ${s['perfil.desdeAno']}, in ${dominios}. Vue.js, React, Java, Spring Boot and Node.js. Campo Grande, Brazil, remote.`;

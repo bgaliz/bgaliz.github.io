@@ -1,0 +1,83 @@
+{
+  "gerado_em": "2026-10-12",
+  "itens": {
+    "calango": {
+      "url": "https://calango-doido.vercel.app",
+      "titulo": "Calango Doido",
+      "descricao": null,
+      "imagem": "/assets/img/previas/calango.webp",
+      "icone": "/assets/img/previas/calango-icone.webp",
+      "fonte": {
+        "titulo": "site",
+        "descricao": "reserva",
+        "imagem": "captura"
+      },
+      "coletado_em": "2026-10-12"
+    },
+    "sgi": {
+      "url": "https://www.msdigital.ms.gov.br",
+      "titulo": "MS Digital",
+      "descricao": null,
+      "imagem": "/assets/img/previas/sgi.webp",
+      "icone": "/assets/img/previas/sgi-icone.webp",
+      "fonte": {
+        "titulo": "reserva",
+        "descricao": "reserva",
+        "imagem": "captura"
+      },
+      "coletado_em": "2026-10-12"
+    },
+    "reduza": {
+      "url": "https://www.reduza.com.br",
+      "titulo": "Procurando site de desconto? Reduza preços com apenas 1 clique",
+      "descricao": "Já imaginou reduzir preços em lojas online com apenas um clique? Faça como milhares de pessoas e economize nas lojas Centauro, Ricardo Eletro, Americanas, Walmart e outras",
+      "imagem": "/assets/img/previas/reduza.webp",
+      "icone": "/assets/img/previas/reduza-icone.webp",
+      "fonte": {
+        "titulo": "site",
+        "descricao": "site",
+        "imagem": "og:image"
+      },
+      "coletado_em": "2026-10-12"
+    },
+    "eplay": {
+      "url": "https://e-connect-play.vercel.app",
+      "titulo": "E-PLAY",
+      "descricao": "Agende seus jogos, pontue no ranking, faca planos de leitura biblica e acompanhe as lives da E-PLAY.",
+      "imagem": "/assets/img/previas/eplay.webp",
+      "icone": "/assets/img/previas/eplay-icone.webp",
+      "fonte": {
+        "titulo": "site",
+        "descricao": "site",
+        "imagem": "captura"
+      },
+      "coletado_em": "2026-10-12"
+    },
+    "cronometro": {
+      "url": "https://cronometro-speacher.vercel.app",
+      "titulo": "Cronômetro de Oradores",
+      "descricao": "Controle preciso do tempo para oradores em reuniões e eventos. Alertas visuais e sonoros, registro de participantes e exportação em PDF.",
+      "imagem": "/assets/img/previas/cronometro.webp",
+      "icone": "/assets/img/previas/cronometro-icone.webp",
+      "fonte": {
+        "titulo": "site",
+        "descricao": "site",
+        "imagem": "og:image"
+      },
+      "coletado_em": "2026-10-12"
+    },
+    "minin8n": {
+      "url": "https://github.com/bgaliz/Mini-n8n-Project-Front",
+      "titulo": "bgaliz/Mini-n8n-Project-Front",
+      "descricao": null,
+      "imagem": "/assets/img/previas/minin8n.webp",
+      "icone": "/assets/img/previas/minin8n-icone.webp",
+      "fonte": {
+        "titulo": "site",
+        "descricao": "reserva",
+        "imagem": "captura"
+      },
+      "coletado_em": "2026-10-12"
+    }
+  }
+}

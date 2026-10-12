@@ -1,43 +1,74 @@
-# Mantém os valores temporais frescos no HTML servido.
+# Mantém o site fresco sem ninguém lembrar de fazer nada.
 #
-# O JS já corrige tudo no navegador — este workflow existe para o crawler do
-# Google, o card do LinkedIn e quem estiver sem JS, que leem o HTML cru.
-# Roda todo dia 1º e só commita quando algo realmente mudou.
+# Todo dia 1º: recalcula as datas, recoleta as prévias de link (metadados
+# dos sites, como o WhatsApp faz), regenera páginas PT e EN, JSON-LD, JSON
+# Resume, cv.txt e os PDFs do currículo, e roda o teste do robô do
+# recrutador. Só commita se tudo passar e se algo realmente mudou.
+#
+# Também roda a cada push na master que mexa em conteúdo, para que nenhuma
+# edição vá ao ar sem passar pelo teste do robô.
 
-name: Atualizar datas
+name: Atualizar e verificar
 
 on:
   schedule:
-    - cron: '17 4 1 * *'     # dia 1º, 04:17 UTC (01:17 em Campo Grande)
-  workflow_dispatch:          # permite rodar à mão pelo painel do GitHub
+    - cron: '17 4 1 * *'     # dia 1º, 04:17 UTC (00:17 em Campo Grande)
+  workflow_dispatch:
+  push:
+    branches: [master]
+    paths:
+      - 'conteudo/**'
+      - 'assets/dados/**'
+      - 'ferramentas/**'
 
 permissions:
   contents: write
 
+concurrency:
+  group: atualizar
+  cancel-in-progress: false
+
 jobs:
   atualizar:
     runs-on: ubuntu-latest
+    env:
+      PW_CANAL: chrome        # o Google Chrome já vem instalado no runner
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
 
       - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
         with:
-          node-version: '22'
+          node-version: '24'
+          cache: npm
 
-      - name: Verificar a camada temporal
+      - name: Dependências
+        run: npm ci
+
+      - name: Camada temporal
         run: node ferramentas/verificar-tempo.mjs
 
-      - name: Injetar os valores no HTML
+      - name: Prévias de link
+        # Um site de terceiro fora do ar não pode travar o resto: o script
+        # mantém a prévia anterior e só avisa.
+        run: node ferramentas/coletar-previas.mjs
+
+      - name: Páginas e saídas
         run: node ferramentas/construir.mjs
+
+      - name: PDFs do currículo
+        run: node ferramentas/gerar-pdf.mjs
+
+      - name: O site visto pelo robô do recrutador
+        run: node ferramentas/verificar-robo.mjs
 
       - name: Commitar se houve mudança
         run: |
           if [[ -z "$(git status --porcelain)" ]]; then
-            echo "Nada mudou neste mês."
+            echo "Nada mudou."
             exit 0
           fi
           git config user.name  "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add -A
-          git commit -m "chore: atualiza valores temporais ($(date -u +%Y-%m))"
+          git commit -m "chore: atualiza site gerado ($(date -u +%Y-%m-%d))"
           git push

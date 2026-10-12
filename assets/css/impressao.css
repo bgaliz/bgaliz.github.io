@@ -1,0 +1,56 @@
+/* ═══════════════════════════════════════════════════════════════════════════
+   IMPRESSÃO
+   Duas folhas: o currículo em uma coluna (/curriculo/, fonte dos PDFs) e o
+   "Monte o relatório de mim", que imprime SÓ a tabela que está na tela, com
+   as colunas e o filtro escolhidos. O que está na tela é o que cai no PDF,
+   exatamente o caso de trabalho da AZ, aplicado ao próprio Bruno.
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+@page { size: A4; margin: 15mm 14mm 16mm; }
+
+:root {
+  --papel: #fff; --papel-2: #fff; --tinta: #111; --tinta-2: #222; --tinta-3: #444;
+  --fio: #bbb; --fio-controle: #777; --terra: #111;
+}
+
+html, body { background: #fff !important; color: #111 !important; }
+body { font-size: 10.5pt; line-height: 1.45; }
+
+.barra, .rodape, .aviso-lgpd, .pular, [data-nao-imprime], button, .demo-embutido, .faixa,
+.retrato canvas, .regua, .odometro { display: none !important; }
+
+a { color: inherit !important; text-decoration: none !important; }
+h1, h2, h3 { break-after: avoid; }
+li, p, tr, .cv-item, .cargo { break-inside: avoid; }
+
+/* ── Currículo ──────────────────────────────────────────────────────────── */
+.cv { max-width: none; padding: 0; }
+.cv__nome { font-size: 22pt; }
+.cv__cargo { font-size: 11.5pt; margin-top: 2pt; }
+.cv__contato { font-size: 9.5pt; }
+.cv section { margin-top: 12pt; }
+.cv h2 { font-size: 11pt; margin-bottom: 6pt; padding-bottom: 2pt; border-bottom: 0.75pt solid #111; }
+.cv-item { margin-top: 7pt; }
+.cv-item__titulo { font-size: 10.5pt; }
+.cv p, .cv-item ul { color: #222 !important; }
+
+/* ── Relatório: só a folha ──────────────────────────────────────────────── */
+body.imprimindo-relatorio main > *:not(#experiencia),
+body.imprimindo-relatorio #experiencia > *:not(.relatorio),
+body.imprimindo-relatorio .relatorio > *:not(.relatorio__folha) { display: none !important; }
+body.imprimindo-relatorio .secao { padding: 0; }
+body.imprimindo-relatorio .relatorio { margin: 0; padding: 0; border: 0; }
+
+.relatorio__impresso {
+  display: flex !important;
+  align-items: center;
+  gap: 10pt;
+  margin-bottom: 10pt;
+  font-size: 10pt;
+}
+.relatorio__impresso img { width: 18mm; height: auto; }
+.tabela-rolagem { overflow: visible; border-top: 1pt solid #111; }
+.tabela { font-size: 9pt; }
+.tabela th { color: #444 !important; font-size: 8pt; padding: 4pt 6pt 4pt 0; }
+.tabela td { padding: 5pt 6pt 5pt 0; min-width: 0; color: #222 !important; }
+.tabela td[data-col='entrega'] { min-width: 0; }

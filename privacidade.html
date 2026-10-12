@@ -1,46 +1,74 @@
 <!doctype html>
-<html lang="pt-BR">
+<html lang="pt-BR" data-pagina="privacidade">
 <head>
 <meta charset="utf-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-SX9XWnlL0WznD38cTIBA+3YfmXfKtNc0xF9fqFHCadg=' 'sha256-vBSSAZgXa6BQyoDqQAtx4MAbFfU0eJ7DgBKu6bpjUDc='; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self' https://bgaliz-portfolio.vercel.app; frame-src 'none'; object-src 'none'; base-uri 'self'; form-action 'self'; upgrade-insecure-requests">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-e3vFi78ZkVH6dPiUSyrb5/hKeyNPpmKIbdi4BHEjvKc='; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self' https://bgaliz-portfolio.vercel.app; frame-src 'none'; object-src 'none'; base-uri 'self'; form-action 'self'; upgrade-insecure-requests">
 <meta name="referrer" content="strict-origin-when-cross-origin">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Privacidade | Bruno Galiz</title>
 <meta name="description" content="O que este site registra, o que não registra, e como recusar.">
-<meta name="robots" content="noindex">
-<link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
-<link rel="stylesheet" href="assets/css/tokens.css">
-<link rel="stylesheet" href="assets/css/base.css">
-<link rel="stylesheet" href="assets/css/layout.css">
-<link rel="stylesheet" href="assets/css/componentes.css">
-<script>
-  (function () {
-    try { var t = localStorage.getItem('tema'); if (t) document.documentElement.dataset.tema = t; } catch (e) {}
-  })();
-</script>
-<style>
-  .doc { max-width: 44rem; margin-inline: auto; padding: var(--e-9) var(--margem) var(--e-8); }
-  .doc h1 { font-size: var(--t-d1); letter-spacing: -0.03em; margin-bottom: var(--e-2); }
-  .doc h2 { font-size: var(--t-d3); margin: var(--e-7) 0 var(--e-3); }
-  .doc p  { color: var(--texto-suave); margin-bottom: var(--e-4); }
-  .doc ul { color: var(--texto-suave); margin: 0 0 var(--e-4) 1.1rem; }
-  .doc li { margin-bottom: var(--e-2); }
-  .doc .voltar { display: inline-block; margin-bottom: var(--e-6); }
-  .doc__estado {
-    border: 1px solid var(--fio-forte);
-    padding: var(--e-4) var(--e-5);
-    margin-top: var(--e-6);
-    font-size: var(--t-peq);
-  }
-  .doc__estado strong { color: var(--texto); }
-</style>
+<meta name="author" content="Bruno Galiz de Oliveira">
+<link rel="canonical" href="https://bgaliz.github.io/privacidade.html">
+<link rel="alternate" hreflang="pt-BR" href="https://bgaliz.github.io/privacidade.html">
+<link rel="alternate" hreflang="en" href="https://bgaliz.github.io/privacidade.html">
+<link rel="alternate" hreflang="x-default" href="https://bgaliz.github.io/privacidade.html">
+
+<meta property="og:type" content="profile">
+<meta property="og:title" content="Privacidade | Bruno Galiz">
+<meta property="og:description" content="O que este site registra, o que não registra, e como recusar.">
+<meta property="og:url" content="https://bgaliz.github.io/privacidade.html">
+<meta property="og:image" content="https://bgaliz.github.io/assets/img/og/og-pt.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale" content="pt_BR">
+<meta property="profile:first_name" content="Bruno">
+<meta property="profile:last_name" content="Galiz de Oliveira">
+<meta name="twitter:card" content="summary_large_image">
+
+<link rel="icon" href="/assets/img/favicon.svg" type="image/svg+xml">
+<link rel="me" href="https://github.com/bgaliz">
+<link rel="me" href="https://www.linkedin.com/in/brunogaliz">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#EFF0EC" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#121417" media="(prefers-color-scheme: dark)">
+
+<link rel="preload" href="/assets/fonts/mona.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/assets/css/tokens.css">
+<link rel="stylesheet" href="/assets/css/base.css">
+<link rel="stylesheet" href="/assets/css/layout.css">
+<link rel="stylesheet" href="/assets/css/componentes.css">
+<link rel="stylesheet" href="/assets/css/movimento.css">
+<link rel="stylesheet" href="/assets/css/impressao.css" media="print">
+
+<script>(function(){try{var t=localStorage.getItem('tema');if(t)document.documentElement.dataset.tema=t;}catch(e){}document.documentElement.classList.add('js');})();</script>
 </head>
-<body>
-<main class="doc">
-  <a class="voltar mono" href="index.html">← <span>voltar ao portfólio</span></a>
+
+<body class="pagina-doc">
+<a class="pular" href="#conteudo">Pular para o conteúdo</a>
+<header class="barra" data-barra>
+  <a class="barra__marca" href="/" aria-label="Bruno Galiz, Experiência">
+    <span class="barra__miniatura" aria-hidden="true"><img src="/assets/img/retrato/bruno-56.webp" width="28" height="28" alt="" decoding="async"></span>
+    <span class="barra__nome">Bruno Galiz</span>
+  </a>
+  <nav class="barra__nav" aria-label="Principal">
+    <a href="/#experiencia">Experiência</a>
+    <a href="/projetos/">Projetos</a>
+    <a href="/curriculo/">Currículo</a>
+  </nav>
+  <div class="barra__acoes">
+    <a class="barra__idioma" href="/privacidade.html" hreflang="en" lang="en" data-idioma="en" translate="no">EN</a>
+    <button class="barra__tema" type="button" data-tema-alternar
+            aria-label="Mudar para tema escuro"
+            data-rotulo-claro="Mudar para tema claro"
+            data-rotulo-escuro="Mudar para tema escuro">
+      <svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><circle cx="8" cy="8" r="6.25" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M8 1.75a6.25 6.25 0 0 1 0 12.5z" fill="currentColor"/></svg>
+    </button>
+  </div>
+</header>
+<main id="conteudo" class="doc">
 
   <h1>Privacidade</h1>
-  <p class="mono" style="color:var(--ambar)">Sem cookies, sem IP guardado, sem rastreadores de terceiros</p>
+  <p class="doc__selo">Sem cookies, sem IP guardado, sem rastreadores de terceiros</p>
 
   <h2>O que eu registro</h2>
   <p>
@@ -114,8 +142,8 @@
   </p>
 
   <div class="doc__estado">
-    <p id="estado-rastro" style="margin:0 0 var(--e-3)">Verificando…</p>
-    <button class="botao" type="button" id="alternar-rastro" style="display:inline-flex">
+    <p id="estado-rastro">Verificando…</p>
+    <button class="botao" type="button" id="alternar-rastro">
       <span id="rotulo-rastro">-</span>
       <span class="botao__seta" aria-hidden="true">→</span>
     </button>
@@ -128,43 +156,23 @@
     ou apagar em nome de alguém. Mas se tiver qualquer dúvida, escreva para
     <a href="mailto:brunogaliz2@gmail.com">brunogaliz2@gmail.com</a> e eu respondo.
   </p>
-
-  <p class="mono" style="margin-top:var(--e-8);color:var(--texto-tenue);font-size:var(--t-nano)">
-    Atualizado em <time data-din="site.atualizado" datetime="2026-10-12">12 out 2026</time>
-  </p>
 </main>
-
-<script type="module">
-  const estado = document.getElementById('estado-rastro');
-  const botao  = document.getElementById('alternar-rastro');
-  const rotulo = document.getElementById('rotulo-rastro');
-
-  const recusou = () => { try { return localStorage.getItem('semRastro') === '1'; } catch (e) { return true; } };
-  const dnt = navigator.doNotTrack === '1' || navigator.globalPrivacyControl;
-
-  function pintar() {
-    if (dnt) {
-      estado.innerHTML = 'Seu navegador pede para não ser rastreado. <strong>O registro está desligado</strong> e eu respeito isso.';
-      botao.hidden = true;
-      return;
-    }
-    const off = recusou();
-    estado.innerHTML = off
-      ? 'O registro está <strong>desligado</strong> neste navegador.'
-      : 'O registro anônimo está <strong>ligado</strong> neste navegador.';
-    rotulo.textContent = off ? 'Ligar o registro' : 'Desligar o registro';
-  }
-
-  botao.addEventListener('click', () => {
-    try {
-      if (recusou()) localStorage.removeItem('semRastro');
-      else localStorage.setItem('semRastro', '1');
-      localStorage.setItem('avisoVisto', '1');
-    } catch (e) {}
-    pintar();
-  });
-
-  pintar();
-</script>
+<footer class="rodape">
+  <p class="rodape__colofao">Feito em HTML, CSS e JavaScript, sem framework. Datas calculadas, nunca digitadas. Visitas contadas sem cookies.</p>
+  <p class="rodape__meta">
+    <span>Bruno Galiz de Oliveira</span>
+    <span>Atualizado em <time data-din="site.atualizado" datetime="2026-10-12">12 out 2026</time></span>
+    <a href="/privacidade.html">Privacidade</a>
+  </p>
+</footer>
+<aside class="aviso-lgpd" id="aviso-lgpd" hidden>
+  <p>Registro visitas de forma anônima: sem cookies e sem guardar seu IP. É como eu sei se está havendo ou não visitas ao site.</p>
+  <div class="aviso-lgpd__acoes">
+    <button type="button" data-lgpd="aceitar">Entendi</button>
+    <button type="button" data-lgpd="recusar">Não quero</button>
+    <a href="/privacidade.html">Detalhes</a>
+  </div>
+</aside>
+<script type="module" src="/assets/js/principal.js"></script>
 </body>
 </html>

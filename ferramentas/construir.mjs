@@ -1,158 +1,101 @@
 /**
- * INJEÇÃO DOS VALORES TEMPORAIS NO HTML SERVIDO
+ * CONSTRUÇÃO DO SITE: UMA FONTE, TODAS AS SAÍDAS
  * ══════════════════════════════════════════════════════════════════════════
  * Rode com: node ferramentas/construir.mjs   (ou: npm run construir)
  *
- * POR QUE ISTO EXISTE
- * O dinamico.js já corrige tudo no navegador. Mas o crawler do Google, o
- * card de pré-visualização do LinkedIn e quem estiver sem JS leem o HTML
- * CRU — e para esses o valor precisa já estar certo no arquivo. Por isso a
- * dupla camada: este script (agendado mensalmente por GitHub Action) mantém
- * o HTML fresco, e o JS cobre o intervalo entre execuções.
+ *   assets/dados/perfil.js     estrutura e datas
+ *   conteudo/curriculo.mjs     todo o texto, PT e EN
+ *   dados/previas.json         prévias de link (ferramentas/coletar-previas.mjs)
+ *            ↓
+ *   páginas PT e EN · JSON-LD · JSON Resume · cv.txt · llms.txt · sitemap
  *
- * Nenhuma das duas é obrigatória: cada uma sozinha já mantém o site correto.
- * Juntas, tornam impossível o portfólio envelhecer sem ninguém notar — que
- * é exatamente o que aconteceu com o "mais de 5 anos" do currículo.
+ * O problema original deste projeto eram três currículos que se
+ * contradiziam. Daqui sai tudo de uma vez, então não há como divergirem.
  *
- * Sem dependências: o HTML é escrito por nós, com marcação previsível, então
- * a substituição por regex é segura e não justifica um parser inteiro.
+ * Os valores temporais (duração de cada cargo, data de atualização) entram
+ * nos slots `data-din` já no HTML: o crawler, o card do LinkedIn e quem está
+ * sem JS leem o arquivo cru. `dinamico.js` recalcula no navegador entre um
+ * build e outro (a Action roda todo mês).
+ *
+ * Sem dependência: template literals e regex sobre marcação nossa.
  * ══════════════════════════════════════════════════════════════════════════
  */
 
-import { readFileSync, writeFileSync } from 'node:fs';
+import { readFileSync, writeFileSync, mkdirSync, existsSync } from 'node:fs';
 import { createHash } from 'node:crypto';
 import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
+
 import { calcularSlots } from '../assets/js/dinamico.js';
-import { TECNOLOGIAS } from '../assets/dados/perfil.js';
+import { paginaInicio } from './paginas/home.mjs';
+import { paginaProjetos, FRAMES_PROJETOS } from './paginas/projetos.mjs';
+import { paginaCurriculo } from './paginas/curriculo.mjs';
+import { paginaNaoEncontrada } from './paginas/nao-encontrada.mjs';
+import { paginaPrivacidade } from './paginas/privacidade.mjs';
+import { jsonResume, textoPuro, llmsTxt } from './saidas/curriculo-dados.mjs';
+import { SITE, ROTAS } from './paginas/base.mjs';
 
 const RAIZ = join(dirname(fileURLToPath(import.meta.url)), '..');
-const AGORA = new Date();
-const slots = calcularSlots('pt', AGORA);
+const AGORA = process.env.DATA_REFERENCIA ? new Date(process.env.DATA_REFERENCIA) : new Date();
+const API_ORIGEM = 'https://bgaliz-portfolio.vercel.app';
 
-const esc = (t) => t.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-let totalTrocas = 0;
+let avisos = 0;
 
-/** Substitui o conteúdo de todo elemento que carregue um dado `data-din`. */
-function injetar(html, arquivo = '') {
+/* ── Prévias de link ────────────────────────────────────────────────────── */
+
+function lerPrevias() {
+  const arq = join(RAIZ, 'dados/previas.json');
+  if (!existsSync(arq)) {
+    console.log('  · dados/previas.json ausente: prévias saem só com texto');
+    return {};
+  }
+  return JSON.parse(readFileSync(arq, 'utf8')).itens ?? {};
+}
+
+/* ── Slots temporais ────────────────────────────────────────────────────── */
+
+const escRe = (t) => t.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+
+function injetar(html, idioma, arquivo) {
+  const slots = calcularSlots(idioma, AGORA);
   let saida = html;
   const semTroca = [];
 
   for (const [chave, valor] of Object.entries(slots)) {
-    const k = esc(chave);
+    const k = escRe(chave);
     let achou = false;
-
-    // <meta ... data-din="chave" ... content="...">  → troca o content
     saida = saida.replace(
       new RegExp(`(<meta\\b[^>]*\\bdata-din="${k}"[^>]*\\bcontent=")([^"]*)(")`, 'g'),
-      (m, a, antigo, c) => {
-        achou = true;
-        if (antigo !== valor) totalTrocas++;
-        return a + valor.replace(/"/g, '&quot;') + c;
-      }
+      (m, a, antigo, c) => { achou = true; return a + valor.replace(/"/g, '&quot;') + c; },
     );
-
-    // <tag ... data-din="chave">texto</tag>  → troca o texto
     saida = saida.replace(
       new RegExp(`(<(\\w+)\\b[^>]*\\bdata-din="${k}"[^>]*>)([^<]*)(</\\2>)`, 'g'),
-      (m, abre, tag, antigo, fecha) => {
-        achou = true;
-        if (antigo !== valor) totalTrocas++;
-        return abre + valor + fecha;
-      }
+      (m, abre, tag, antigo, fecha) => { achou = true; return abre + valor + fecha; },
     );
-
-    // O slot está no HTML e nenhum regex casou. Quase sempre significa que o
-    // elemento deixou de ser folha (ganhou um <span> dentro), ou que data-din
-    // passou para depois de content=/datetime=. Silêncio aqui é HTML servido
-    // envelhecendo sem ninguém notar — e a Action commita direto na branch.
     if (!achou && saida.includes(`data-din="${chave}"`)) semTroca.push(chave);
   }
 
-  if (semTroca.length) {
-    console.error(`\n  ⚠ ${arquivo}: slots presentes no HTML e NÃO injetados:`);
-    for (const chave of semTroca) console.error(`      · ${chave}`);
-    console.error('    (data-din tem de vir antes de content=/datetime=, e o');
-    console.error('     elemento tem de conter só texto, sem filhos)\n');
-    process.exitCode = 1;
-  }
-
-  // <time> precisa do datetime legível por máquina, não só do texto visível.
   saida = saida.replace(
     /(<time\b[^>]*\bdata-din="site\.atualizado"[^>]*\bdatetime=")([^"]*)(")/g,
-    (m, a, antigo, c) => {
-      if (antigo !== slots['site.atualizadoISO']) totalTrocas++;
-      return a + slots['site.atualizadoISO'] + c;
-    }
+    (m, a, antigo, c) => a + slots['site.atualizadoISO'] + c,
   );
 
-  return saida;
-}
-
-/**
- * Pré-renderiza as etiquetas de tecnologia, agrupadas por CAMADA.
- *
- * Sem isto a seção chega vazia para o crawler e para quem está sem JS. Com
- * isto, a seção 004 não precisa de JS nenhum.
- *
- * Duas formas já morreram aqui, e as duas lições valem:
- *   · uma matriz 35×6, onde 77% das células diziam "não" — grade é a forma
- *     certa para cruzamento denso, e este dado é esparso;
- *   · uma fileira de pontos contando projetos, que todo leitor entendeu como
- *     NOTA DE 1 A 5 — qualquer marcador ordinal vai ser lido assim.
- *
- * Por isso aqui não se emite número, ponto, barra nem gradação. A ordem é a
- * única hierarquia: `grupo` põe o que é de hoje na frente, e o desempate é a
- * ordem de perfil.js. O nível em palavras vive na prosa do index.html.
- */
-const PESO_GRUPO = { diario: 0, entrego: 1, historico: 2 };
-
-function injetarFerramentas(html) {
-  const renderizadas = new Set();
-
-  const saida = html.replace(
-    /(<ul class="rol-tec" data-camada="(\w+)">)([\s\S]*?)(<\/ul>)/g,
-    (m, abre, camada, dentro, fecha) => {
-      const itens = TECNOLOGIAS
-        .map((t, ordem) => ({ ...t, ordem }))
-        .filter((t) => t.camada === camada)
-        .sort((a, b) => (PESO_GRUPO[a.grupo] ?? 9) - (PESO_GRUPO[b.grupo] ?? 9) || a.ordem - b.ordem)
-        .map((t) => {
-          renderizadas.add(t.id);
-          return `\n          <li>${t.nome}</li>`;
-        }).join('');
-      totalTrocas++;
-      return `${abre}${itens}\n        ${fecha}`;
-    }
-  );
-
-  // Uma tecnologia sem `camada` — ou com uma camada que não existe no HTML —
-  // sumiria da página em silêncio, e a Action mensal commitaria a perda.
-  const perdidas = TECNOLOGIAS.filter((t) => !renderizadas.has(t.id));
-  if (perdidas.length) {
-    console.error('\n  ⚠ tecnologias que não caíram em nenhuma camada renderizada:');
-    for (const t of perdidas) console.error(`      · ${t.nome} (camada: ${t.camada ?? 'ausente'})`);
-    console.error('    (confira `camada` em perfil.js e o data-camada das listas no HTML)\n');
-    process.exitCode = 1;
+  // Slot no HTML sem valor no catálogo: o elemento ficaria vazio para sempre.
+  const orfaos = [...saida.matchAll(/data-din="([^"]+)"/g)].map((m) => m[1]).filter((c) => !(c in slots));
+  for (const c of new Set([...semTroca, ...orfaos])) {
+    console.error(`  ⚠ ${arquivo}: slot "${c}" não foi injetado`);
+    avisos++;
   }
-
   return saida;
 }
 
-/**
- * Política de segurança de conteúdo, em <meta>.
- *
- * O GitHub Pages não deixa definir cabeçalho nenhum, então a CSP vai no HTML.
- * Script inline só roda se o hash dele estiver na política, e quem calcula o
- * hash é este build: editar o script de tema e esquecer a CSP quebraria o
- * tema em silêncio, e é exatamente o tipo de esquecimento que não pode
- * depender de memória. JSON-LD fica de fora porque é dado, não código.
- *
- * `frame-ancestors` não vale em <meta> (só em cabeçalho); o resto vale.
- */
-const API_ORIGEM = 'https://bgaliz-portfolio.vercel.app';
+/* ── Política de segurança de conteúdo (em <meta>) ──────────────────────── */
+/* O GitHub Pages não deixa definir cabeçalho. Script inline só roda se o
+   hash dele estiver na política, e quem calcula é este build: editar o script
+   de tema e esquecer a CSP quebraria o tema em silêncio. JSON-LD é dado, não
+   código, e fica de fora. `frame-ancestors` não vale em <meta>. */
 
-function aplicarCsp(html) {
+function aplicarCsp(html, { frames = [] } = {}) {
   const hashes = [...html.matchAll(/<script(?![^>]*\bsrc=)(?![^>]*application\/ld\+json)[^>]*>([\s\S]*?)<\/script>/g)]
     .map((m) => `'sha256-${createHash('sha256').update(m[1], 'utf8').digest('base64')}'`);
 
@@ -163,47 +106,88 @@ function aplicarCsp(html) {
     "img-src 'self' data:",
     "font-src 'self'",
     `connect-src 'self' ${API_ORIGEM}`,
-    "frame-src 'none'",
+    `frame-src ${frames.length ? frames.join(' ') : "'none'"}`,
     "object-src 'none'",
     "base-uri 'self'",
     "form-action 'self'",
     'upgrade-insecure-requests',
   ].join('; ');
 
-  const meta = `<meta http-equiv="Content-Security-Policy" content="${politica}">`;
-  const existente = /<meta http-equiv="Content-Security-Policy"[^>]*>/;
-  if (existente.test(html)) return html.replace(existente, meta);
-  return html.replace(/(<meta charset="utf-8">)/i, `$1\n${meta}\n<meta name="referrer" content="strict-origin-when-cross-origin">`);
+  return html.replace(
+    /(<meta charset="utf-8">)/i,
+    `$1\n<meta http-equiv="Content-Security-Policy" content="${politica}">\n<meta name="referrer" content="strict-origin-when-cross-origin">`,
+  );
 }
 
-function processar(arquivo, transformar) {
-  const caminho = join(RAIZ, arquivo);
-  let antes;
-  try { antes = readFileSync(caminho, 'utf8'); }
-  catch (e) { console.log(`  · ${arquivo} (ausente, ignorado)`); return false; }
+/* ── Escrita ────────────────────────────────────────────────────────────── */
 
-  const depois = transformar(antes);
-  if (antes === depois) { console.log(`  = ${arquivo} já estava atualizado`); return false; }
+let escritos = 0;
+let mudaram = 0;
 
-  writeFileSync(caminho, depois);
-  console.log(`  ✎ ${arquivo} atualizado`);
-  return true;
+function gravar(caminho, conteudo) {
+  const destino = join(RAIZ, caminho);
+  mkdirSync(dirname(destino), { recursive: true });
+  const antes = existsSync(destino) ? readFileSync(destino, 'utf8') : null;
+  escritos++;
+  if (antes === conteudo) return;
+  writeFileSync(destino, conteudo);
+  mudaram++;
+  console.log(`  ✎ ${caminho}`);
 }
 
-console.log(`\nReferência: ${slots['site.atualizado']} (${slots['site.atualizadoISO']})\n`);
+function pagina(caminho, html, idioma, opcoes) {
+  gravar(caminho, aplicarCsp(injetar(html, idioma, caminho), opcoes));
+}
 
-let mudou = false;
-mudou = processar('index.html', (h) => aplicarCsp(injetarFerramentas(injetar(h, 'index.html')))) || mudou;
-mudou = processar('privacidade.html', (h) => aplicarCsp(injetar(h, 'privacidade.html'))) || mudou;
+/* ── Sitemap com versões de idioma ──────────────────────────────────────── */
 
-mudou = processar('sitemap.xml', (xml) =>
-  xml.replace(/<lastmod>[^<]*<\/lastmod>/g, `<lastmod>${slots['site.atualizadoISO']}</lastmod>`)
-) || mudou;
+function sitemap() {
+  const hoje = AGORA.toISOString().slice(0, 10);
+  const pares = ['inicio', 'projetos', 'curriculo'];
+  const urls = pares.flatMap((chave) => ['pt', 'en'].map((idioma) => {
+    const alternos = ['pt', 'en'].map((i) => `    <xhtml:link rel="alternate" hreflang="${i === 'pt' ? 'pt-BR' : 'en'}" href="${SITE}${ROTAS[i][chave]}"/>`).join('\n');
+    return `  <url>
+    <loc>${SITE}${ROTAS[idioma][chave]}</loc>
+    <lastmod>${hoje}</lastmod>
+${alternos}
+  </url>`;
+  }));
+  return `<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
+${urls.join('\n')}
+  <url>
+    <loc>${SITE}/privacidade.html</loc>
+    <lastmod>${hoje}</lastmod>
+  </url>
+</urlset>
+`;
+}
 
-console.log(`\n${totalTrocas} valor(es) temporal(is) trocado(s).`);
-console.log(mudou ? 'Há mudanças para commitar.\n' : 'Nada mudou — nenhum commit necessário.\n');
+/* ── Execução ───────────────────────────────────────────────────────────── */
 
-// Sai diferente de zero se algum slot ficou para trás — o workflow para antes
-// de commitar HTML com data envelhecida. Sem isso a falha era silenciosa.
-// (Se commita ou não, quando tudo deu certo, o workflow decide por git status.)
-process.exit(process.exitCode ?? 0);
+const previas = lerPrevias();
+const ref = AGORA;
+console.log(`\nReferência: ${AGORA.toISOString().slice(0, 10)}\n`);
+
+pagina('index.html', paginaInicio('pt', { previas, ref }), 'pt');
+pagina('en/index.html', paginaInicio('en', { previas, ref }), 'en');
+pagina('projetos/index.html', paginaProjetos('pt', { previas, ref }), 'pt', { frames: FRAMES_PROJETOS });
+pagina('en/projects/index.html', paginaProjetos('en', { previas, ref }), 'en', { frames: FRAMES_PROJETOS });
+pagina('curriculo/index.html', paginaCurriculo('pt', { ref }), 'pt');
+pagina('en/resume/index.html', paginaCurriculo('en', { ref }), 'en');
+pagina('404.html', paginaNaoEncontrada(), 'pt');
+pagina('privacidade.html', paginaPrivacidade(), 'pt');
+
+gravar('curriculo.json', `${JSON.stringify(jsonResume('pt', ref), null, 2)}\n`);
+gravar('resume.json', `${JSON.stringify(jsonResume('en', ref), null, 2)}\n`);
+gravar('cv.txt', textoPuro('pt', ref));
+gravar('en/cv.txt', textoPuro('en', ref));
+gravar('llms.txt', llmsTxt());
+gravar('sitemap.xml', sitemap());
+
+console.log(`\n${escritos} arquivo(s) gerado(s), ${mudaram} com mudança.`);
+if (avisos) {
+  console.error(`${avisos} aviso(s): corrija antes de publicar.\n`);
+  process.exit(1);
+}
+console.log(mudaram ? 'Há mudanças para commitar.\n' : 'Nada mudou.\n');

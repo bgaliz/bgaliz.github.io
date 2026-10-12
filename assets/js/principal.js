@@ -3,90 +3,53 @@
  * ══════════════════════════════════════════════════════════════════════════
  * Duas regras governam este arquivo:
  *
- * 1. ORDEM — primeiro o que corrige conteúdo (datas, idioma, tema), depois o
- *    que enfeita. Se um enfeite quebrar, o conteúdo já está correto; por isso
+ * 1. ORDEM: primeiro o que corrige conteúdo (datas, tema), depois o que
+ *    enfeita. Se um enfeite quebrar, o conteúdo já está certo; por isso
  *    cada módulo decorativo entra em try/catch próprio e falha em silêncio.
  *
- * 2. PESO — só o essencial é importado estaticamente. Abertura, rastro e
- *    refletor entram por import dinâmico, fora do caminho crítico, porque
- *    nenhum precisa existir antes da primeira pintura. É o que mantém o JS
- *    crítico abaixo do orçamento e o LCP curto.
+ * 2. PESO: só o essencial é importado estaticamente. O resto entra por
+ *    import dinâmico e só na página que o usa: a página de projetos não
+ *    baixa o relatório, o currículo não baixa o retrato.
+ *
+ * Nada aqui revela conteúdo: todo texto já está visível no HTML. O JS só
+ * acrescenta comportamento.
  * ══════════════════════════════════════════════════════════════════════════
  */
 
 import { aplicarSlots } from './dinamico.js';
-import { iniciarIdioma, idiomaAtual } from './idioma.js';
 import { iniciarTema } from './tema.js';
+import { iniciarIdioma } from './idioma.js';
+
+const raiz = document.documentElement;
+const idioma = raiz.lang.toLowerCase().startsWith('en') ? 'en' : 'pt';
+const pagina = raiz.dataset.pagina;
+const local = location.hostname === 'localhost';
 
 const seguro = (nome, fn) => {
-  try { return fn(); } catch (e) {
-    if (location.hostname === 'localhost') console.warn(`[${nome}]`, e);
-  }
+  try { return fn(); } catch (e) { if (local) console.warn(`[${nome}]`, e); }
 };
-
 const carregar = (nome, caminho, usar) =>
-  import(caminho).then(usar).catch((e) => {
-    if (location.hostname === 'localhost') console.warn(`[${nome}]`, e);
-  });
+  import(caminho).then(usar).catch((e) => { if (local) console.warn(`[${nome}]`, e); });
 
 /* ── 1 · Conteúdo correto antes de qualquer enfeite ─────────────────────── */
 
-seguro('idioma', iniciarIdioma);
-seguro('slots', () => aplicarSlots(idiomaAtual()));
+seguro('slots', () => aplicarSlots(idioma));
 seguro('tema', iniciarTema);
+seguro('idioma', iniciarIdioma);
 
-/* ── 2 · Seção corrente no índice ───────────────────────────────────────── */
+/* ── 2 · Comportamento, sob demanda ─────────────────────────────────────── */
 
-/* Marca no índice a seção que está sendo lida. A faixa central da tela é o
-   critério — a seção "corrente" deve ser a que o olho percorre, não a que
-   acabou de encostar na borda.
+carregar('barra', './barra.js', (m) => m.iniciarBarra());
+carregar('copiar', './copiar.js', (m) => m.iniciarCopiar());
 
-   O seletor não menciona classe nenhuma de propósito: renomear o índice não
-   pode desligar o indicador em silêncio. O contrato é o atributo. */
-const elos = new Map(
-  [...document.querySelectorAll('a[data-secao]')].map((a) => [a.dataset.secao, a])
-);
-
-const observadorSecao = new IntersectionObserver((entradas) => {
-  for (const e of entradas) {
-    if (!e.isIntersecting) continue;
-    const id = e.target.dataset.secaoObs;
-    for (const [chave, elo] of elos) {
-      if (chave === id) elo.setAttribute('aria-current', 'true');
-      else elo.removeAttribute('aria-current');
-    }
-  }
-}, { rootMargin: '-45% 0px -45% 0px' });
-
-document.querySelectorAll('[data-secao-obs]').forEach((s) => observadorSecao.observe(s));
-
-/* ── 3 · Enfeites e comportamentos, sob demanda ─────────────────────────── */
-
-carregar('abertura', './abertura.js', (m) => m.iniciarAbertura());
-carregar('rastro', './rastro.js', (m) => m.iniciarRastro());
-carregar('refletor', './refletor.js', (m) => m.iniciarRefletor());
-
-/* A seção 004 não carrega JS nenhum. A lista vem pronta do build, e o realce
-   ao passar o ponteiro é CSS puro — foi o que sobrou quando a matriz de 35×6
-   virou lista: sem montagem, sem realce cruzado, sem observador de proximidade. */
-
-/* ── 4 · Botões magnéticos ──────────────────────────────────────────────── */
-/* Puxão sutil e inercial nos CTAs. Só com ponteiro preciso — no toque não
-   existe hover, e o deslocamento atrapalharia o alvo. */
-
-if (matchMedia('(pointer: fine)').matches &&
-    !matchMedia('(prefers-reduced-motion: reduce)').matches) {
-  for (const botao of document.querySelectorAll('.botao')) {
-    botao.addEventListener('pointermove', (e) => {
-      const r = botao.getBoundingClientRect();
-      const dx = (e.clientX - (r.left + r.width / 2)) / r.width;
-      const dy = (e.clientY - (r.top + r.height / 2)) / r.height;
-      botao.style.setProperty('--puxao-x', `${dx * 7}px`);
-      botao.style.setProperty('--puxao-y', `${dy * 5}px`);
-    });
-    botao.addEventListener('pointerleave', () => {
-      botao.style.setProperty('--puxao-x', '0px');
-      botao.style.setProperty('--puxao-y', '0px');
-    });
-  }
+if (pagina === 'inicio') {
+  carregar('abertura', './abertura.js', (m) => m.iniciarAbertura());
+  carregar('retrato', './retrato.js', (m) => m.iniciarRetrato());
+  carregar('historia', './historia.js', (m) => m.iniciarHistoria());
+  carregar('relatorio', './relatorio.js', (m) => m.iniciarRelatorio(idioma));
+  carregar('demo', './demo-campo.js', (m) => m.iniciarDemoCampo(idioma));
 }
+if (pagina === 'projetos') carregar('projetos', './projetos.js', (m) => m.iniciarProjetos());
+if (pagina === 'privacidade') carregar('privacidade', './privacidade.js', (m) => m.iniciarPrivacidade());
+
+carregar('rastro', './rastro.js', (m) => m.iniciarRastro());
