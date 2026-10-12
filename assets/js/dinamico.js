@@ -53,21 +53,21 @@ export function calcularSlots(idioma = 'pt', ref = new Date()) {
   }
 
   /* ── Etiquetas dos recortes (003) ─────────────────────────────────────── */
-  // Faixa curta, só com anos. Em curso vira "2025 — atual"; encerrada no
-  // mesmo ano vira só o ano; caso contrário, "2022—2024".
+  // Faixa curta, só com anos. Em curso vira "2025 - atual"; encerrada no
+  // mesmo ano vira só o ano; caso contrário, "2022 - 2024".
   for (const e of EXPERIENCIAS) {
     if (!e.recorte) continue;
     const ini = e.inicio.slice(0, 4);
-    if (e.fim == null) s[`caso.${e.id}.anos`] = `${ini} — ${r.atual}`;
+    if (e.fim == null) s[`caso.${e.id}.anos`] = `${ini} - ${r.atual}`;
     else {
       const fim = e.fim.slice(0, 4);
-      s[`caso.${e.id}.anos`] = ini === fim ? ini : `${ini}—${fim}`;
+      s[`caso.${e.id}.anos`] = ini === fim ? ini : `${ini} - ${fim}`;
     }
   }
 
   /* ── Formação ─────────────────────────────────────────────────────────── */
   for (const f of FORMACAO) {
-    s[`formacao.${f.id}.periodo`] = `${f.inicio.slice(0, 4)} — ${f.fim.slice(0, 4)}`;
+    s[`formacao.${f.id}.periodo`] = `${f.inicio.slice(0, 4)} - ${f.fim.slice(0, 4)}`;
     s[`formacao.${f.id}.ha`] = r.ha(
       formatarDuracao({ anos: anosDesde(f.fim, ref), meses: 0 }, idioma)
     );
@@ -77,11 +77,11 @@ export function calcularSlots(idioma = 'pt', ref = new Date()) {
   for (const i of IDIOMAS) {
     if (i.desde) s[`idioma.${i.id}.anos`] = String(anosDesde(i.desde, ref));
     if (i.cursos?.length) {
-      // "Wizard (2011—2013) · inFlux (2021—2023)" montado dos dados, para que
+      // "Wizard (2011-2013), inFlux (2021-2023)" montado dos dados, para que
       // corrigir uma data em perfil.js não deixe o HTML discordando.
       s[`idioma.${i.id}.cursos`] = i.cursos
-        .map((c) => `${c.nome} (${c.inicio.slice(0, 4)}—${c.fim.slice(0, 4)})`)
-        .join(' · ');
+        .map((c) => `${c.nome} (${c.inicio.slice(0, 4)}-${c.fim.slice(0, 4)})`)
+        .join(', ');
     }
   }
 
@@ -98,7 +98,7 @@ export function calcularSlots(idioma = 'pt', ref = new Date()) {
 
   /* ── Linha do tempo e site ────────────────────────────────────────────── */
   const faixa = faixaDaLinha(EXPERIENCIAS, ref);
-  s['linha.faixa'] = `${faixa.anoInicial} — ${faixa.anoFinal}`;
+  s['linha.faixa'] = `${faixa.anoInicial} - ${faixa.anoFinal}`;
   s['site.ano'] = String(ref.getFullYear());
   s['site.atualizado'] = new Intl.DateTimeFormat(
     idioma === 'pt' ? 'pt-BR' : 'en-US',
@@ -110,8 +110,8 @@ export function calcularSlots(idioma = 'pt', ref = new Date()) {
   const dominios = [...new Set(EXPERIENCIAS.filter((e) => e.recorte).map((e) => e.dominio))]
     .map((d) => DOMINIOS[d][idioma]).join(', ');
   s['meta.descricao'] = idioma === 'pt'
-    ? `Desenvolvedor full-stack desde ${s['perfil.desdeAno']}. ${cap(dominios)} — Vue, React, Node e Java. Campo Grande, MS · remoto.`
-    : `Full-stack developer since ${s['perfil.desdeAno']}. ${cap(dominios)} — Vue, React, Node and Java. Campo Grande, Brazil · remote.`;
+    ? `Desenvolvedor full stack desde ${s['perfil.desdeAno']}, em ${dominios}. Vue.js, React, Java, Spring Boot e Node.js. Campo Grande, MS, remoto.`
+    : `Full stack developer since ${s['perfil.desdeAno']}, in ${dominios}. Vue.js, React, Java, Spring Boot and Node.js. Campo Grande, Brazil, remote.`;
 
   return s;
 }

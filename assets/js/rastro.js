@@ -102,7 +102,20 @@ function montarAviso() {
   try { visto = localStorage.getItem(CHAVE_AVISO) === '1'; } catch (e) { visto = true; }
   if (visto || recusou()) return;
 
-  aviso.hidden = false;
+  /* Só depois da primeira rolagem (ou de 8 s parado). Aparecer junto com a
+     página fazia o aviso ser a primeira coisa vista no celular, por cima do
+     nome. A visita continua informada: o aviso vem antes de qualquer leitura
+     longa, e a política completa está no rodapé desde o primeiro quadro. */
+  let mostrado = false;
+  const mostrar = () => {
+    if (mostrado) return;
+    mostrado = true;
+    removeEventListener('scroll', mostrar);
+    clearTimeout(relogio);
+    aviso.hidden = false;
+  };
+  addEventListener('scroll', mostrar, { once: true, passive: true });
+  const relogio = setTimeout(mostrar, 8000);
 
   aviso.addEventListener('click', (e) => {
     const acao = e.target.dataset?.lgpd;
@@ -120,7 +133,41 @@ function montarAviso() {
 
 /* ── Início ────────────────────────────────────────────────────────────── */
 
+/* ── Auto-exclusão ─────────────────────────────────────────────────────
+   `?eu=1` marca este navegador como do próprio dono: nada mais é contado
+   aqui. Em 12/out/2026, 14 das 48 visitas "humanas" eram de Campo Grande,
+   desktop, acesso direto — o dono conferindo o próprio site. `?eu=0` desfaz.
+   O parâmetro some da barra de endereço logo em seguida. */
+
+function aplicarAutoExclusao() {
+  const params = new URLSearchParams(location.search);
+  if (!params.has('eu')) return;
+
+  const desfazer = params.get('eu') === '0';
+  try {
+    if (desfazer) localStorage.removeItem(CHAVE_RECUSA);
+    else {
+      localStorage.setItem(CHAVE_RECUSA, '1');
+      localStorage.setItem(CHAVE_AVISO, '1');
+    }
+  } catch (e) { return; }
+
+  params.delete('eu');
+  const resto = params.toString();
+  history.replaceState(null, '', location.pathname + (resto ? `?${resto}` : '') + location.hash);
+
+  const nota = document.createElement('p');
+  nota.className = 'aviso-lgpd';
+  nota.setAttribute('role', 'status');
+  nota.textContent = desfazer
+    ? 'Visitas deste navegador voltam a ser contadas.'
+    : 'Pronto: visitas deste navegador não serão mais contadas.';
+  document.body.append(nota);
+  setTimeout(() => nota.remove(), 4000);
+}
+
 export function iniciarRastro() {
+  aplicarAutoExclusao();
   montarAviso();
 
   habilitado = podeRastrear();

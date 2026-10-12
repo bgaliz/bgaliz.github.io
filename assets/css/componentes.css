@@ -546,24 +546,38 @@
 
 /* ── Aviso LGPD ────────────────────────────────────────────────────────── */
 
+/* Faixa de uma linha no rodapé da tela, que só aparece depois da primeira
+   rolagem (rastro.js). Antes era uma caixa de 27rem no canto inferior que,
+   no celular, cobria o topo da página na primeira visita: a primeira coisa
+   que um recrutador via era o aviso, não o nome. Texto e escolhas iguais. */
 .aviso-lgpd {
   position: fixed;
-  left: var(--margem);
-  bottom: var(--e-4);
+  inset-inline: 0;
+  bottom: 0;
   z-index: 200;
-  max-width: 27rem;
-  padding: var(--e-4) var(--e-5);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: var(--e-2) var(--e-5);
+  padding: var(--e-3) var(--margem);
+  padding-bottom: max(var(--e-3), env(safe-area-inset-bottom));
   background: var(--elevado);
-  border: 1px solid var(--fio-forte);
+  border-top: 1px solid var(--fio-forte);
   color: var(--texto-suave);
-  font-size: var(--t-peq);
-  animation: sobe-aviso var(--d-longa) var(--saida-expo) both;
+  font-size: var(--t-micro);
+  line-height: 1.45;
+  animation: sobe-aviso var(--d-media) var(--saida-expo) both;
 }
 .aviso-lgpd[hidden] { display: none; }
+.aviso-lgpd p { max-width: 62ch; }
 
 @keyframes sobe-aviso {
-  from { opacity: 0; transform: translateY(14px); }
-  to   { opacity: 1; transform: none; }
+  from { transform: translateY(100%); }
+  to   { transform: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .aviso-lgpd { animation: none; }
 }
 
 .aviso-lgpd__acoes {
@@ -571,12 +585,11 @@
   flex-wrap: wrap;
   align-items: center;
   gap: var(--e-4);
-  margin-top: var(--e-3);
   font-size: var(--t-nano);
 }
 .aviso-lgpd__acoes button {
   border-bottom: 1px solid var(--fio-forte);
-  padding-bottom: 0.15em;
+  padding-block: 0.4em 0.15em;
   color: var(--texto);
   transition: border-color var(--d-micro) var(--saida-expo), color var(--d-micro) var(--saida-expo);
 }

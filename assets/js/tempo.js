@@ -110,11 +110,13 @@ export function formatarMesAno(data, idioma = 'pt') {
     .trim();
 }
 
-/** "ago 2025 — atual" / "Aug 2025 — present". */
+/** "ago 2025 - atual" / "Aug 2025 - present". Hífen, não travessão: o travessão
+ *  é o tique de texto gerado por IA mais reconhecível, e parser de currículo
+ *  lê intervalo de data com hífen sem ambiguidade. */
 export function periodoLegivel(inicio, fim, idioma = 'pt') {
   const i = formatarMesAno(inicio, idioma);
   const f = fim == null ? UNIDADES[idioma].atual : formatarMesAno(fim, idioma);
-  return `${i} — ${f}`;
+  return `${i} - ${f}`;
 }
 
 /** Anos inteiros decorridos desde uma âncora. */

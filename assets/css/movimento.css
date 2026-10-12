@@ -75,9 +75,15 @@ html.abrindo .fachada__pe     { animation-delay: 580ms; }
       animation-range: entry 8% cover 34%;
     }
 
+    /* SÓ transform, nunca opacity. Com `both` e timeline de view(), tudo
+       que está abaixo da dobra fica parado no quadro inicial até alguém
+       rolar — e robô não rola. Medido em 12/out/2026: num headless sem
+       rolagem, 145 de 179 blocos de texto estavam com opacidade < 0,2, e o
+       print de página inteira que os scanners de ATS guardam saía em branco.
+       Deslocar sem esmaecer mantém o gesto e deixa o texto sempre legível. */
     @keyframes revela {
-      from { opacity: 0; transform: translateY(18px); }
-      to   { opacity: 1; transform: none; }
+      from { transform: translateY(18px); }
+      to   { transform: none; }
     }
 
     /* Stagger explícito dentro de uma lista: cada item começa um pouco mais
@@ -98,8 +104,8 @@ html.abrindo .fachada__pe     { animation-delay: 580ms; }
       animation-range: entry 5% cover 26%;
     }
     @keyframes desliza-num {
-      from { opacity: 0; transform: translateY(-0.15em) translateX(-14px); }
-      to   { opacity: 1; transform: translateY(-0.15em); }
+      from { transform: translateY(-0.15em) translateX(-14px); }
+      to   { transform: translateY(-0.15em); }
     }
   }
 }

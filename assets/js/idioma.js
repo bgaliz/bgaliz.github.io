@@ -41,8 +41,8 @@ function aplicar(para) {
   trocarTextos(para);
   aplicarSlots(para);          // reformata durações, períodos, datas
   document.title = para === 'en'
-    ? 'Bruno Galiz — Full-Stack Developer'
-    : 'Bruno Galiz — Desenvolvedor Full-Stack';
+    ? 'Bruno Galiz | Full Stack Developer (Java, Vue.js, React)'
+    : 'Bruno Galiz | Desenvolvedor Full Stack Pleno (Java, Vue.js, React)';
 
   // Hoje ninguém escuta: a lista de ferramentas só tem nome próprio (Vue.js,
   // Conexa) e lê igual nas duas línguas, e o resto é data-en. O evento fica

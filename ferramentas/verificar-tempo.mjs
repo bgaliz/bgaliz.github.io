@@ -65,8 +65,8 @@ console.log(`  \x1b[2m→ lacunas detectadas: ${buracos.map((b) => `${b.meses} m
 console.log('\n\x1b[1m3. Cargo em curso (fim: null)\x1b[0m');
 
 const az = EXPERIENCIAS.find((e) => e.id === 'az');
-conferir('AZ — período pt', periodoLegivel(az.inicio, az.fim, 'pt'), 'ago 2025 — atual');
-conferir('AZ — período en', periodoLegivel(az.inicio, az.fim, 'en'), 'Aug 2025 — present');
+conferir('AZ — período pt', periodoLegivel(az.inicio, az.fim, 'pt'), 'ago 2025 - atual');
+conferir('AZ — período en', periodoLegivel(az.inicio, az.fim, 'en'), 'Aug 2025 - present');
 conferir('AZ — duração em 08/2026', formatarDuracao(duracao(az.inicio, az.fim, REF), 'pt'), '1 ano e 1 mês');
 
 /* ── 4. Pluralização nos dois idiomas ──────────────────────────────────── */

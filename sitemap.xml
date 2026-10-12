@@ -2,13 +2,21 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://bgaliz.github.io/</loc>
-    <lastmod>2026-10-01</lastmod>
+<<<<<<< HEAD
+    <lastmod>2026-10-12</lastmod>
+=======
+    <lastmod>2026-10-12</lastmod>
+>>>>>>> 361a682 (fix: robôs de ATS passam a ver o site inteiro)
     <changefreq>monthly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
     <loc>https://bgaliz.github.io/privacidade.html</loc>
-    <lastmod>2026-10-01</lastmod>
+<<<<<<< HEAD
+    <lastmod>2026-10-12</lastmod>
+=======
+    <lastmod>2026-10-12</lastmod>
+>>>>>>> 361a682 (fix: robôs de ATS passam a ver o site inteiro)
     <changefreq>yearly</changefreq>
     <priority>0.2</priority>
   </url>

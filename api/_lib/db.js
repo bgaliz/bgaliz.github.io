@@ -166,6 +166,15 @@ export const CIDADES_NUVEM = [
   'clonee', 'papillion', 'moncks corner', 'quincy', 'widows creek',
   'lenoir', 'mayes county', 'pryor', 'new albany', 'huntsville',
   'eemshaven', 'st ghislain', 'saint-ghislain', 'hamina', 'fredericia',
+  /* Acrescentadas em 12/out/2026, depois de ler as visitas uma a uma: 26 das
+     48 "humanas" vinham daqui. Dulles e Ashburn/Sterling são o us-east-1 da
+     AWS; Moses Lake e Boardman, datacenters no noroeste dos EUA; Altoona,
+     Forest City e Luleå, da Meta (chegavam com referrer facebook.com: é a
+     prévia de link). O padrão era sempre o mesmo — um link ?ref=curriculo-*
+     aberto 4 a 8 vezes em dois minutos, idioma en: scanner de ATS ou de
+     e-mail conferindo o link do currículo enviado. */
+  'dulles town center', 'dulles', 'ashburn', 'sterling', 'moses lake',
+  'boardman', 'altoona', 'forest city', 'luleå', 'lulea',
 ];
 
 /** Só o host do referrer: a URL completa não acrescenta nada e expõe mais. */
