@@ -14,7 +14,7 @@
  * ══════════════════════════════════════════════════════════════════════════
  */
 
-import { urlDe } from './config.js';
+import { urlDe, VERSAO } from './config.js';
 
 /* Um só lugar define o endereço da API: assets/js/config.js. Enquanto estiver
    nulo, o rastreamento fica inteiro desligado — o site funciona 100% assim. */
@@ -27,6 +27,15 @@ let sessao = null;
 let inicio = 0;
 let habilitado = false;
 const secoesVistas = new Set();
+
+/* Sinais de que há uma pessoa do outro lado. Scanner de ATS abre a página,
+   executa este arquivo e sai sem tocar em nada; gente mexe o ponteiro, toca,
+   rola com a roda ou usa o teclado. */
+let interagiu = false;
+let ultimaInteracao = -Infinity;
+let ativoMs = 0;
+const JANELA_ATIVA = 30_000;
+const marcasVistas = new Set();
 
 /* ── Consentimento ─────────────────────────────────────────────────────── */
 
@@ -55,19 +64,21 @@ function idSessao() {
 
 /* ── Envio ─────────────────────────────────────────────────────────────── */
 
-function enviar(evento, detalhe = null, duracao = null, comBeacon = false) {
+function enviar(evento, detalhe = null, extra = {}, comBeacon = false) {
   if (!habilitado) return;
 
   const params = new URLSearchParams(location.search);
   const corpo = JSON.stringify({
     evento,
     detalhe,
-    duracao_ms: duracao,
     sessao,
     ref: params.get('ref') || null,
     referrer: document.referrer || null,
     idioma: document.documentElement.lang || null,
+    pagina: location.pathname,
+    versao: VERSAO,
     tela: `${innerWidth}x${innerHeight}`,
+    ...extra,
   });
 
   try {
@@ -84,6 +95,58 @@ function enviar(evento, detalhe = null, duracao = null, comBeacon = false) {
       }).catch(() => {});
     }
   } catch (e) { /* silêncio, sempre */ }
+}
+
+/** Para outros módulos registrarem o que a pessoa fez (abrir um caso,
+ *  copiar o e-mail, gerar o relatório). O servidor valida o formato. */
+export function registrar(evento, detalhe = null) {
+  enviar(evento, detalhe);
+}
+
+/* ── Presença: interação real e tempo ativo ────────────────────────────── */
+
+function vigiarPresenca() {
+  const marcar = () => {
+    ultimaInteracao = performance.now();
+    if (interagiu) return;
+    interagiu = true;
+    enviar('interacao');
+  };
+  for (const tipo of ['pointerdown', 'pointermove', 'wheel', 'touchstart', 'keydown']) {
+    addEventListener(tipo, marcar, { passive: true, capture: true });
+  }
+  // Rolar mantém a leitura ativa, mas sozinho não prova que há gente.
+  addEventListener('scroll', () => { ultimaInteracao = performance.now(); }, { passive: true });
+
+  /* Tempo ATIVO, não de relógio: soma só o segundo em que a aba está visível
+     e houve interação nos últimos 30 s. Aba esquecida aberta não conta. */
+  setInterval(() => {
+    if (document.visibilityState === 'visible'
+        && performance.now() - ultimaInteracao < JANELA_ATIVA) ativoMs += 1000;
+  }, 1000);
+}
+
+/* ── Profundidade: 25, 50, 75 e 100% da página ─────────────────────────── */
+
+function vigiarProfundidade() {
+  let pendente = false;
+  const medir = () => {
+    pendente = false;
+    if (!interagiu) return;           // robô não rola; e se rolar sozinho, não conta
+    const altura = document.documentElement.scrollHeight;
+    const alcance = ((scrollY + innerHeight) / altura) * 100;
+    for (const marca of [25, 50, 75, 100]) {
+      if (alcance >= marca - 1 && !marcasVistas.has(marca)) {
+        marcasVistas.add(marca);
+        enviar('profundidade', String(marca));
+      }
+    }
+  };
+  addEventListener('scroll', () => {
+    if (pendente) return;
+    pendente = true;
+    requestAnimationFrame(medir);
+  }, { passive: true });
 }
 
 /* ── Aviso LGPD ────────────────────────────────────────────────────────── */
@@ -177,6 +240,8 @@ export function iniciarRastro() {
   inicio = performance.now();
 
   enviar('pageview');
+  vigiarPresenca();
+  vigiarProfundidade();
 
   // Seções lidas — uma vez cada, para não inflar o volume.
   const obs = new IntersectionObserver((entradas) => {
@@ -204,8 +269,19 @@ export function iniciarRastro() {
     if (alvo) enviar('clique', alvo.dataset.cta);
   }, { passive: true });
 
-  // Duração real da visita. pagehide é mais confiável que unload no mobile.
+  // Aprofundamento aberto (<details data-rastro="id">). `toggle` não sobe
+  // na árvore, por isso a captura.
+  document.addEventListener('toggle', (e) => {
+    const d = e.target;
+    if (d.open && d.dataset?.rastro) enviar('abrir', d.dataset.rastro);
+  }, true);
+
+  // Duração da visita (relógio) e tempo ativo. pagehide é mais confiável que
+  // unload no mobile.
   addEventListener('pagehide', () => {
-    enviar('saida', null, Math.round(performance.now() - inicio), true);
+    enviar('saida', null, {
+      duracao_ms: Math.round(performance.now() - inicio),
+      ativo_ms: ativoMs,
+    }, true);
   }, { capture: true });
 }

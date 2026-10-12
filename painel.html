@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Painel de visitas — Bruno Galiz</title>
+<title>Painel de visitas | Bruno Galiz</title>
 <meta name="robots" content="noindex, nofollow">
 <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
 <link rel="preload" href="assets/fonts/mono.woff2" as="font" type="font/woff2" crossorigin>
@@ -23,15 +23,19 @@
   </button>
 </header>
 
-<!-- Porta de entrada: o token vive só no localStorage deste navegador. -->
+<!-- Porta de entrada. O token vai uma vez para /api/entrar e volta como
+     cookie HttpOnly: nenhum script desta página o lê, e nada fica no
+     localStorage. Quem quiser lembrar o token usa o gerenciador de senhas
+     do navegador, que é o lugar certo para isso (daí o username oculto). -->
 <section class="entrada" id="entrada" hidden>
   <h1 class="entrada__titulo">Painel de visitas</h1>
-  <p class="entrada__nota">
+  <p class="entrada__nota" id="nota-entrada">
     Informe o token definido em <code>PAINEL_TOKEN</code> na Vercel.
-    Ele fica guardado só neste navegador.
+    A sessão dura 12 horas e o token não fica salvo nesta página.
   </p>
   <form id="forma-token" class="entrada__forma">
-    <input type="password" id="campo-token" class="entrada__campo mono"
+    <input type="text" name="username" value="painel" autocomplete="username" hidden>
+    <input type="password" id="campo-token" name="password" class="entrada__campo mono"
            placeholder="token" autocomplete="current-password" required>
     <button type="submit" class="botao botao--principal">
       <span>Entrar</span><span class="botao__seta" aria-hidden="true">→</span>
@@ -62,20 +66,20 @@
   <!-- ── Números do topo ────────────────────────────────────────────── -->
   <section class="cartoes" aria-label="Resumo">
     <article class="cartao">
-      <p class="cartao__rotulo mono">visitas</p>
-      <p class="cartao__valor num" id="kpi-visitas">—</p>
+      <p class="cartao__rotulo mono">pessoas confirmadas</p>
+      <p class="cartao__valor num" id="kpi-pessoas">-</p>
     </article>
     <article class="cartao">
-      <p class="cartao__rotulo mono">visitantes únicos</p>
-      <p class="cartao__valor num" id="kpi-unicos">—</p>
+      <p class="cartao__rotulo mono">visitas</p>
+      <p class="cartao__valor num" id="kpi-visitas">-</p>
     </article>
     <article class="cartao">
       <p class="cartao__rotulo mono">últimos 30 dias</p>
-      <p class="cartao__valor num" id="kpi-30d">—</p>
+      <p class="cartao__valor num" id="kpi-30d">-</p>
     </article>
     <article class="cartao">
-      <p class="cartao__rotulo mono">tempo mediano</p>
-      <p class="cartao__valor num" id="kpi-tempo">—</p>
+      <p class="cartao__rotulo mono">tempo ativo mediano</p>
+      <p class="cartao__valor num" id="kpi-tempo">-</p>
     </article>
   </section>
 
@@ -132,6 +136,51 @@
       </table>
     </div>
   </section>
+
+  <!-- ── Scanners: o que não é gente, mas é sinal ────────────────────── -->
+  <section class="bloco">
+    <div class="bloco__cabeca">
+      <h2 class="bloco__titulo">Abertos por robô de recrutador</h2>
+      <p class="bloco__nota mono">ATS e scanners de e-mail que abriram seus links marcados</p>
+    </div>
+    <div class="tabela__rolagem">
+      <table class="tabela" id="tabela-scanners">
+        <thead>
+          <tr>
+            <th scope="col">etiqueta</th>
+            <th scope="col" class="num">aberturas</th>
+            <th scope="col">de onde</th>
+            <th scope="col">última</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ── Antes e depois ─────────────────────────────────────────────── -->
+  <div class="colunas">
+    <section class="bloco">
+      <div class="bloco__cabeca">
+        <h2 class="bloco__titulo">Antes e depois</h2>
+        <p class="bloco__nota mono">sessões, pessoas e tempo ativo por versão do site</p>
+      </div>
+      <div class="tabela__rolagem">
+        <table class="tabela" id="tabela-versoes">
+          <thead><tr><th scope="col">versão</th><th scope="col" class="num">sessões</th><th scope="col" class="num">pessoas</th><th scope="col" class="num">tempo ativo</th></tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="bloco">
+      <div class="bloco__cabeca">
+        <h2 class="bloco__titulo">Até onde rolaram</h2>
+        <p class="bloco__nota mono">sessões que passaram de cada marca da página</p>
+      </div>
+      <div id="lista-profundidade" class="barras"></div>
+    </section>
+  </div>
 
   <!-- ── Origem e lugar ─────────────────────────────────────────────── -->
   <div class="colunas">
@@ -190,7 +239,7 @@
 
   <footer class="painel__rodape mono">
     <a href="index.html">← voltar ao portfólio</a>
-    <button type="button" id="sair">esquecer token</button>
+    <button type="button" id="sair">sair</button>
   </footer>
 </main>
 

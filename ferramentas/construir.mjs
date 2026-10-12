@@ -20,6 +20,7 @@
  */
 
 import { readFileSync, writeFileSync } from 'node:fs';
+import { createHash } from 'node:crypto';
 import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
 import { calcularSlots } from '../assets/js/dinamico.js';
@@ -138,6 +139,43 @@ function injetarFerramentas(html) {
   return saida;
 }
 
+/**
+ * Política de segurança de conteúdo, em <meta>.
+ *
+ * O GitHub Pages não deixa definir cabeçalho nenhum, então a CSP vai no HTML.
+ * Script inline só roda se o hash dele estiver na política, e quem calcula o
+ * hash é este build: editar o script de tema e esquecer a CSP quebraria o
+ * tema em silêncio, e é exatamente o tipo de esquecimento que não pode
+ * depender de memória. JSON-LD fica de fora porque é dado, não código.
+ *
+ * `frame-ancestors` não vale em <meta> (só em cabeçalho); o resto vale.
+ */
+const API_ORIGEM = 'https://bgaliz-portfolio.vercel.app';
+
+function aplicarCsp(html) {
+  const hashes = [...html.matchAll(/<script(?![^>]*\bsrc=)(?![^>]*application\/ld\+json)[^>]*>([\s\S]*?)<\/script>/g)]
+    .map((m) => `'sha256-${createHash('sha256').update(m[1], 'utf8').digest('base64')}'`);
+
+  const politica = [
+    "default-src 'self'",
+    `script-src 'self' ${hashes.join(' ')}`.trim(),
+    "style-src 'self' 'unsafe-inline'",
+    "img-src 'self' data:",
+    "font-src 'self'",
+    `connect-src 'self' ${API_ORIGEM}`,
+    "frame-src 'none'",
+    "object-src 'none'",
+    "base-uri 'self'",
+    "form-action 'self'",
+    'upgrade-insecure-requests',
+  ].join('; ');
+
+  const meta = `<meta http-equiv="Content-Security-Policy" content="${politica}">`;
+  const existente = /<meta http-equiv="Content-Security-Policy"[^>]*>/;
+  if (existente.test(html)) return html.replace(existente, meta);
+  return html.replace(/(<meta charset="utf-8">)/i, `$1\n${meta}\n<meta name="referrer" content="strict-origin-when-cross-origin">`);
+}
+
 function processar(arquivo, transformar) {
   const caminho = join(RAIZ, arquivo);
   let antes;
@@ -155,8 +193,8 @@ function processar(arquivo, transformar) {
 console.log(`\nReferência: ${slots['site.atualizado']} (${slots['site.atualizadoISO']})\n`);
 
 let mudou = false;
-mudou = processar('index.html', (h) => injetarFerramentas(injetar(h, 'index.html'))) || mudou;
-mudou = processar('privacidade.html', (h) => injetar(h, 'privacidade.html')) || mudou;
+mudou = processar('index.html', (h) => aplicarCsp(injetarFerramentas(injetar(h, 'index.html')))) || mudou;
+mudou = processar('privacidade.html', (h) => aplicarCsp(injetar(h, 'privacidade.html'))) || mudou;
 
 mudou = processar('sitemap.xml', (xml) =>
   xml.replace(/<lastmod>[^<]*<\/lastmod>/g, `<lastmod>${slots['site.atualizadoISO']}</lastmod>`)

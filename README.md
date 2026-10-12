@@ -159,8 +159,11 @@ vercel link                     # importa o mesmo repositório
 1. No painel da Vercel: **Storage → Marketplace → Neon** (plano gratuito).
    Isso define `DATABASE_URL` sozinho.
 2. Adicione as variáveis de ambiente:
-   - `PAINEL_TOKEN` — a senha do painel, escolhida por você
-   - `SAL_VISITANTE` — qualquer string longa e aleatória
+   - `PAINEL_TOKEN`: a senha do painel, escolhida por você
+   - `SAL_VISITANTE`: qualquer string longa e aleatória (obrigatória em produção:
+     sem ela nada é gravado)
+   - `PAINEL_SEGREDO` *(recomendada)*: string longa e aleatória que assina o cookie
+     de sessão do painel. Sem ela, a chave deriva do `PAINEL_TOKEN`.
 3. Em `assets/js/config.js`, troque:
    ```js
    export const API_BASE = 'https://SEU-PROJETO.vercel.app/api';
@@ -170,6 +173,20 @@ vercel link                     # importa o mesmo repositório
 > O plano Hobby da Vercel é para uso pessoal e não comercial — um portfólio se enquadra.
 
 ---
+
+### Painel
+
+Abre em **`https://bgaliz-portfolio.vercel.app/painel`**, no mesmo domínio da API. O token
+é enviado uma vez para `/api/entrar`, que devolve um cookie `HttpOnly; Secure;
+SameSite=Strict` de 12 horas: nenhum script da página enxerga a sessão, e nada fica no
+`localStorage`. Dez tentativas erradas no mesmo dia bloqueiam o IP até o dia virar. Para
+scripts, `curl -H "Authorization: Bearer $PAINEL_TOKEN" .../api/painel` continua valendo.
+
+O resto do site na Vercel redireciona (308) para o GitHub Pages: existe uma cópia pública
+só, e é a que está nos currículos.
+
+**Suas próprias visitas:** abra `https://bgaliz.github.io/?eu=1` uma vez em cada navegador
+seu, e ele deixa de ser contado (`?eu=0` desfaz).
 
 ## Privacidade
 

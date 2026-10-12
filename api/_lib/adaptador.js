@@ -79,7 +79,9 @@ export function adaptar(handler) {
       console.error('[adaptador]', e?.stack || e?.message);
       res.statusCode = 500;
       res.setHeader('Content-Type', 'application/json; charset=utf-8');
-      res.end(JSON.stringify({ erro: 'Falha no adaptador', detalhe: e?.message }));
+      // O detalhe fica no log da Vercel; para fora vai só o genérico, porque
+      // este ponto responde a qualquer um, autenticado ou não.
+      res.end(JSON.stringify({ erro: 'Falha no adaptador' }));
     }
   };
 }

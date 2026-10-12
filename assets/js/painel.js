@@ -7,28 +7,46 @@
  * ══════════════════════════════════════════════════════════════════════════
  */
 
-import { urlDe, SITE } from './config.js';
+import { SITE } from './config.js';
 import { haQuantoTempo } from './tempo.js';
 import { diagnosticar } from './diagnostico.js';
 
 const $ = (s) => document.querySelector(s);
-const CHAVE = 'painelToken';
 
 const entrada = $('#entrada');
 const corpo = $('#corpo');
 
-/* ── Autenticação ──────────────────────────────────────────────────────── */
+/* ── Autenticação ──────────────────────────────────────────────────────────
+   Nada de token em JavaScript. O login manda o token UMA vez para
+   /api/entrar, que responde com um cookie HttpOnly; daí em diante o
+   navegador carrega o cookie sozinho e nenhum script o enxerga.
 
-const token = () => { try { return localStorage.getItem(CHAVE); } catch (e) { return null; } };
+   Tudo é mesma origem: o painel precisa ser aberto no domínio da API
+   (bgaliz-portfolio.vercel.app/painel). Aberto no github.io, só aponta para
+   lá: um cookie entre domínios exigiria SameSite=None, que é justamente o que
+   o tornaria alcançável por outros sites. */
 
-async function buscar(t) {
-  const url = urlDe('painel');
-  if (!url) throw new Error('API_BASE ainda não configurada em assets/js/config.js');
+const PAINEL_URL = 'https://bgaliz-portfolio.vercel.app/painel';
+const NO_LUGAR_CERTO = location.hostname.endsWith('vercel.app') || location.hostname === 'localhost';
 
-  const r = await fetch(url, { headers: { Authorization: `Bearer ${t}` } });
-  if (r.status === 401) throw new Error('Token incorreto.');
+/* Herança da versão antiga: o token ficava aqui. Apaga na primeira visita. */
+try { localStorage.removeItem('painelToken'); } catch (e) {}
+
+async function buscar() {
+  const r = await fetch('/api/painel', { credentials: 'same-origin', cache: 'no-store' });
+  if (r.status === 401) throw Object.assign(new Error(''), { semSessao: true });
   if (!r.ok) throw new Error(`Falha ${r.status}: ${(await r.json().catch(() => ({}))).erro || ''}`);
   return r.json();
+}
+
+async function entrar(token) {
+  const r = await fetch('/api/entrar', {
+    method: 'POST',
+    credentials: 'same-origin',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ token }),
+  });
+  if (!r.ok) throw new Error((await r.json().catch(() => ({}))).erro || `Falha ${r.status}`);
 }
 
 function mostrarEntrada(msg) {
@@ -46,7 +64,7 @@ const df = new Intl.DateTimeFormat('pt-BR', { day: '2-digit', month: 'short' });
 const MESES = ['jan', 'fev', 'mar', 'abr', 'mai', 'jun', 'jul', 'ago', 'set', 'out', 'nov', 'dez'];
 
 function duracaoCurta(ms) {
-  if (!ms) return '—';
+  if (!ms) return '-';
   const s = Math.round(ms / 1000);
   if (s < 60) return `${s}s`;
   return `${Math.floor(s / 60)}m ${String(s % 60).padStart(2, '0')}s`;
@@ -155,10 +173,11 @@ function pintar(d) {
   corpo.hidden = false;
 
   const t = d.totais || {};
+  $('#kpi-pessoas').textContent = nf.format(+t.pessoas || 0);
   $('#kpi-visitas').textContent = nf.format(+t.visitas || 0);
-  $('#kpi-unicos').textContent = nf.format(+t.unicos || 0);
   $('#kpi-30d').textContent = nf.format(+t.visitas_30d || 0);
-  $('#kpi-tempo').textContent = duracaoCurta(+t.duracao_media_ms);
+  /* Tempo ATIVO quando já existe; antes da medição nova, o de relógio. */
+  $('#kpi-tempo').textContent = duracaoCurta(+t.ativo_mediano_ms || +t.duracao_media_ms);
 
   /* O ruído descartado. Aparece só quando existe — num painel limpo, uma
      linha dizendo "0 descartadas" seria ela própria ruído. */
@@ -206,9 +225,26 @@ function pintar(d) {
   $('#tabela-recentes tbody').innerHTML = (d.recentes || []).map((r) => `
     <tr><td class="mono tenue">${haQuantoTempo(r.criado_em, 'pt')}</td>
         <td class="mono">${escapar(r.origem)}</td>
-        <td class="tenue">${escapar([r.cidade, r.pais].filter(Boolean).join(', ') || '—')}</td>
-        <td class="mono">${r.ref ? escapar(r.ref) : '<span class="tenue">—</span>'}</td></tr>`).join('')
+        <td class="tenue">${escapar([r.cidade, r.pais].filter(Boolean).join(', ') || '-')}</td>
+        <td class="mono">${r.ref ? escapar(r.ref) : '<span class="tenue">-</span>'}</td></tr>`).join('')
     || '<tr><td colspan="4" class="vazio mono">nada ainda</td></tr>';
+
+  $('#tabela-scanners tbody').innerHTML = (d.scanners || []).map((m) => `
+    <tr><td class="mono forte">${escapar(m.ref)}</td>
+        <td class="num">${m.aberturas}</td>
+        <td class="tenue">${escapar(m.de_onde)}</td>
+        <td class="mono tenue">${haQuantoTempo(m.ultima, 'pt')}</td></tr>`).join('')
+    || '<tr><td colspan="4" class="vazio mono">nenhum link marcado aberto por robô</td></tr>';
+
+  $('#tabela-versoes tbody').innerHTML = (d.versoes || []).map((v) => `
+    <tr><td class="mono forte">${escapar(v.versao)}</td>
+        <td class="num">${v.sessoes}</td>
+        <td class="num">${v.versao === 'antes' ? '<span class="tenue">-</span>' : v.confirmadas}</td>
+        <td class="num">${duracaoCurta(+v.ativo_mediano_ms)}</td></tr>`).join('')
+    || '<tr><td colspan="4" class="vazio mono">nada ainda</td></tr>';
+
+  $('#lista-profundidade').innerHTML = barras(
+    (d.profundidade || []).map((p) => ({ ...p, marca: `${p.marca}%` })), 'marca', 'sessoes');
 }
 
 /* ── Gerador de links marcados ─────────────────────────────────────────── */
@@ -240,30 +276,40 @@ $('#copiar').addEventListener('click', async () => {
 
 /* ── Ciclo de vida ─────────────────────────────────────────────────────── */
 
-async function carregar(t) {
+async function carregar() {
   try {
-    pintar(await buscar(t));
+    pintar(await buscar());
   } catch (e) {
-    try { if (/token/i.test(e.message)) localStorage.removeItem(CHAVE); } catch (err) {}
-    mostrarEntrada(e.message);
+    mostrarEntrada(e.semSessao ? '' : e.message);
   }
 }
 
 $('#forma-token').addEventListener('submit', async (e) => {
   e.preventDefault();
-  const t = $('#campo-token').value.trim();
+  const campo = $('#campo-token');
+  const t = campo.value.trim();
   if (!t) return;
-  try { localStorage.setItem(CHAVE, t); } catch (err) {}
-  await carregar(t);
+  try {
+    await entrar(t);
+    campo.value = '';
+    await carregar();
+  } catch (err) {
+    mostrarEntrada(err.message);
+  }
 });
 
-$('#recarregar').addEventListener('click', () => { const t = token(); if (t) carregar(t); });
+$('#recarregar').addEventListener('click', carregar);
 
-$('#sair').addEventListener('click', () => {
-  try { localStorage.removeItem(CHAVE); } catch (e) {}
+$('#sair').addEventListener('click', async () => {
+  await fetch('/api/sair', { method: 'POST', credentials: 'same-origin' }).catch(() => {});
   location.reload();
 });
 
-const inicial = token();
-if (inicial) carregar(inicial);
-else mostrarEntrada();
+if (NO_LUGAR_CERTO) {
+  carregar();
+} else {
+  mostrarEntrada();
+  $('#forma-token').hidden = true;
+  $('#nota-entrada').innerHTML =
+    `O painel agora abre só no domínio da API: <a href="${PAINEL_URL}">${PAINEL_URL.replace('https://', '')}</a>.`;
+}

@@ -16,3 +16,8 @@ export const urlDe = (rota) => (API_BASE ? `${API_BASE}/${rota}` : null);
 
 /** Endereço público do portfólio — usado pelo gerador de links marcados. */
 export const SITE = 'https://bgaliz.github.io';
+
+/** Versão do site que está no ar. Vai em cada evento, e o painel compara as
+ *  versões lado a lado: é como se responde "a renovação funcionou?" sem
+ *  misturar épocas. Trocar a cada mudança que valha medir separado. */
+export const VERSAO = '2026-10-correcao';

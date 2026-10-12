@@ -8,6 +8,10 @@
  * O corpo chega como text/plain de propósito — é o que permite o
  * navigator.sendBeacon funcionar no pagehide sem preflight CORS, que não
  * teria tempo de completar enquanto a aba fecha.
+ *
+ * Tudo que vem do navegador é validado por lista: evento conhecido, detalhe
+ * no formato daquele evento, página e versão em formato fixo. Um campo fora
+ * do formato vira nulo, nunca vira texto livre gravado no banco.
  * ══════════════════════════════════════════════════════════════════════════
  */
 
@@ -17,8 +21,30 @@ import {
 } from './_lib/db.js';
 import { adaptar } from './_lib/adaptador.js';
 
-const EVENTOS = new Set(['pageview', 'secao', 'clique', 'saida']);
+const ID = /^[a-z0-9-]{1,40}$/;
+const RECORTE = /^[a-z0-9:,.-]{1,80}$/;
+
+/** Formato aceito do `detalhe`, por evento. `null` = o evento não tem detalhe. */
+const DETALHE = {
+  pageview: null,
+  saida: null,
+  interacao: null,
+  secao: ID,
+  clique: ID,
+  profundidade: /^(25|50|75|100)$/,
+  abrir: RECORTE,      // aprofundamento ou projeto aberto
+  relatorio: RECORTE,  // colunas e filtro do "Monte o relatório de mim"
+  copiar: ID,          // resumo, e-mail, currículo
+};
+
+const PAGINA = /^\/[a-z0-9/._-]{0,60}$/;
+const VERSAO = /^\d{4}-\d{2}[a-z0-9-]{0,12}$/;
+const LIMITE_POR_HORA = 120;
+const TRINTA_MIN = 30 * 60 * 1000;
+
 const corta = (t, n) => (typeof t === 'string' ? t.slice(0, n) : null);
+const casa = (re, t) => (typeof t === 'string' && re.test(t) ? t : null);
+const ms = (n) => (Number.isFinite(n) ? Math.min(Math.max(0, Math.round(n)), TRINTA_MIN) : null);
 
 async function handler(request) {
   const origem = request.headers.get('origin');
@@ -36,7 +62,7 @@ async function handler(request) {
   }
 
   const evento = corpo?.evento;
-  if (!EVENTOS.has(evento)) return new Response('Evento desconhecido', { status: 400, headers: cors });
+  if (!Object.hasOwn(DETALHE, evento)) return new Response('Evento desconhecido', { status: 400, headers: cors });
 
   const ua = request.headers.get('user-agent') || '';
   const dispositivo = dispositivoDe(ua);
@@ -47,30 +73,35 @@ async function handler(request) {
   try {
     await garantirEsquema();
 
-    const { pais, cidade } = geoDe(request.headers);
+    const visitante = hashVisitante(ipDe(request.headers), ua);
 
-    /* Teto de 30 minutos, não de quatro horas. Ninguém LÊ um portfólio por
-       quatro horas: passar disso é aba esquecida aberta, e o `pagehide` só
-       fecha a conta quando a pessoa volta ao navegador no dia seguinte. Com
-       algumas dezenas de visitas, uma única aba dessas domina a média inteira
-       — foi o que produziu um "tempo médio" de quase catorze minutos. */
-    const duracao = Number.isFinite(corpo.duracao_ms)
-      ? Math.min(Math.max(0, Math.round(corpo.duracao_ms)), 30 * 60 * 1000)
-      : null;
+    /* Teto por visitante: uma visita real gera algumas dezenas de eventos.
+       Passar de 120 numa hora é laço de script, e não deve encher o banco. */
+    const [{ n }] = await sql`
+      select count(*)::int as n from visitas
+      where visitante = ${visitante} and criado_em > now() - interval '1 hour'`;
+    if (n >= LIMITE_POR_HORA) return new Response(null, { status: 204, headers: cors });
+
+    const { pais, cidade } = geoDe(request.headers);
+    const formato = DETALHE[evento];
 
     await sql`
       insert into visitas
-        (visitante, sessao, ref, referrer_host, pais, cidade, dispositivo, idioma, evento, detalhe, duracao_ms)
+        (visitante, sessao, ref, referrer_host, pais, cidade, dispositivo, idioma,
+         evento, detalhe, duracao_ms, pagina, versao, ativo_ms)
       values (
-        ${hashVisitante(ipDe(request.headers), ua)},
+        ${visitante},
         ${corta(corpo.sessao, 64) || 'sem-sessao'},
         ${corta(corpo.ref, 80)},
         ${hostDe(corpo.referrer)},
         ${pais}, ${cidade}, ${dispositivo},
         ${corta(corpo.idioma, 12)},
         ${evento},
-        ${corta(corpo.detalhe, 80)},
-        ${duracao}
+        ${formato ? casa(formato, corpo.detalhe) : null},
+        ${ms(corpo.duracao_ms)},
+        ${casa(PAGINA, corpo.pagina)},
+        ${casa(VERSAO, corpo.versao)},
+        ${evento === 'saida' ? ms(corpo.ativo_ms) : null}
       )`;
   } catch (e) {
     // Falha de banco não pode virar erro visível para quem está visitando.

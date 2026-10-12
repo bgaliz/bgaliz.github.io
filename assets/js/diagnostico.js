@@ -64,7 +64,10 @@ export function diagnosticar(d) {
   const f = d?.funil || {};
   const t = d?.totais || {};
 
-  const sessoes = +f.sessoes || 0;
+  /* Pessoas confirmadas (interagiram), não sessões abertas: scanner de ATS
+     abre a página, executa o JS e sai sem tocar em nada. As sessões antigas,
+     sem esse sinal, já vêm contadas como confirmadas pela API. */
+  const sessoes = +(f.confirmadas ?? f.sessoes) || 0;
   const leram = +f.leram || 0;
   const agiram = +f.agiram || 0;
   const chamaram = +f.chamaram || 0;
@@ -79,13 +82,13 @@ export function diagnosticar(d) {
   const bastante = sessoes >= MIN_AMOSTRA;
   const degraus = [
     {
-      rotulo: 'chegaram',
+      rotulo: 'pessoas chegaram',
       valor: sessoes,
       taxa: null,
       nivel: bastante ? nivelDe(visitas30d, ALCANCE) : 'neutro',
     },
     {
-      rotulo: 'leram até o contato',
+      rotulo: 'leram até o fim',
       valor: leram,
       taxa: bastante ? emPct(taxaLeitura) : null,
       nivel: bastante ? nivelDe(taxaLeitura, LEITURA) : 'neutro',
@@ -106,7 +109,7 @@ export function diagnosticar(d) {
       nivel: 'neutro',
       veredito: 'Ainda não dá para dizer.',
       detalhe:
-        `${sessoes} ${sessoes === 1 ? 'sessão humana' : 'sessões humanas'} em 90 dias. `
+        `${sessoes} ${sessoes === 1 ? 'pessoa confirmada' : 'pessoas confirmadas'} em 90 dias. `
         + `São necessárias ${MIN_AMOSTRA} para que qualquer taxa aqui signifique algo — `
         + 'com menos que isso, uma pessoa a mais ou a menos vira dezenas de pontos '
         + 'percentuais, e o painel passaria a inventar tendência onde só há acaso.',
@@ -141,7 +144,7 @@ export function diagnosticar(d) {
       nivel: 'ruim',
       veredito: 'Chegam, mas não descem.',
       detalhe:
-        `Só ${emPct(taxaLeitura)} das sessões alcançam a seção de contato. `
+        `Só ${emPct(taxaLeitura)} das pessoas chegam ao fim da página (contato ou 75% rolado). `
         + 'As pessoas estão entrando e desistindo antes do fim — o problema '
         + 'está no que segura a atenção nas primeiras telas.',
       acao:

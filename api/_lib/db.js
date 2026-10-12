@@ -85,18 +85,25 @@ const ORIGENS = [
   'http://localhost:8765',
 ];
 
+/* CORS só existe para /api/coletar, a única rota chamada pelo portfólio em
+   outro domínio. Painel, login e logout são de mesma origem e não respondem
+   a ninguém de fora — por isso aqui não há GET nem Authorization. */
 export function corsPara(origem) {
   const permitida = ORIGENS.includes(origem) ? origem : ORIGENS[0];
   return {
     'Access-Control-Allow-Origin': permitida,
-    'Access-Control-Allow-Methods': 'POST, GET, OPTIONS',
-    'Access-Control-Allow-Headers': 'Content-Type, Authorization',
+    'Access-Control-Allow-Methods': 'POST, OPTIONS',
+    'Access-Control-Allow-Headers': 'Content-Type',
     'Access-Control-Max-Age': '86400',
     Vary: 'Origin',
   };
 }
 
-export const origemPermitida = (o) => !o || ORIGENS.includes(o);
+/* Origem obrigatória. Antes valia `!o || ...`, e um POST sem Origin (curl,
+   script) entrava como visita. O navegador SEMPRE manda Origin em POST,
+   inclusive no sendBeacon do pagehide, então quem chega sem ela não é uma
+   pessoa visitando o portfólio. */
+export const origemPermitida = (o) => Boolean(o) && ORIGENS.includes(o);
 
 /**
  * Identificador diário e irreversível do visitante.
@@ -105,6 +112,12 @@ export const origemPermitida = (o) => !o || ORIGENS.includes(o);
  */
 export function hashVisitante(ip, userAgent) {
   const dia = new Date().toISOString().slice(0, 10);
+  /* Falha fechado em produção: com um sal conhecido o hash diário deixa de
+     proteger, porque o espaço de IPs é pequeno o bastante para ser varrido.
+     Sem sal, não se grava nada (coletar.js engole o erro em silêncio). */
+  if (!process.env.SAL_VISITANTE && process.env.VERCEL_ENV === 'production') {
+    throw new Error('SAL_VISITANTE ausente em produção');
+  }
   const segredo = process.env.SAL_VISITANTE || 'sal-de-desenvolvimento';
   return createHash('sha256')
     .update(`${ip || '?'}|${userAgent || '?'}|${dia}|${segredo}`)
@@ -186,6 +199,23 @@ export function hostDe(referrer) {
   } catch (e) { return null; }
 }
 
+/* ── Tentativas de login ─────────────────────────────────────────────────
+   Dez falhas no mesmo dia, do mesmo IP, bloqueiam até o dia virar. O IP entra
+   no mesmo hash diário das visitas — o bloqueio funciona sem guardar o IP. */
+export const LIMITE_FALHAS = 10;
+
+export async function falhasDeHoje(chave) {
+  const r = await sql`select falhas from tentativas where chave = ${chave} and dia = current_date`;
+  return r.length ? Number(r[0].falhas) : 0;
+}
+
+export async function registrarFalha(chave) {
+  await sql`
+    insert into tentativas (chave, dia, falhas) values (${chave}, current_date, 1)
+    on conflict (chave, dia) do update set falhas = tentativas.falhas + 1`;
+  await sql`delete from tentativas where dia < current_date - 7`;
+}
+
 let pronto = false;
 
 /** Cria o esquema uma vez por instância fria. */
@@ -210,6 +240,26 @@ export async function garantirEsquema() {
   await sql`create index if not exists visitas_criado_em_idx on visitas (criado_em desc)`;
   await sql`create index if not exists visitas_ref_idx        on visitas (ref)`;
   await sql`create index if not exists visitas_evento_idx     on visitas (evento)`;
+
+  /* Colunas da medição nova (out/2026). `if not exists` torna a migração
+     idempotente: a primeira instância fria acrescenta, as outras não fazem
+     nada. Linhas antigas ficam com nulo, e o painel trata nulo como "antes".
+       pagina    caminho visitado (o site deixou de ser página única)
+       versao    qual versão do site foi vista: compara antes e depois
+       ativo_ms  tempo com a aba visível E alguém interagindo nos últimos 30s */
+  await sql`alter table visitas add column if not exists pagina   text`;
+  await sql`alter table visitas add column if not exists versao   text`;
+  await sql`alter table visitas add column if not exists ativo_ms integer`;
+  await sql`create index if not exists visitas_visitante_idx on visitas (visitante, criado_em desc)`;
+
+  /* Falhas de login do painel, por hash diário de IP. Nada de IP em claro. */
+  await sql`
+    create table if not exists tentativas (
+      chave  text not null,
+      dia    date not null default current_date,
+      falhas integer not null default 0,
+      primary key (chave, dia)
+    )`;
 
   /* A vista existe para que o painel não precise repetir a regra em nove
      consultas — e para que ela valha RETROATIVAMENTE. O acerto de user-agent

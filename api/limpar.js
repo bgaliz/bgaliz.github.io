@@ -20,7 +20,8 @@
  * ══════════════════════════════════════════════════════════════════════════
  */
 
-import { sql, garantirEsquema, corsPara, json } from './_lib/db.js';
+import { sql, garantirEsquema, json } from './_lib/db.js';
+import { iguais } from './_lib/sessao.js';
 import { adaptar } from './_lib/adaptador.js';
 
 /* Um número só. O prazo entra na consulta como parâmetro (`$1::interval`),
@@ -31,9 +32,7 @@ import { adaptar } from './_lib/adaptador.js';
 const RETENCAO = '18 months';
 
 async function handler(request) {
-  const cors = corsPara(request.headers.get('origin'));
-  if (request.method === 'OPTIONS') return new Response(null, { status: 204, headers: cors });
-
+  const cors = { 'Cache-Control': 'no-store' };
   const cron = process.env.CRON_SECRET;
   const painel = process.env.PAINEL_TOKEN;
   if (!cron && !painel) {
@@ -41,7 +40,9 @@ async function handler(request) {
   }
 
   const enviado = (request.headers.get('authorization') || '').replace(/^Bearer\s+/i, '');
-  if (!enviado || (enviado !== cron && enviado !== painel)) {
+  // Comparação em tempo constante: `!==` deixaria o tempo de resposta
+  // contar quantos caracteres do segredo já estão certos.
+  if (!iguais(enviado, cron) && !iguais(enviado, painel)) {
     return json({ erro: 'Não autorizado' }, 401, cors);
   }
 
@@ -58,7 +59,7 @@ async function handler(request) {
     return json({ ok: true, retencao: RETENCAO, apagados: apagadas.length }, 200, cors);
   } catch (e) {
     console.error('[limpar]', e?.message);
-    return json({ erro: 'Falha ao limpar', detalhe: e?.message }, 500, cors);
+    return json({ erro: 'Falha ao limpar' }, 500, cors);
   }
 }
 

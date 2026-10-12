@@ -11,7 +11,41 @@
       "schedule": "0 4 * * *"
     }
   ],
+  "redirects": [
+    {
+      "source": "/((?!api/|assets/|painel).*)",
+      "destination": "https://bgaliz.github.io/$1",
+      "permanent": true
+    }
+  ],
+  "rewrites": [
+    {
+      "source": "/painel",
+      "destination": "/painel.html"
+    }
+  ],
   "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        {
+          "key": "X-Content-Type-Options",
+          "value": "nosniff"
+        },
+        {
+          "key": "Referrer-Policy",
+          "value": "strict-origin-when-cross-origin"
+        },
+        {
+          "key": "X-Frame-Options",
+          "value": "SAMEORIGIN"
+        },
+        {
+          "key": "Permissions-Policy",
+          "value": "camera=(), microphone=(), geolocation=(), interest-cohort=()"
+        }
+      ]
+    },
     {
       "source": "/assets/fonts/(.*)",
       "headers": [
@@ -31,19 +65,23 @@
       ]
     },
     {
-      "source": "/(.*)",
+      "source": "/painel(.html)?",
       "headers": [
         {
-          "key": "X-Content-Type-Options",
-          "value": "nosniff"
+          "key": "Cache-Control",
+          "value": "no-store"
         },
         {
-          "key": "Referrer-Policy",
-          "value": "strict-origin-when-cross-origin"
+          "key": "X-Robots-Tag",
+          "value": "noindex, nofollow"
+        },
+        {
+          "key": "Content-Security-Policy",
+          "value": "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self'; frame-ancestors 'none'; base-uri 'none'; form-action 'self'; object-src 'none'"
         },
         {
           "key": "X-Frame-Options",
-          "value": "SAMEORIGIN"
+          "value": "DENY"
         }
       ]
     }
