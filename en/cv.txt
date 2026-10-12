@@ -75,7 +75,7 @@ Technologies: Python, FastAPI, pytest, Unity, AI-assisted development
 
 Copiloto de Trading (2026 - present)
 Decision-support system for trading on MetaTrader 5, in observation mode: it reads the chart, sizes the risk and explains, but never places an order.
-- Never shows a confidence percentage: it shows "3 of 4 criteria aligned", checkable item by item on the chart.
+- Never shows a confidence percentage: it shows “3 of 4 criteria aligned”, checkable item by item on the chart.
 - Logs every trade in a journal, to measure whether there is a real edge.
 - Has 743 automated tests; the autonomous executor runs on a demo account only, reviewed weekly.
 Technologies: Python, FastAPI, pytest, Docker, AI-assisted development

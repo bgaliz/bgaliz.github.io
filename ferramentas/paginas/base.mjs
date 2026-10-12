@@ -95,11 +95,7 @@ export function documento({ idioma, chave, titulo, descricao, corpo, jsonld = []
 <meta name="theme-color" content="#121417" media="(prefers-color-scheme: dark)">
 
 <link rel="preload" href="/assets/fonts/mona.woff2" as="font" type="font/woff2" crossorigin>${preload.map((p) => `\n${p}`).join('')}
-<link rel="stylesheet" href="/assets/css/tokens.css">
-<link rel="stylesheet" href="/assets/css/base.css">
-<link rel="stylesheet" href="/assets/css/layout.css">
-<link rel="stylesheet" href="/assets/css/componentes.css">
-<link rel="stylesheet" href="/assets/css/movimento.css">
+<link rel="stylesheet" href="/assets/css/site.css">
 <link rel="stylesheet" href="/assets/css/impressao.css" media="print">
 
 <script>${SCRIPT_TEMA}</script>${dados}
@@ -188,7 +184,7 @@ export function previa(p, { url, titulo, descricao, idioma, rastro = '' }) {
   const descricaoFinal = p?.descricao || descricao;
   const dominio = url ? new URL(url).hostname.replace(/^www\./, '') : null;
   const imagem = p?.imagem
-    ? `<span class="previa__imagem"><img src="${esc(p.imagem)}" width="1200" height="630" alt="" fetchpriority="low"></span>`
+    ? `<span class="previa__imagem"><img src="${esc(p.imagem)}" width="800" height="420" alt="" fetchpriority="low"></span>`
     : '';
   const icone = p?.icone
     ? `<img class="previa__icone" src="${esc(p.icone)}" width="16" height="16" alt="" fetchpriority="low" decoding="async">`

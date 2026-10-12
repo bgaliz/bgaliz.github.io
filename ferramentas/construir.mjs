@@ -139,6 +139,27 @@ function pagina(caminho, html, idioma, opcoes) {
   gravar(caminho, aplicarCsp(injetar(html, idioma, caminho), opcoes));
 }
 
+/* ── CSS num arquivo só ─────────────────────────────────────────────────── */
+/* Cinco folhas separadas bloqueavam a primeira pintura em sequência: o
+   Lighthouse media ~2,3 s de atraso de renderização no retrato (LCP). As
+   fontes continuam separadas e legíveis em assets/css/; o site serve a
+   junção, sem comentários e sem espaço sobrando. */
+
+const FOLHAS = ['tokens', 'base', 'layout', 'componentes', 'movimento'];
+
+function juntarCss() {
+  const css = FOLHAS
+    .map((f) => readFileSync(join(RAIZ, `assets/css/${f}.css`), 'utf8'))
+    .join('\n')
+    .replace(/\/\*[\s\S]*?\*\//g, '')
+    .replace(/\s*\n\s*/g, '\n')
+    .replace(/\n{2,}/g, '\n')
+    .replace(/\s*([{};,])\s*/g, '$1')
+    .replace(/;}/g, '}')
+    .trim();
+  return `/* Gerado por ferramentas/construir.mjs a partir de assets/css/{${FOLHAS.join(',')}}.css. Não editar. */\n${css}\n`;
+}
+
 /* ── Sitemap com versões de idioma ──────────────────────────────────────── */
 
 function sitemap() {
@@ -184,6 +205,7 @@ gravar('cv.txt', textoPuro('pt', ref));
 gravar('en/cv.txt', textoPuro('en', ref));
 gravar('llms.txt', llmsTxt());
 gravar('sitemap.xml', sitemap());
+gravar('assets/css/site.css', juntarCss());
 
 console.log(`\n${escritos} arquivo(s) gerado(s), ${mudaram} com mudança.`);
 if (avisos) {

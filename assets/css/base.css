@@ -77,6 +77,10 @@ button, input, select, textarea {
 }
 button { cursor: pointer; background: none; border: 0; }
 
+/* Toque sem o atraso de duplo toque e sem o clarão azul padrão do Android. */
+a, button, summary, label, select, input { touch-action: manipulation; }
+a, button, summary { -webkit-tap-highlight-color: color-mix(in srgb, var(--terra) 18%, transparent); }
+
 /* Foco: anel de 2 px no acento, afastado, nunca removido. */
 :focus-visible {
   outline: var(--foco) solid var(--terra);

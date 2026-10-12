@@ -167,7 +167,7 @@ async function coletar({ id, url, nome }) {
     bruta = await capturar(url);
     item.fonte.imagem = 'captura';
   }
-  writeFileSync(join(PASTA, `${id}.webp`), await reexportar(bruta, tipo, 1200, 630));
+  writeFileSync(join(PASTA, `${id}.webp`), await reexportar(bruta, tipo, 800, 420));
   item.imagem = `/assets/img/previas/${id}.webp`;
 
   // Ícone.

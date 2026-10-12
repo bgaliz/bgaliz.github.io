@@ -50,7 +50,7 @@ ${secaoContato(idioma)}
     classe: 'pagina-inicio',
     jsonld: jsonldPessoa(idioma, { pagina: 'inicio' }),
     preload: [
-      `<link rel="preload" as="image" href="/assets/img/retrato/bruno-3x4-960.webp" type="image/webp" imagesrcset="/assets/img/retrato/bruno-3x4-480.webp 480w, /assets/img/retrato/bruno-3x4-960.webp 960w" imagesizes="(min-width: 64rem) 22rem, 70vw" fetchpriority="high">`,
+      `<link rel="preload" as="image" href="/assets/img/retrato/bruno-3x4-640.webp" type="image/webp" imagesrcset="/assets/img/retrato/bruno-3x4-480.webp 480w, /assets/img/retrato/bruno-3x4-640.webp 640w, /assets/img/retrato/bruno-3x4-960.webp 960w" imagesizes="(min-width: 64rem) 22rem, 70vw" fetchpriority="high">`,
     ],
   });
 }
@@ -76,8 +76,8 @@ function topo(idioma, pdf) {
   </div>
   <figure class="retrato" data-retrato>
     <picture>
-      <source type="image/webp" srcset="/assets/img/retrato/bruno-3x4-480.webp 480w, /assets/img/retrato/bruno-3x4-960.webp 960w" sizes="(min-width: 64rem) 22rem, 70vw">
-      <img src="/assets/img/retrato/bruno-3x4-960.jpg" width="960" height="1280" alt="Bruno Galiz" fetchpriority="high" decoding="async">
+      <source type="image/webp" srcset="/assets/img/retrato/bruno-3x4-480.webp 480w, /assets/img/retrato/bruno-3x4-640.webp 640w, /assets/img/retrato/bruno-3x4-960.webp 960w" sizes="(min-width: 64rem) 22rem, 70vw">
+      <img src="/assets/img/retrato/bruno-3x4-960.jpg" width="960" height="1280" alt="Bruno Galiz" fetchpriority="high">
     </picture>
     <span class="retrato__marcas" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
   </figure>

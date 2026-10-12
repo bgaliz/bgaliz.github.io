@@ -7,7 +7,7 @@
  *   assets/img/origem/bruno-2k.png   upscale 2K (Higgsfield) da foto real;
  *                                    identidade conferida lado a lado
  * Saída (assets/img/retrato/):
- *   bruno-3x4-{480,960}.webp         o "3x4" do cabeçalho
+ *   bruno-3x4-{480,640,960}.webp     o "3x4" do cabeçalho
  *   bruno-3x4-960.jpg                reserva universal e imagem do JSON-LD
  *   bruno-56.webp                    miniatura da barra de navegação
  *   bruno-reticula.webp              retícula em tinta, para o PDF do relatório
@@ -95,7 +95,7 @@ const gravar = (nome, buffer) => {
   console.log(`  ✎ ${nome} (${Math.round(buffer.length / 1024)} KB)`);
 };
 
-for (const largura of [480, 960]) {
+for (const largura of [480, 640, 960]) {
   const altura = Math.round((largura * 4) / 3);
   gravar(`bruno-3x4-${largura}.webp`, await exportar({ recorte: RECORTE_3x4, largura, altura, tipo: 'image/webp', qualidade: 0.84 }));
 }

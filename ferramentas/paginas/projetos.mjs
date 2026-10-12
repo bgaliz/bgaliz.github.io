@@ -36,7 +36,7 @@ export function paginaProjetos(idioma, { previas = {}, ref = new Date() } = {}) 
     <ol class="indice-projetos__lista" role="list">
 ${indice}
     </ol>
-    <div class="indice-projetos__painel" aria-hidden="true" data-painel-previa><img alt="" width="1200" height="630" decoding="async"><p class="indice-projetos__sem-imagem"></p></div>
+    <div class="indice-projetos__painel" aria-hidden="true" data-painel-previa><img alt="" width="800" height="420"><p class="indice-projetos__sem-imagem"></p></div>
   </div>
 ${blocos}
 </main>`;

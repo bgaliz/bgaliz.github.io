@@ -212,7 +212,7 @@
       "name": "Copiloto de Trading",
       "description": "Sistema de apoio à decisão para operar no MetaTrader 5, em modo observação: analisa o gráfico, calcula o risco e explica, mas nunca envia ordem.",
       "highlights": [
-        "Nunca mostra percentual de confiança: mostra \"3 de 4 critérios alinhados\", verificável item a item no gráfico.",
+        "Nunca mostra percentual de confiança: mostra “3 de 4 critérios alinhados”, verificável item a item no gráfico.",
         "Registra cada operação num diário, para medir se existe vantagem de verdade.",
         "Tem 743 testes automatizados; o executor autônomo roda só em conta demo, com revisão semanal."
       ],
