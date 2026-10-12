@@ -15,6 +15,9 @@ import { SITE, ROTAS, t, rotulo } from '../paginas/base.mjs';
 import { cargos, projetos, competencias, formacao, idiomas, PERFIL } from '../paginas/dados.mjs';
 import { PESSOA, RESUMO, AREAS_TEXTO, COMO_TRABALHO } from '../../conteudo/curriculo.mjs';
 
+/** +55 67 98114-2011 a partir de 5567981142011. */
+export const telefone = (e164) => `+${e164.slice(0, 2)} ${e164.slice(2, 4)} ${e164.slice(4, 9)}-${e164.slice(9)}`;
+
 export function jsonResume(idioma, ref = new Date()) {
   const lista = cargos(idioma).filter((c) => c.contaComoDev);
   return {
@@ -82,7 +85,7 @@ export function textoPuro(idioma, ref = new Date()) {
   linha(t(PESSOA.cargo, idioma));
   linha(PESSOA.stackChave);
   linha(`${PERFIL.local.cidade}, ${PERFIL.local.estado}, ${idioma === 'pt' ? 'Brasil' : 'Brazil'}. ${idioma === 'pt' ? 'Remoto' : 'Remote'}.`);
-  linha(`${c.email} | ${c.linkedin} | ${c.github} | ${SITE}${ROTAS[idioma].inicio}`);
+  linha(`${c.email} | ${telefone(c.telefoneE164)} | ${c.linkedin} | ${c.github} | ${SITE}${ROTAS[idioma].inicio}`);
 
   titulo(rotulo(idioma, 'resumo'));
   linha(t(RESUMO, idioma));
@@ -141,7 +144,7 @@ Desenvolvedor Full Stack Pleno em Campo Grande, MS, Brasil, trabalhando remoto. 
 ## Páginas
 
 - [Início](${SITE}/): currículo completo com a trajetória em modo história
-- [Projetos pessoais](${SITE}/projetos/): Copiloto de Trading, AssetForge, E-PLAY, Cronômetro de Oradores e Mini n8n
+- [Projetos pessoais](${SITE}/projetos/): ${new Intl.ListFormat('pt-BR', { type: 'conjunction' }).format(projetos('pt').map((p) => p.nome))}
 - [English version](${SITE}/en/)
 
 ## Perfis

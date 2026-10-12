@@ -43,7 +43,7 @@ const NOMES = { sgi: 'MS Digital', calango: 'Calango Doido NFT' };
 
 const alvos = [
   ...EXPERIENCIAS.filter((e) => e.url).map((e) => ({ id: e.id, url: e.url, nome: NOMES[e.id] || e.empresa })),
-  ...PROJETOS.filter((p) => p.url).map((p) => ({ id: p.id, url: p.url, nome: NOMES[p.id] || p.nome })),
+  ...PROJETOS.filter((p) => p.url && !p.oculto).map((p) => ({ id: p.id, url: p.url, nome: NOMES[p.id] || p.nome })),
 ];
 
 const anterior = existsSync(ARQUIVO) ? JSON.parse(readFileSync(ARQUIVO, 'utf8')).itens ?? {} : {};

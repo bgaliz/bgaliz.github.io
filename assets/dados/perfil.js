@@ -153,6 +153,10 @@ export const PROJETOS = [
   {
     id: 'minin8n', nome: 'Mini n8n',
     inicio: '2025-07', fim: '2025-07', privado: false,
+    // Fora do ar até o .env commitado no repositório público ser revogado e
+    // removido: a prévia do GitHub mostrava o arquivo na listagem. Para
+    // voltar, apague esta linha e rode coletar-previas + construir.
+    oculto: true,
     url: 'https://github.com/bgaliz/Mini-n8n-Project-Front',
     repos: ['https://github.com/bgaliz/Mini-n8n-Project-Front', 'https://github.com/bgaliz/Mini-n8n-Project-Back'],
     stack: ['react', 'reactflow', 'tailwind', 'node', 'express', 'rest'],
@@ -188,8 +192,9 @@ export const IDIOMAS = [
    out/2026). O "desde AAAA" e o "em uso" são DERIVADOS de cargos e projetos
    que citam o id: nada aqui é nota, e nada é escrito à mão.
 
-   `semData: true` marca o que o Bruno confirmou ter, mas ainda sem dizer em
-   qual cargo: aparece sem ano até a atribuição existir (nunca se inventa).
+   `semData: true` marcaria algo que o Bruno tem mas sem cargo atribuído:
+   apareceria sem ano. Hoje não há nenhum (microsserviços, Kubernetes e
+   nuvem ficaram de fora por decisão dele, out/2026).
    A ordem dentro de cada área é a ordem deste array.
    ══════════════════════════════════════════════════════════════════════════ */
 
@@ -219,7 +224,6 @@ export const TECNOLOGIAS = [
   { id: 'rest',       nome: 'APIs REST',       en: 'REST APIs', area: 'back' },
   { id: 'node',       nome: 'Node.js',         area: 'back' },
   { id: 'express',    nome: 'Express',         area: 'back' },
-  { id: 'microsservicos', nome: 'Microsserviços', en: 'Microservices', area: 'back', semData: true },
   { id: 'python',     nome: 'Python',          area: 'back' },
   { id: 'fastapi',    nome: 'FastAPI',         area: 'back' },
   { id: 'jpaquery',   nome: 'JPAQuery',        area: 'back' },
@@ -237,8 +241,6 @@ export const TECNOLOGIAS = [
   { id: 'git',        nome: 'Git',             area: 'entrega' },
   { id: 'docker',     nome: 'Docker',          area: 'entrega' },
   { id: 'ci',         nome: 'CI/CD',           area: 'entrega' },
-  { id: 'k8s',        nome: 'Kubernetes',      area: 'entrega', semData: true },
-  { id: 'nuvem',      nome: 'Nuvem (AWS, Azure, GCP)', en: 'Cloud (AWS, Azure, GCP)', area: 'entrega', semData: true },
   { id: 'grafana',    nome: 'Grafana',         area: 'entrega' },
   { id: 'jest',       nome: 'Jest',            area: 'entrega' },
   { id: 'pytest',     nome: 'pytest',          area: 'entrega' },

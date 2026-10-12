@@ -24,7 +24,7 @@ export function calcularCompetencias(ref = new Date()) {
   const agora = paraMeses(hoje(ref));
   const fontes = [
     ...EXPERIENCIAS.filter((e) => e.contaComoDev).map((e) => ({ ...e, tipo: 'cargo' })),
-    ...PROJETOS.map((p) => ({ ...p, tipo: 'projeto' })),
+    ...PROJETOS.filter((p) => !p.oculto).map((p) => ({ ...p, tipo: 'projeto' })),
   ];
 
   const lista = TECNOLOGIAS.map((t) => {

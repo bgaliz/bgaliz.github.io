@@ -266,26 +266,6 @@
       "endDate": "2026-06",
       "url": "https://cronometro-speacher.vercel.app",
       "type": "application"
-    },
-    {
-      "name": "Mini n8n",
-      "description": "Editor visual de fluxos de automação, no estilo do n8n, que dispara mensagens por um bot do Telegram.",
-      "highlights": [
-        "Front em React com React Flow: o fluxo é montado arrastando nós.",
-        "API REST em Node.js e Express que conversa com a API do Telegram, com intervalo configurável entre envios para evitar bloqueio."
-      ],
-      "keywords": [
-        "React",
-        "React Flow",
-        "Tailwind CSS",
-        "Node.js",
-        "Express",
-        "APIs REST"
-      ],
-      "startDate": "2025-07",
-      "endDate": "2025-07",
-      "url": "https://github.com/bgaliz/Mini-n8n-Project-Front",
-      "type": "application"
     }
   ],
   "skills": [
@@ -320,7 +300,6 @@
         "APIs REST",
         "Node.js",
         "Express",
-        "Microsserviços",
         "Python",
         "FastAPI",
         "JPAQuery",
@@ -346,8 +325,6 @@
         "Git",
         "Docker",
         "CI/CD",
-        "Kubernetes",
-        "Nuvem (AWS, Azure, GCP)",
         "Grafana",
         "Jest",
         "pytest",

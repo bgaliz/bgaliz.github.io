@@ -48,7 +48,7 @@ export function emParalelo(lista) {
 }
 
 export function projetos(idioma) {
-  return [...PROJETOS]
+  return PROJETOS.filter((p) => !p.oculto)
     .sort((a, b) => (b.fim ?? '9999-12').localeCompare(a.fim ?? '9999-12') || b.inicio.localeCompare(a.inicio))
     .map((p) => ({
       ...p,

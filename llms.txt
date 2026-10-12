@@ -15,7 +15,7 @@ Desenvolvedor Full Stack Pleno em Campo Grande, MS, Brasil, trabalhando remoto. 
 ## Páginas
 
 - [Início](https://bgaliz.github.io/): currículo completo com a trajetória em modo história
-- [Projetos pessoais](https://bgaliz.github.io/projetos/): Copiloto de Trading, AssetForge, E-PLAY, Cronômetro de Oradores e Mini n8n
+- [Projetos pessoais](https://bgaliz.github.io/projetos/): AssetForge, Copiloto de Trading, E-PLAY e Cronômetro de Oradores
 - [English version](https://bgaliz.github.io/en/)
 
 ## Perfis

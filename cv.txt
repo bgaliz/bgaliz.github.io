@@ -2,7 +2,7 @@ Bruno Galiz de Oliveira
 Desenvolvedor Full Stack Pleno
 Java, Spring Boot, Vue.js, React, TypeScript, Node.js
 Campo Grande, MS, Brasil. Remoto.
-brunogaliz2@gmail.com | https://www.linkedin.com/in/brunogaliz | https://github.com/bgaliz | https://bgaliz.github.io/
+brunogaliz2@gmail.com | +55 67 98114-2011 | https://www.linkedin.com/in/brunogaliz | https://github.com/bgaliz | https://bgaliz.github.io/
 
 RESUMO PROFISSIONAL
 
@@ -95,19 +95,12 @@ Controle do tempo de fala de oradores em reuniões e eventos, com alertas visuai
 Tecnologias: React, TypeScript, Tailwind CSS, Vercel
 https://cronometro-speacher.vercel.app
 
-Mini n8n (2025)
-Editor visual de fluxos de automação, no estilo do n8n, que dispara mensagens por um bot do Telegram.
-- Front em React com React Flow: o fluxo é montado arrastando nós.
-- API REST em Node.js e Express que conversa com a API do Telegram, com intervalo configurável entre envios para evitar bloqueio.
-Tecnologias: React, React Flow, Tailwind CSS, Node.js, Express, APIs REST
-https://github.com/bgaliz/Mini-n8n-Project-Front
-
 COMPETÊNCIAS TÉCNICAS
 
-Front-end: Vue.js (desde 2022), React (desde 2020), TypeScript (desde 2019), JavaScript (desde 2019), Angular (desde 2019), Next.js (desde 2022), Nuxt.js (desde 2024), Tailwind CSS (desde 2022), HTML e CSS (desde 2019), Sass (desde 2019), shadcn/ui (desde 2024), React Flow (desde 2025), jQuery (desde 2019), JSP (desde 2022), Figma (desde 2020), Web3.js (desde 2022), MetaMask (desde 2022), Bootstrap (desde 2024)
-Back-end e APIs: Java 11 (desde 2025), Spring Boot (desde 2025), APIs REST (desde 2019), Node.js (desde 2019), Express (desde 2019), Microsserviços, Python (desde 2026), FastAPI (desde 2026), JPAQuery (desde 2025), Maven (desde 2025), Sequelize (desde 2020), PHP (desde 2024)
+Front-end: Vue.js (desde 2022), React (desde 2020), TypeScript (desde 2019), JavaScript (desde 2019), Angular (desde 2019), Next.js (desde 2022), Nuxt.js (desde 2024), Tailwind CSS (desde 2022), HTML e CSS (desde 2019), Sass (desde 2019), shadcn/ui (desde 2024), React Flow, jQuery (desde 2019), JSP (desde 2022), Figma (desde 2020), Web3.js (desde 2022), MetaMask (desde 2022), Bootstrap (desde 2024)
+Back-end e APIs: Java 11 (desde 2025), Spring Boot (desde 2025), APIs REST (desde 2019), Node.js (desde 2019), Express (desde 2019), Python (desde 2026), FastAPI (desde 2026), JPAQuery (desde 2025), Maven (desde 2025), Sequelize (desde 2020), PHP (desde 2024)
 Bancos de dados: PostgreSQL (desde 2025), OracleDB (desde 2025), SQL Server (desde 2020), MongoDB (desde 2019), Redis (desde 2019), Supabase (desde 2026)
-Entrega e operação: Git (desde 2019), Docker (desde 2024), CI/CD (desde 2025), Kubernetes, Nuvem (AWS, Azure, GCP), Grafana (desde 2025), Jest (desde 2020), pytest (desde 2026), Vercel (desde 2022)
+Entrega e operação: Git (desde 2019), Docker (desde 2024), CI/CD (desde 2025), Grafana (desde 2025), Jest (desde 2020), pytest (desde 2026), Vercel (desde 2022)
 Mobile e jogos: Ionic (desde 2020), Capacitor (desde 2026), Publicação na App Store e na Google Play (desde 2020), Unity (desde 2026)
 IA no desenvolvimento: IA aplicada ao desenvolvimento (desde 2026)
 Métodos: Scrum (desde 2019), Migração de sistema legado (desde 2022), SEO (desde 2019)

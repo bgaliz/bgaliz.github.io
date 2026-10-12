@@ -13,6 +13,7 @@ import { esc, t, rotulo, documento, SITE, ROTAS } from './base.mjs';
 import { cargos, projetos, competencias, formacao, idiomas, PERFIL } from './dados.mjs';
 import { PESSOA, RESUMO, AREAS_TEXTO, COMO_TRABALHO } from '../../conteudo/curriculo.mjs';
 import { jsonldPessoa } from '../saidas/jsonld.mjs';
+import { telefone } from '../saidas/curriculo-dados.mjs';
 
 export function paginaCurriculo(idioma, { ref = new Date() } = {}) {
   const c = PERFIL.contato;
@@ -54,6 +55,7 @@ export function paginaCurriculo(idioma, { ref = new Date() } = {}) {
     <p class="cv__cargo">${esc(t(PESSOA.cargo, idioma))}. ${esc(PESSOA.stackChave)}.</p>
     <p class="cv__contato">${esc(PERFIL.local.cidade)}, ${esc(PERFIL.local.estado)}, ${pt ? 'Brasil' : 'Brazil'}. ${pt ? 'Remoto' : 'Remote'}.
       <a href="mailto:${c.email}">${esc(c.email)}</a>,
+      <a href="tel:+${c.telefoneE164}">${esc(telefone(c.telefoneE164))}</a>,
       <a href="${c.linkedin}">${esc(c.linkedin.replace('https://www.', ''))}</a>,
       <a href="${c.github}">${esc(c.github.replace('https://', ''))}</a>,
       <a href="${SITE}${ROTAS[idioma].inicio}">${esc(SITE.replace('https://', ''))}</a></p>

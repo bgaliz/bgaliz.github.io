@@ -45,9 +45,8 @@ ${blocos}
     idioma,
     chave: 'projetos',
     titulo: pt ? 'Projetos pessoais | Bruno Galiz' : 'Personal projects | Bruno Galiz',
-    descricao: pt
-      ? 'Projetos pessoais de Bruno Galiz: Copiloto de Trading, AssetForge, E-PLAY, Cronômetro de Oradores e Mini n8n.'
-      : 'Personal projects by Bruno Galiz: Trading Copilot, AssetForge, E-PLAY, Speaker Timer and Mini n8n.',
+    descricao: `${pt ? 'Projetos pessoais de Bruno Galiz' : 'Personal projects by Bruno Galiz'}: ${
+      new Intl.ListFormat(pt ? 'pt-BR' : 'en', { type: 'conjunction' }).format(lista.map((p) => p.nome))}.`,
     corpo,
     classe: 'pagina-de-projetos',
     jsonld: jsonldProjetos(idioma, ref),

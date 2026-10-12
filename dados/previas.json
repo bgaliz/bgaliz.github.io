@@ -65,19 +65,6 @@
         "imagem": "og:image"
       },
       "coletado_em": "2026-10-12"
-    },
-    "minin8n": {
-      "url": "https://github.com/bgaliz/Mini-n8n-Project-Front",
-      "titulo": "bgaliz/Mini-n8n-Project-Front",
-      "descricao": null,
-      "imagem": "/assets/img/previas/minin8n.webp",
-      "icone": "/assets/img/previas/minin8n-icone.webp",
-      "fonte": {
-        "titulo": "site",
-        "descricao": "reserva",
-        "imagem": "og:image"
-      },
-      "coletado_em": "2026-10-12"
     }
   }
 }

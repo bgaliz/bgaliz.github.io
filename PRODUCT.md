@@ -31,7 +31,8 @@ Um currículo que não envelhece e que não se contradiz: todas as datas são ca
 - Datas nunca escritas à mão (`assets/dados/perfil.js` + slots `data-din`), contagem de meses inclusiva como no LinkedIn, tempo de carreira como união de intervalos.
 - Título: **Desenvolvedor Full Stack Pleno**. Alvo: vagas full stack remotas no Brasil.
 - Há uma lacuna real de 10 meses (out/2024 a jul/2025): aparece na linha do tempo, sem texto.
-- Microsserviços, Kubernetes e nuvem: o Bruno tem experiência, ainda sem cargo atribuído; aparecem sem ano.
+- Microsserviços, Kubernetes e nuvem ficam fora do site por decisão do Bruno.
+- Mini n8n está oculto (`oculto: true` em `perfil.js`) até o `.env` do repositório público ser revogado e removido.
 
 ## Brand Commitments
 

@@ -14,7 +14,7 @@ habilidades e datas de cargo. **Regra deste site: só entra termo que é verdade
 | Arquitetura de software | 70% | parcial (Clean Architecture no AssetForge) | projeto AssetForge |
 | API REST | 64% | **tem** (todos os cargos; cria na AZ) | cargos, competências |
 | Performance | 62% | **tem** (principal entrega da Easy Imóveis) | cargo Easy |
-| Microsserviços | 54% | **tem, parcial** (cargo a confirmar) | competências, sem ano |
+| Microsserviços | 54% | fora, por decisão do Bruno (out/2026) | fora |
 | Docker | 52% | **tem** (AZ, Easy, projetos) | cargos, competências |
 | Clean Code / SOLID | 52% | parcial (Clean Architecture) | projeto AssetForge |
 | React | 51% | **tem** (SGI, Calango, Conexa, projetos) | cargos, competências |
@@ -27,9 +27,9 @@ habilidades e datas de cargo. **Regra deste site: só entra termo que é verdade
 | Segurança (OAuth, JWT, OWASP) | 42% | parcial (login Google no E-PLAY; o próprio portfólio) | projeto E-PLAY |
 | SQL | 39% | **tem** (PostgreSQL, OracleDB, SQL Server) | competências |
 | Code review | 35% | não marcou | fora |
-| Kubernetes | 33% | **tem, parcial** (cargo a confirmar) | competências, sem ano |
+| Kubernetes | 33% | fora, por decisão do Bruno (out/2026) | fora |
 | Angular | 32% | **tem** (Reduza, SGI) | cargos, competências |
-| Nuvem (AWS, Azure, GCP) | 28–30% | **tem, parcial** (cargo a confirmar) | competências, sem ano |
+| Nuvem (AWS, Azure, GCP) | 28–30% | fora, por decisão do Bruno (out/2026) | fora |
 | PostgreSQL | 30% | **tem** (AZ, E-PLAY) | cargos, competências |
 | Observabilidade (Grafana) | 30% | **tem** (AZ) | cargo AZ |
 | TypeScript | 29% | **tem** (desde 2019) | cargos, competências |
@@ -40,9 +40,8 @@ habilidades e datas de cargo. **Regra deste site: só entra termo que é verdade
 
 ## Pendências
 
-- **Microsserviços, Kubernetes e nuvem:** em qual cargo (ou projeto) e com qual provedor?
-  Enquanto não houver resposta, aparecem em Competências **sem ano**: o "desde AAAA" é
-  derivado das datas do cargo, e não se inventa a atribuição.
+- **Microsserviços, Kubernetes e nuvem:** o Bruno preferiu não colocar (out/2026). Se um dia
+  entrarem, precisam de um cargo ou projeto para o "desde AAAA" ser derivado.
 - **Título:** a amostra mostra "Desenvolvedor Full Stack" + linguagem de back-end no título
   ("Java e React", "Java e Vue.js"). O site usa "Desenvolvedor Full Stack Pleno" com a linha
   "Java, Spring Boot, Vue.js, React, TypeScript, Node.js" logo abaixo.
