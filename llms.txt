@@ -2,7 +2,7 @@
 
 > Desenvolvedor full stack desde 2019. Hoje mantenho com Vue.js, Java e Spring Boot o sistema de frota do Governo do Tocantins. Antes, migrei o prontuário da Conexa Saúde de JSP para React e publiquei o Cartão de Vacinação de Mato Grosso do Sul nas lojas durante a Covid.
 
-Desenvolvedor Full Stack Pleno em Campo Grande, MS, Brasil, trabalhando remoto. Java, Spring Boot, Vue.js, React, TypeScript e Node.js. Aberto a vagas full stack remotas. Contato: brunogaliz2@gmail.com.
+Desenvolvedor Full Stack Pleno em Campo Grande, MS, Brasil, trabalhando remoto. Java, Spring Boot, Vue.js, React, TypeScript e Node.js. Aberto a vagas remotas. Contato: brunogaliz2@gmail.com.
 
 ## Currículo
 

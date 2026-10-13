@@ -1,5 +1,5 @@
 {
-  "gerado_em": "2026-10-12",
+  "gerado_em": "2026-10-13",
   "itens": {
     "calango": {
       "url": "https://calango-doido.vercel.app",
@@ -12,7 +12,7 @@
         "descricao": "reserva",
         "imagem": "captura"
       },
-      "coletado_em": "2026-10-12"
+      "coletado_em": "2026-10-13"
     },
     "sgi": {
       "url": "https://www.msdigital.ms.gov.br",
@@ -25,7 +25,7 @@
         "descricao": "reserva",
         "imagem": "captura"
       },
-      "coletado_em": "2026-10-12"
+      "coletado_em": "2026-10-13"
     },
     "reduza": {
       "url": "https://www.reduza.com.br",
@@ -38,7 +38,7 @@
         "descricao": "site",
         "imagem": "og:image"
       },
-      "coletado_em": "2026-10-12"
+      "coletado_em": "2026-10-13"
     },
     "eplay": {
       "url": "https://e-connect-play.vercel.app",
@@ -51,7 +51,7 @@
         "descricao": "site",
         "imagem": "captura"
       },
-      "coletado_em": "2026-10-12"
+      "coletado_em": "2026-10-13"
     },
     "cronometro": {
       "url": "https://cronometro-speacher.vercel.app",
@@ -64,7 +64,7 @@
         "descricao": "site",
         "imagem": "og:image"
       },
-      "coletado_em": "2026-10-12"
+      "coletado_em": "2026-10-13"
     }
   }
 }
