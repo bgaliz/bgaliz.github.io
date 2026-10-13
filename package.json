@@ -12,7 +12,7 @@
     "og": "node ferramentas/gerar-og.mjs",
     "retrato": "node ferramentas/gerar-retrato.mjs",
     "tudo": "npm run verificar && npm run construir && npm run pdf && npm run robo",
-    "servir": "python3 -m http.server 8000"
+    "servir": "python3 -m http.server 8080"
   },
   "dependencies": {
     "@neondatabase/serverless": "^1.0.2"

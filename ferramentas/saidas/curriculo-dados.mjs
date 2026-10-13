@@ -131,7 +131,7 @@ export function llmsTxt() {
 
 > ${t(RESUMO, 'pt')}
 
-Desenvolvedor Full Stack Pleno em Campo Grande, MS, Brasil, trabalhando remoto. Java, Spring Boot, Vue.js, React, TypeScript e Node.js. Aberto a vagas full stack remotas. Contato: ${PERFIL.contato.email}.
+Desenvolvedor Full Stack Pleno em Campo Grande, MS, Brasil, trabalhando remoto. Java, Spring Boot, Vue.js, React, TypeScript e Node.js. Aberto a vagas remotas. Contato: ${PERFIL.contato.email}.
 
 ## Currículo
 

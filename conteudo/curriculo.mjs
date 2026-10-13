@@ -25,7 +25,7 @@ export const PESSOA = {
   local: { pt: 'Campo Grande, MS. Remoto.', en: 'Campo Grande, Brazil. Remote.' },
   // REVISAR: texto de disponibilidade e regime (CLT, PJ ou os dois).
   disponibilidade: {
-    pt: 'Aberto a vagas full stack remotas, CLT ou PJ',
+    pt: 'Aberto à novas propostas',
     en: 'Open to remote full stack roles',
   },
 };
