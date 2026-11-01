@@ -1,5 +1,5 @@
 {
-  "gerado_em": "2026-10-13",
+  "gerado_em": "2026-11-01",
   "itens": {
     "calango": {
       "url": "https://calango-doido.vercel.app",
@@ -12,7 +12,7 @@
         "descricao": "reserva",
         "imagem": "captura"
       },
-      "coletado_em": "2026-10-13"
+      "coletado_em": "2026-11-01"
     },
     "sgi": {
       "url": "https://www.msdigital.ms.gov.br",
@@ -38,20 +38,20 @@
         "descricao": "site",
         "imagem": "og:image"
       },
-      "coletado_em": "2026-10-13"
+      "coletado_em": "2026-11-01"
     },
     "eplay": {
       "url": "https://e-connect-play.vercel.app",
-      "titulo": "E-PLAY",
-      "descricao": "Agende seus jogos, pontue no ranking, faca planos de leitura biblica e acompanhe as lives da E-PLAY.",
+      "titulo": "E-PLAY · Comunidade E-CONNECT",
+      "descricao": "Agende partidas, pontue no ranking, faça planos de leitura bíblica e acompanhe as lives da galera. Uma missão que vai além da tela.",
       "imagem": "/assets/img/previas/eplay.webp",
       "icone": "/assets/img/previas/eplay-icone.webp",
       "fonte": {
         "titulo": "site",
         "descricao": "site",
-        "imagem": "captura"
+        "imagem": "og:image"
       },
-      "coletado_em": "2026-10-13"
+      "coletado_em": "2026-11-01"
     },
     "cronometro": {
       "url": "https://cronometro-speacher.vercel.app",
@@ -64,7 +64,7 @@
         "descricao": "site",
         "imagem": "og:image"
       },
-      "coletado_em": "2026-10-13"
+      "coletado_em": "2026-11-01"
     }
   }
 }
